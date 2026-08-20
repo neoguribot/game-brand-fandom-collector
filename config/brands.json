@@ -1,0 +1,19 @@
+{
+  "brands": [
+    {
+      "brand": "PlayStation",
+      "channel_name": "PlayStation",
+      "channel_id": "UC-2Y8dQb0S6DtpxNgAKoJKA"
+    },
+    {
+      "brand": "Xbox",
+      "channel_name": "Xbox",
+      "channel_id": "UCKZ4fUyqGT14pH8M4aGIsoQ"
+    },
+    {
+      "brand": "Nintendo",
+      "channel_name": "Nintendo of America",
+      "channel_id": "UCGIY_O-8vW4rfX98KlMkvRg"
+    }
+  ]
+}

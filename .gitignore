@@ -1,0 +1,19 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+logs/*.log
+!logs/.gitkeep
+
+data/raw/videos/*.csv
+data/raw/comments/*.csv
+data/processed/*.csv
+!data/raw/videos/.gitkeep
+!data/raw/comments/.gitkeep
+!data/processed/.gitkeep
+
+web/progress.json
+YouTube 분석기.app/

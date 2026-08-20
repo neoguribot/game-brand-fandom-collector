@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>Game Brand Fandom Collector - 진행 상황</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --border: #2a2e38;
+    --text: #e6e8ec;
+    --muted: #8a8f9c;
+    --accent: #5b8cff;
+    --ok: #35c47a;
+    --warn: #e6b422;
+    --err: #ef5350;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 32px 24px 80px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    border: 1px solid var(--border); margin-bottom: 20px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .status-running .dot { background: var(--accent); animation: pulse 1.2s infinite; }
+  .status-done .dot { background: var(--ok); }
+  .status-error .dot { background: var(--err); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .brand-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; margin-bottom: 14px;
+  }
+  .brand-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .brand-name { font-size: 15px; font-weight: 600; }
+  .brand-status { font-size: 12px; color: var(--muted); }
+  .metric { margin-bottom: 10px; }
+  .metric:last-child { margin-bottom: 0; }
+  .metric-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .bar-track { height: 8px; border-radius: 999px; background: #22262f; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; background: var(--accent); transition: width 0.3s ease; }
+  .bar-fill.comments { background: #9b7bff; }
+  .bar-fill.done { background: var(--ok); }
+
+  .logs {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; margin-top: 24px; height: 260px; overflow-y: auto;
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12px;
+  }
+  .logs h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+  .log-line { padding: 3px 0; border-bottom: 1px solid #1e222b; color: var(--text); }
+  .log-line .lvl { display: inline-block; width: 60px; font-weight: 700; }
+  .log-line.INFO .lvl { color: var(--accent); }
+  .log-line.WARNING .lvl { color: var(--warn); }
+  .log-line.ERROR .lvl { color: var(--err); }
+  .log-line .time { color: var(--muted); margin-right: 8px; }
+
+  .empty { color: var(--muted); font-size: 13px; padding: 24px 0; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Game Brand Fandom Collector</h1>
+    <div class="subtitle">PlayStation / Xbox / Nintendo 유튜브 데이터 수집 진행 상황</div>
+
+    <div id="status" class="status-pill"><span class="dot"></span><span id="statusText">대기 중</span></div>
+
+    <div id="brands"></div>
+
+    <div class="logs">
+      <h2>실시간 로그</h2>
+      <div id="logList"></div>
+    </div>
+  </div>
+
+<script>
+const brandsEl = document.getElementById('brands');
+const statusEl = document.getElementById('status');
+const statusTextEl = document.getElementById('statusText');
+const logListEl = document.getElementById('logList');
+
+function pct(current, total) {
+  if (!total) return 0;
+  return Math.min(100, Math.round((current / total) * 100));
+}
+
+function statusLabel(s) {
+  return { idle: '대기 중', running: '수집 중', done: '완료', error: '오류' }[s] || s;
+}
+
+function brandStatusLabel(s) {
+  return {
+    pending: '대기 중',
+    collecting_videos: '영상 수집 중',
+    collecting_comments: '댓글 수집 중',
+    done: '완료',
+  }[s] || s;
+}
+
+function render(state) {
+  statusEl.className = 'status-pill status-' + state.overall_status;
+  statusTextEl.textContent = statusLabel(state.overall_status);
+
+  const names = Object.keys(state.brands || {});
+  if (names.length === 0) {
+    brandsEl.innerHTML = '<div class="empty">아직 실행 기록이 없습니다. python -m src.main 을 실행해 보세요.</div>';
+  } else {
+    brandsEl.innerHTML = names.map((name) => {
+      const b = state.brands[name];
+      const v = b.videos || { current: 0, total: 0 };
+      const c = b.comments || { current: 0, total: 0 };
+      const vPct = pct(v.current, v.total);
+      const cPct = pct(c.current, c.total);
+      const vDone = b.status === 'collecting_comments' || b.status === 'done';
+      const cDone = b.status === 'done';
+      return `
+        <div class="brand-card">
+          <div class="brand-header">
+            <div class="brand-name">${name}</div>
+            <div class="brand-status">${brandStatusLabel(b.status)}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label"><span>영상</span><span>${v.current} / ${v.total || '-'}</span></div>
+            <div class="bar-track"><div class="bar-fill ${vDone ? 'done' : ''}" style="width:${vDone ? 100 : vPct}%"></div></div>
+          </div>
+          <div class="metric">
+            <div class="metric-label"><span>댓글</span><span>${c.current}${c.total ? ' / ~' + c.total : ''}</span></div>
+            <div class="bar-track"><div class="bar-fill comments ${cDone ? 'done' : ''}" style="width:${cDone ? 100 : cPct}%"></div></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  const logs = (state.recent_logs || []).slice(-60).reverse();
+  logListEl.innerHTML = logs.map((l) => {
+    const t = (l.time || '').split('T')[1] || '';
+    return `<div class="log-line ${l.level}"><span class="time">${t}</span><span class="lvl">[${l.level}]</span>${escapeHtml(l.message)}</div>`;
+  }).join('') || '<div class="empty">로그 없음</div>';
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+async function poll() {
+  try {
+    const res = await fetch('progress.json?_=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      render(await res.json());
+    }
+  } catch (e) {
+    // server not reachable yet, keep polling
+  }
+}
+
+poll();
+setInterval(poll, 1000);
+</script>
+</body>
+</html>
