@@ -1537,22 +1537,65 @@
 </footer>
 
 <style>
-  [data-tooltip] { position: relative; cursor: default; }
-  [data-tooltip]:hover::after {
-    content: attr(data-tooltip);
-    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  [data-tooltip] { cursor: default; }
+  #chartTooltip {
+    position: fixed; z-index: 999; pointer-events: none; display: none;
     background: var(--text-primary); color: var(--bg); font-size: 11.5px; font-weight: 600;
-    padding: 5px 9px; border-radius: 6px; white-space: nowrap; z-index: 30; pointer-events: none;
+    padding: 5px 9px; border-radius: 6px; white-space: nowrap;
     font-family: "Noto Sans KR", sans-serif;
   }
-  [data-tooltip]:hover::before {
-    content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-    border: 5px solid transparent; border-top-color: var(--text-primary); margin-bottom: -2px; z-index: 30;
+  #chartTooltip::after {
+    content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--text-primary);
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
+<div id="chartTooltip"></div>
+
 <script>
+(function () {
+  // Delegated hover tooltip for every [data-tooltip] element (HTML bars AND
+  // SVG circles). A fixed-position element appended once to the body, so it
+  // is never clipped by an ancestor's overflow:hidden — the bug with the old
+  // ::after-on-the-element approach, which broke inside every overflow:hidden
+  // bar/donut container.
+  var tip = document.getElementById('chartTooltip');
+  if (!tip) return;
+
+  function showTip(el, evt) {
+    var text = el.getAttribute('data-tooltip');
+    if (!text) return;
+    tip.textContent = text;
+    tip.style.display = 'block';
+    positionTip(el);
+  }
+
+  function positionTip(el) {
+    var r = el.getBoundingClientRect();
+    var tipRect = tip.getBoundingClientRect();
+    var x = r.left + r.width / 2 - tipRect.width / 2;
+    var y = r.top - tipRect.height - 10;
+    x = Math.max(6, Math.min(x, window.innerWidth - tipRect.width - 6));
+    if (y < 6) y = r.bottom + 10; // flip below if no room above
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+
+  function hideTip() {
+    tip.style.display = 'none';
+  }
+
+  document.addEventListener('mouseover', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-tooltip]') : null;
+    if (el) showTip(el, e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-tooltip]') : null;
+    if (el) hideTip();
+  });
+})();
+
 (function () {
   var track = document.getElementById('donutTrack');
   var prevBtn = document.getElementById('donutPrev');
