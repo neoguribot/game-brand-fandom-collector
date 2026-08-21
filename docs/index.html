@@ -1,0 +1,1598 @@
+<title>PlayStation 채널 팬덤 리포트</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-2: #f2f1ec;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --border: rgba(11,11,11,0.10);
+    --grid: #e1e0d9;
+    --accent: #2a78d6;
+    --accent-soft: rgba(42,120,214,0.10);
+
+    /* content-type categorical (adjacency-validated) */
+    --ct-hardware: #2a78d6;
+    --ct-trailer:  #eb6834;
+    --ct-announce: #1baf7a;
+    --ct-event:    #eda100;
+    --ct-campaign: #e87ba4;
+    --ct-other:    #c3c2b7;
+
+    /* sentiment categorical (adjacency-validated) */
+    --s-purchase: #eda100;
+    --s-advocacy: #1baf7a;
+    --s-loyalty:  #4a3aa7;
+    --s-attach:   #e87ba4;
+    --s-positive: #008300;
+    --s-negative: #e34948;
+    --s-neutral:  #c3c2b7;
+
+    /* BFI dimension categorical (adjacency-validated 6-slot set) */
+    --bfi-attention: #2a78d6;
+    --bfi-engagement: #eb6834;
+    --bfi-attachment: #1baf7a;
+    --bfi-loyalty: #eda100;
+    --bfi-advocacy: #e87ba4;
+    --bfi-purchase: #008300;
+
+    /* video-card stat colors */
+    --stat-views: #2a78d6;
+    --stat-likes: #e87ba4;
+    --stat-comments: #1baf7a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0d0d0d;
+      --surface: #1a1a19;
+      --surface-2: #201f1c;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8d86;
+      --border: rgba(255,255,255,0.10);
+      --grid: #2c2c2a;
+      --accent: #3987e5;
+      --accent-soft: rgba(57,135,229,0.14);
+
+      --ct-hardware: #3987e5;
+      --ct-trailer:  #d95926;
+      --ct-announce: #199e70;
+      --ct-event:    #c98500;
+      --ct-campaign: #d55181;
+      --ct-other:    #55534d;
+
+      --s-purchase: #c98500;
+      --s-advocacy: #199e70;
+      --s-loyalty:  #9085e9;
+      --s-attach:   #d55181;
+      --s-positive: #17a317;
+      --s-negative: #e66767;
+      --s-neutral:  #55534d;
+
+      --bfi-attention: #3987e5;
+      --bfi-engagement: #d95926;
+      --bfi-attachment: #199e70;
+      --bfi-loyalty: #c98500;
+      --bfi-advocacy: #d55181;
+      --bfi-purchase: #17a317;
+
+      --stat-views: #3987e5;
+      --stat-likes: #d55181;
+      --stat-comments: #199e70;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #201f1c;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8d86;
+    --border: rgba(255,255,255,0.10);
+    --grid: #2c2c2a;
+    --accent: #3987e5;
+    --accent-soft: rgba(57,135,229,0.14);
+
+    --ct-hardware: #3987e5;
+    --ct-trailer:  #d95926;
+    --ct-announce: #199e70;
+    --ct-event:    #c98500;
+    --ct-campaign: #d55181;
+    --ct-other:    #55534d;
+
+    --s-purchase: #c98500;
+    --s-advocacy: #199e70;
+    --s-loyalty:  #9085e9;
+    --s-attach:   #d55181;
+    --s-positive: #17a317;
+    --s-negative: #e66767;
+    --s-neutral:  #55534d;
+
+    --bfi-attention: #3987e5;
+    --bfi-engagement: #d95926;
+    --bfi-attachment: #199e70;
+    --bfi-loyalty: #c98500;
+    --bfi-advocacy: #d55181;
+    --bfi-purchase: #17a317;
+
+    --stat-views: #3987e5;
+    --stat-likes: #d55181;
+    --stat-comments: #199e70;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text-primary);
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  a { color: var(--accent); }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .wide { max-width: 980px; }
+
+  /* ---------- masthead ---------- */
+  .masthead { padding: 64px 0 40px; border-bottom: 1px solid var(--border); }
+  .eyebrow {
+    font-size: 13px; letter-spacing: 0.04em;
+    color: var(--accent); margin: 0 0 14px; font-weight: 700;
+  }
+  h1.title {
+    font-weight: 800; font-size: clamp(30px, 4.6vw, 42px);
+    line-height: 1.28; margin: 0 0 16px; text-wrap: balance; letter-spacing: -0.01em;
+  }
+  h1.title em { font-style: normal; color: var(--accent); }
+  .meta-line {
+    display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--text-secondary); font-size: 14px;
+  }
+  .meta-line b { color: var(--text-primary); font-weight: 600; }
+
+  /* ---------- jump nav ---------- */
+  nav.jumpnav {
+    position: sticky; top: 0; z-index: 20; background: var(--bg);
+    border-bottom: 1px solid var(--border); backdrop-filter: blur(6px);
+  }
+  .jumpnav-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .jumpnav-inner::-webkit-scrollbar { display: none; }
+  .jumpnav a {
+    flex-shrink: 0; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-decoration: none;
+    padding: 14px 14px; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s;
+  }
+  .jumpnav a:hover { color: var(--text-primary); }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  .section-head { margin-bottom: 28px; }
+  .section-num {
+    font-size: 12.5px; color: var(--text-muted); margin: 0 0 6px;
+    letter-spacing: 0.03em; font-weight: 600;
+  }
+  h2 {
+    font-weight: 700; font-size: 25px; margin: 0 0 8px;
+    text-wrap: balance; letter-spacing: -0.01em;
+  }
+  .section-desc { color: var(--text-secondary); font-size: 14.5px; max-width: 62ch; }
+
+  /* ---------- stat strip ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .stat-tile { background: var(--surface); padding: 22px 20px; }
+  .stat-value { font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 600; line-height: 1; margin-bottom: 8px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); }
+  .stat-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ---------- distribution bar ---------- */
+  .dist-bar {
+    display: flex; height: 34px; border-radius: 8px; overflow: hidden; margin-bottom: 14px;
+    border: 1px solid var(--border);
+  }
+  .dist-seg { position: relative; }
+  .dist-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  .legend-item { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-secondary); }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend-item b { color: var(--text-primary); font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+
+  /* ---------- category block ---------- */
+  .cat-block { margin-bottom: 44px; }
+  .cat-block:last-child { margin-bottom: 0; }
+  .cat-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+  .cat-chip {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700;
+    padding: 4px 11px; border-radius: 999px;
+  }
+  .cat-count { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+  .cat-note { font-size: 13px; color: var(--text-muted); margin: 6px 0 16px; }
+
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 16px; }
+  .video-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .video-title { font-size: 13.5px; font-weight: 600; line-height: 1.4; }
+  .video-title a { color: var(--text-primary); text-decoration: none; }
+  .video-title a:hover { color: var(--accent); }
+  .video-date { font-size: 11.5px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+  .video-stats { display: flex; gap: 14px; font-size: 12px; }
+  .video-stats span { display: flex; flex-direction: column; gap: 2px; }
+  .video-stats b { font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600; }
+  .video-stats span:nth-child(1) b { color: var(--stat-views); }
+  .video-stats span:nth-child(2) b { color: var(--stat-likes); }
+  .video-stats span:nth-child(3) b { color: var(--stat-comments); }
+  .video-stats small { color: var(--text-muted); font-size: 10.5px; }
+
+  .mini-sent { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--surface-2); }
+  .mini-sent-empty { font-size: 11px; color: var(--text-muted); }
+
+  .empty-card {
+    background: var(--surface-2); border: 1px dashed var(--border); border-radius: 12px; padding: 20px;
+    font-size: 13.5px; color: var(--text-secondary); margin-top: 16px;
+  }
+
+  /* ---------- sentiment overview bar ---------- */
+  .sent-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .sent-label { width: 118px; flex-shrink: 0; font-size: 13px; font-weight: 600; text-align: right; }
+  .sent-track { flex: 1; height: 20px; background: var(--surface-2); border-radius: 5px; overflow: hidden; position: relative; }
+  .sent-fill { height: 100%; border-radius: 5px 0 0 5px; min-width: 2px; }
+  .sent-pct { width: 56px; flex-shrink: 0; font-size: 13px; font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+
+  .callout {
+    background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 12px; padding: 16px 18px; font-size: 13.5px; color: var(--text-secondary); margin-top: 20px;
+  }
+  .callout b { color: var(--text-primary); }
+
+  /* ---------- donut carousel ---------- */
+  .donut-carousel { position: relative; margin-bottom: 24px; }
+  .donut-track {
+    display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    padding: 4px 2px 8px; scrollbar-width: none;
+  }
+  .donut-track::-webkit-scrollbar { display: none; }
+  .donut-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 28px 24px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    scroll-snap-align: center; flex: 0 0 auto; width: min(320px, 82vw);
+  }
+  .donut-title { font-size: 15px; font-weight: 700; }
+  .donut-wrap { position: relative; width: 220px; height: 220px; max-width: 100%; }
+  .donut-wrap svg { width: 100%; height: 100%; }
+  .donut-center {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .donut-center-value { font-family: "IBM Plex Mono", monospace; font-size: 32px; font-weight: 700; color: var(--s-negative); line-height: 1; }
+  .donut-center-label { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+  .donut-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; }
+  .donut-legend .legend-item { font-size: 12px; }
+  .donut-n { font-size: 12px; color: var(--text-muted); }
+
+  .donut-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+    width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-primary); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow, 0 2px 8px rgba(0,0,0,0.15));
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .donut-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .donut-nav-prev { left: -8px; }
+  .donut-nav-next { right: -8px; }
+  @media (max-width: 640px) {
+    .donut-nav-prev { left: -4px; }
+    .donut-nav-next { right: -4px; }
+  }
+
+  .donut-dots { display: flex; justify-content: center; gap: 7px; margin-top: 12px; }
+  .donut-dots button {
+    width: 7px; height: 7px; padding: 0; border-radius: 50%; border: none; background: var(--border);
+    cursor: pointer; transition: background 0.15s, width 0.15s;
+  }
+  .donut-dots button.active { background: var(--accent); width: 20px; border-radius: 4px; }
+
+  /* ---------- comparison table ---------- */
+  .cmp-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table.cmp { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13px; }
+  table.cmp th, table.cmp td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  table.cmp th:first-child, table.cmp td:first-child { text-align: left; }
+  table.cmp thead th {
+    font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+    background: var(--surface-2);
+  }
+  table.cmp tbody tr:last-child td { border-bottom: none; }
+  table.cmp td.num { font-family: "IBM Plex Mono", monospace; }
+  table.cmp .row-bar { display: flex; height: 5px; border-radius: 3px; overflow: hidden; margin-top: 6px; width: 100%; min-width: 90px; }
+
+  /* ---------- pattern / quotes ---------- */
+  .pattern-callout {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 24px;
+  }
+  .pattern-callout p { font-size: 14.5px; color: var(--text-secondary); margin: 0; }
+  .pattern-callout p + p { margin-top: 10px; }
+
+  .quote-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .quote-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .quote-top { display: flex; justify-content: space-between; align-items: center; }
+  .quote-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff;
+  }
+  .quote-likes { font-size: 12px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+  .quote-text {
+    font-size: 15.5px; font-weight: 500; line-height: 1.55; color: var(--text-primary);
+    text-wrap: balance; padding-left: 12px; border-left: 3px solid var(--border);
+  }
+  .quote-translation {
+    font-size: 13.5px; color: var(--text-secondary); padding-left: 12px; border-left: 3px solid var(--accent-soft);
+    margin-top: -4px;
+  }
+  .quote-translation b {
+    display: block; font-size: 10.5px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.03em;
+    margin-bottom: 3px;
+  }
+  .quote-src { font-size: 11.5px; color: var(--text-muted); }
+  .quote-src a { color: var(--text-secondary); text-decoration: none; }
+  .quote-src a:hover { color: var(--accent); }
+
+  /* ---------- BFI ---------- */
+  .bfi-hero {
+    display: flex; align-items: baseline; gap: 16px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .bfi-score { font-family: "IBM Plex Mono", monospace; font-size: 48px; font-weight: 700; line-height: 1; }
+  .bfi-score-max { font-size: 20px; color: var(--text-muted); font-weight: 500; }
+  .bfi-hero-label { color: var(--text-secondary); font-size: 13.5px; max-width: 46ch; }
+  .bfi-hero-label b { color: var(--text-primary); }
+  .bfi-contrib-bar {
+    display: flex; height: 16px; border-radius: 999px; overflow: hidden; background: var(--surface-2);
+    border: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .bfi-contrib-bar div { height: 100%; }
+  table.bfi th, table.bfi td { text-align: right; }
+  table.bfi th:first-child, table.bfi td:first-child { text-align: left; font-weight: 600; }
+  table.bfi td:first-child small { color: var(--text-muted); font-weight: 400; font-size: 10.5px; margin-left: 5px; }
+
+  /* ---------- verdict ---------- */
+  .verdict-box {
+    background: linear-gradient(135deg, var(--accent-soft), transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius: 14px; padding: 26px 28px; margin-top: 22px;
+  }
+  .verdict-label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .verdict-text {
+    font-size: 19px; font-weight: 700; line-height: 1.6; color: var(--text-primary); text-wrap: balance;
+  }
+  .verdict-text b { color: var(--accent); }
+  .verdict-evidence { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .verdict-evidence li {
+    font-size: 13px; color: var(--text-secondary); padding-left: 18px; position: relative; line-height: 1.5;
+  }
+  .verdict-evidence li::before {
+    content: "—"; position: absolute; left: 0; color: var(--accent);
+  }
+
+  /* ---------- methodology ---------- */
+  .method-list { display: grid; gap: 14px; }
+  .method-item { display: flex; gap: 14px; }
+  .method-num {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--accent); flex-shrink: 0;
+    width: 22px; padding-top: 2px;
+  }
+  .method-body { font-size: 13.5px; color: var(--text-secondary); }
+  .method-body b { color: var(--text-primary); }
+
+  footer { padding: 32px 0 60px; }
+  footer .wrap { font-size: 12px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 6px 20px; }
+
+  @media (max-width: 640px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .sent-label { width: 92px; font-size: 12px; }
+    .masthead { padding: 44px 0 28px; }
+  }
+
+  .finding-banner {
+    margin-top: 18px; padding: 14px 18px; border-radius: 12px;
+    background: color-mix(in srgb, var(--s-negative) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--s-negative) 30%, transparent);
+    font-size: 13.5px; color: var(--text-secondary);
+  }
+  .finding-banner b { color: var(--text-primary); }
+</style>
+
+<div class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">YouTube 채널 분석 리포트 · LLM 재분류 반영</p>
+    <h1 class="title">PlayStation 공식 채널,<br><em>영상 30개</em>와 댓글 1,662개로 본 팬덤 반응</h1>
+    <div class="meta-line">
+      <span><b>채널</b> · youtube.com/@PlayStation</span>
+      <span><b>스캔 범위</b> · 최근 업로드 30개 (쇼츠 제외)</span>
+      <span><b>댓글 표본</b> · 영상당 최대 60개, 관련도순</span>
+      <span><b>기준일</b> · 2026-08-21</span>
+    </div>
+    <div class="finding-banner">
+      <b>재분류 결과 대폭 수정됨</b> — 기존 키워드 사전 분류기를 LLM 기반 개별 판독(댓글 1,662개, 1건씩)으로 교체했습니다. 그 결과 <b>부정 반응이 0.7% → 70.9%</b>로 드러났습니다(라벨 78.3% 변경). 원인은 05번 섹션 참고.
+    </div>
+  </div>
+</div>
+
+<nav class="jumpnav">
+  <div class="jumpnav-inner">
+    <a href="#distribution">콘텐츠 유형 분포</a>
+    <a href="#categories">유형별 영상</a>
+    <a href="#sentiment">댓글 감정 전체</a>
+    <a href="#compare">유형별 비교</a>
+    <a href="#pattern">주목할 패턴</a>
+    <a href="#bfi">BFI 지수</a>
+    <a href="#console-war">경쟁 브랜드 언급</a>
+    <a href="#methodology">방법론·한계</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section id="summary" style="padding-top:44px;">
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="stat-value num">30</div>
+        <div class="stat-label">스캔한 최근 영상</div>
+        <div class="stat-sub">쇼츠 제외, 업로드 최신순</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num">1,662</div>
+        <div class="stat-label">LLM으로 개별 분류한 댓글</div>
+        <div class="stat-sub">28개 영상 · 영상당 최대 60개</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-negative);">70.9%</div>
+        <div class="stat-label">부정 반응 비율</div>
+        <div class="stat-sub">규칙 기반 분류로는 0.7%였음</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num">78.3%</div>
+        <div class="stat-label">규칙 기반 대비 라벨 변경률</div>
+        <div class="stat-sub">1,662개 중 1,302개</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="distribution">
+    <div class="section-head">
+      <p class="section-num">01 — 콘텐츠 유형 분포</p>
+      <h2>최근 30개 영상, 무엇을 올렸나</h2>
+      <p class="section-desc">제목을 직접 읽고 의미 기반으로 분류했습니다 (제목+설명 키워드만 매칭하는 자동 분류기는 "hardware" 오탐 등 오류가 있어 배제).</p>
+    </div>
+
+    <div class="dist-bar">
+      <div class="dist-seg" style="width:63.3%; background:var(--ct-trailer);" data-tooltip="게임 트레일러 19건 (63.3%)"></div>
+      <div class="dist-seg" style="width:13.3%; background:var(--ct-announce);" data-tooltip="신규 게임 발표 4건 (13.3%)"></div>
+      <div class="dist-seg" style="width:13.3%; background:var(--ct-event);" data-tooltip="브랜드 이벤트 4건 (13.3%)"></div>
+      <div class="dist-seg" style="width:6.7%; background:var(--ct-other);" data-tooltip="기타 2건 (6.7%) — 이번 분류 범위 밖"></div>
+      <div class="dist-seg" style="width:3.3%; background:var(--ct-campaign);" data-tooltip="브랜드 캠페인 1건 (3.3%)"></div>
+    </div>
+    <div class="dist-legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-trailer);"></span>게임 트레일러 <b>19</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-announce);"></span>신규 게임 발표 <b>4</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-event);"></span>브랜드 이벤트 <b>4</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-campaign);"></span>브랜드 캠페인 <b>1</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-hardware);"></span>신제품·하드웨어 <b>0</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--ct-other);"></span>기타 <b>2</b></span>
+    </div>
+  </section>
+
+  <section id="categories" class="wide">
+    <div class="section-head">
+      <p class="section-num">02 — 유형별 영상</p>
+      <h2>카테고리별 영상 · 댓글 감정 구성</h2>
+      <p class="section-desc">카드 하단의 얇은 막대는 해당 영상 댓글(최대 60개)의 LLM 감정 분류 비율입니다. 빨간색이 넓을수록 부정(주로 디스크 드라이브 관련 항의) 비중이 높다는 뜻입니다. 막대에 마우스를 올리면 정확한 건수도 볼 수 있습니다.</p>
+      <div style="margin-top:14px;">
+        <p style="font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.03em; margin:0 0 6px;">감정 막대 색상</p>
+        <div class="dist-legend">
+          <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매의도</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-advocacy);"></span>추천/옹호</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-loyalty);"></span>충성</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-attach);"></span>애착</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반긍정</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <p style="font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.03em; margin:0 0 6px;">숫자 색상</p>
+        <div class="dist-legend">
+          <span class="legend-item"><span class="swatch" style="background:var(--stat-views);"></span>조회수</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--stat-likes);"></span>좋아요</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--stat-comments);"></span>댓글수</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-header">
+        <span class="cat-chip" style="background:color-mix(in srgb, var(--ct-announce) 16%, transparent); color:var(--ct-announce);">신규 게임 발표</span>
+        <span class="cat-count">4건 전체</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=qT0C8T_BrqQ" target="_blank" rel="noopener">NBA 2K27 | Preseason Breakdown: Game Reveal</a></div>
+          <div class="video-stats">
+            <span><b class="num">67,365</b><small>조회수</small></span>
+            <span><b class="num">1,491</b><small>좋아요</small></span>
+            <span><b class="num">183</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-advocacy);" data-tooltip="추천/옹호 1"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:93.3%; background:var(--s-negative);" data-tooltip="부정 56"></div>
+            <div style="width:3.3%; background:var(--s-neutral);" data-tooltip="중립 2"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-16</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=_UDlurmXEK0" target="_blank" rel="noopener">Time To Wake Up - Announcement Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">46,058</b><small>조회수</small></span>
+            <span><b class="num">1,115</b><small>좋아요</small></span>
+            <span><b class="num">1,035</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:90.0%; background:var(--s-negative);" data-tooltip="부정 54"></div>
+            <div style="width:8.3%; background:var(--s-neutral);" data-tooltip="중립 5"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-15</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=-dNjyEGhSmY" target="_blank" rel="noopener">TCG Card Shop Simulator - Release Date Announcement | PS5 &amp; PS4 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">42,543</b><small>조회수</small></span>
+            <span><b class="num">1,113</b><small>좋아요</small></span>
+            <span><b class="num">833</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:3.3%; background:var(--s-positive);" data-tooltip="일반긍정 2"></div>
+            <div style="width:68.3%; background:var(--s-negative);" data-tooltip="부정 41"></div>
+            <div style="width:28.3%; background:var(--s-neutral);" data-tooltip="중립 17"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=xHf5GcH8HDM" target="_blank" rel="noopener">Dumb Ways to Build - Announcement Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">18,329</b><small>조회수</small></span>
+            <span><b class="num">700</b><small>좋아요</small></span>
+            <span><b class="num">317</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:88.3%; background:var(--s-negative);" data-tooltip="부정 53"></div>
+            <div style="width:8.3%; background:var(--s-neutral);" data-tooltip="중립 5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-header">
+        <span class="cat-chip" style="background:color-mix(in srgb, var(--ct-event) 16%, transparent); color:var(--ct-event);">브랜드 이벤트</span>
+        <span class="cat-count">4건 전체</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=blh1v1dGJ2s" target="_blank" rel="noopener">Phantom Blade Zero – State of Play Gameplay Deep Dive | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">467,575</b><small>조회수</small></span>
+            <span><b class="num">22,262</b><small>좋아요</small></span>
+            <span><b class="num">3,605</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:18.3%; background:var(--s-purchase);" data-tooltip="구매의도 11"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:58.3%; background:var(--s-negative);" data-tooltip="부정 35"></div>
+            <div style="width:21.7%; background:var(--s-neutral);" data-tooltip="중립 13"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=nD62a2UfbFY" target="_blank" rel="noopener">『Phantom Blade Zero』State of Play ゲームプレイディープダイブ | PS5®</a></div>
+          <div class="video-stats">
+            <span><b class="num">50,190</b><small>조회수</small></span>
+            <span><b class="num">2,076</b><small>좋아요</small></span>
+            <span><b class="num">298</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:5.0%; background:var(--s-purchase);" data-tooltip="구매의도 3"></div>
+            <div style="width:18.3%; background:var(--s-positive);" data-tooltip="일반긍정 11"></div>
+            <div style="width:68.3%; background:var(--s-negative);" data-tooltip="부정 41"></div>
+            <div style="width:8.3%; background:var(--s-neutral);" data-tooltip="중립 5"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-15</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=9NaoB3IhiQY" target="_blank" rel="noopener">GT World Series 2026 | Round 2 - Tokyo | Nations Cup | [English]</a></div>
+          <div class="video-stats">
+            <span><b class="num">20,234</b><small>조회수</small></span>
+            <span><b class="num">551</b><small>좋아요</small></span>
+            <span><b class="num">113</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-loyalty);" data-tooltip="충성 1"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:91.7%; background:var(--s-negative);" data-tooltip="부정 55"></div>
+            <div style="width:5.0%; background:var(--s-neutral);" data-tooltip="중립 3"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-15</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=PMPeCzN4tIk" target="_blank" rel="noopener">GT World Series 2026 | Round 2 - Tokyo | Manufacturers Cup | [English]</a></div>
+          <div class="video-stats">
+            <span><b class="num">18,713</b><small>조회수</small></span>
+            <span><b class="num">581</b><small>좋아요</small></span>
+            <span><b class="num">85</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:96.7%; background:var(--s-negative);" data-tooltip="부정 58"></div>
+            <div style="width:1.7%; background:var(--s-neutral);" data-tooltip="중립 1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-header">
+        <span class="cat-chip" style="background:color-mix(in srgb, var(--ct-trailer) 16%, transparent); color:var(--ct-trailer);">게임 트레일러</span>
+        <span class="cat-count">19건 전체 · 조회수순</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-date num">2026-08-16</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=BCw5x-8jkRQ" target="_blank" rel="noopener">Fortnite - Chapter 7 Season 4: Override Official Trailer | PS5 &amp; PS4 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">120,640</b><small>조회수</small></span>
+            <span><b class="num">4,708</b><small>좋아요</small></span>
+            <span><b class="num">1,081</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:83.3%; background:var(--s-negative);" data-tooltip="부정 50"></div>
+            <div style="width:16.7%; background:var(--s-neutral);" data-tooltip="중립 10"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-20</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=ueCeXnq4HOQ" target="_blank" rel="noopener">Silent Hill: Townfall - Gameplay Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">101,196</b><small>조회수</small></span>
+            <span><b class="num">7,375</b><small>좋아요</small></span>
+            <span><b class="num">1,138</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:6.7%; background:var(--s-purchase);" data-tooltip="구매의도 4"></div>
+            <div style="width:15.0%; background:var(--s-positive);" data-tooltip="일반긍정 9"></div>
+            <div style="width:33.3%; background:var(--s-negative);" data-tooltip="부정 20"></div>
+            <div style="width:45.0%; background:var(--s-neutral);" data-tooltip="중립 27"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-17</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=MIEHUDi6DwU" target="_blank" rel="noopener">Mortal Shell II - Launch Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">72,124</b><small>조회수</small></span>
+            <span><b class="num">3,465</b><small>좋아요</small></span>
+            <span><b class="num">842</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:16.7%; background:var(--s-purchase);" data-tooltip="구매의도 10"></div>
+            <div style="width:8.3%; background:var(--s-positive);" data-tooltip="일반긍정 5"></div>
+            <div style="width:36.7%; background:var(--s-negative);" data-tooltip="부정 22"></div>
+            <div style="width:38.3%; background:var(--s-neutral);" data-tooltip="중립 23"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=arbZ8n0OmkM" target="_blank" rel="noopener">Call of Duty: Modern Warfare 4 - Multiplayer Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">64,144</b><small>조회수</small></span>
+            <span><b class="num">3,476</b><small>좋아요</small></span>
+            <span><b class="num">863</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:65.0%; background:var(--s-negative);" data-tooltip="부정 39"></div>
+            <div style="width:30.0%; background:var(--s-neutral);" data-tooltip="중립 18"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-17</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=s2qYuZ6PFKY" target="_blank" rel="noopener">Hubert - Release Date Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">43,153</b><small>조회수</small></span>
+            <span><b class="num">1,541</b><small>좋아요</small></span>
+            <span><b class="num">674</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:70.0%; background:var(--s-negative);" data-tooltip="부정 42"></div>
+            <div style="width:30.0%; background:var(--s-neutral);" data-tooltip="중립 18"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=apsDajc0jqs" target="_blank" rel="noopener">Crystal of Atlan - The King of Fighters '98 Launch Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">41,622</b><small>조회수</small></span>
+            <span><b class="num">1,818</b><small>좋아요</small></span>
+            <span><b class="num">483</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:3.3%; background:var(--s-purchase);" data-tooltip="구매의도 2"></div>
+            <div style="width:1.7%; background:var(--s-attach);" data-tooltip="애착 1"></div>
+            <div style="width:20.0%; background:var(--s-positive);" data-tooltip="일반긍정 12"></div>
+            <div style="width:43.3%; background:var(--s-negative);" data-tooltip="부정 26"></div>
+            <div style="width:31.7%; background:var(--s-neutral);" data-tooltip="중립 19"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=PH68TRDS2s0" target="_blank" rel="noopener">TMNT: Splintered Fate - King's Gambit Update Launch Trailer | PS5 &amp; PS4 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">41,322</b><small>조회수</small></span>
+            <span><b class="num">1,642</b><small>좋아요</small></span>
+            <span><b class="num">430</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:1.7%; background:var(--s-advocacy);" data-tooltip="추천/옹호 1"></div>
+            <div style="width:18.3%; background:var(--s-positive);" data-tooltip="일반긍정 11"></div>
+            <div style="width:56.7%; background:var(--s-negative);" data-tooltip="부정 34"></div>
+            <div style="width:21.7%; background:var(--s-neutral);" data-tooltip="중립 13"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-17</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=PEBcT6E6u6c" target="_blank" rel="noopener">Remothered: Red Nun's Legacy - Release Date Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">40,681</b><small>조회수</small></span>
+            <span><b class="num">1,634</b><small>좋아요</small></span>
+            <span><b class="num">755</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:93.3%; background:var(--s-negative);" data-tooltip="부정 56"></div>
+            <div style="width:3.3%; background:var(--s-neutral);" data-tooltip="중립 2"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=47Rk8VdU8VI" target="_blank" rel="noopener">Nioh 3 - Hell Rising DLC Vol. 1 - Launch Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">28,467</b><small>조회수</small></span>
+            <span><b class="num">1,142</b><small>좋아요</small></span>
+            <span><b class="num">461</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:78.3%; background:var(--s-negative);" data-tooltip="부정 47"></div>
+            <div style="width:15.0%; background:var(--s-neutral);" data-tooltip="중립 9"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=HWKTzwxnaiY" target="_blank" rel="noopener">Baptiste - Coming Soon Gameplay Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">23,151</b><small>조회수</small></span>
+            <span><b class="num">1,016</b><small>좋아요</small></span>
+            <span><b class="num">483</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:65.0%; background:var(--s-negative);" data-tooltip="부정 39"></div>
+            <div style="width:35.0%; background:var(--s-neutral);" data-tooltip="중립 21"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=Lwk64MVVRS0" target="_blank" rel="noopener">Barkour - Story Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">22,603</b><small>조회수</small></span>
+            <span><b class="num">782</b><small>좋아요</small></span>
+            <span><b class="num">319</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:41.7%; background:var(--s-negative);" data-tooltip="부정 25"></div>
+            <div style="width:51.7%; background:var(--s-neutral);" data-tooltip="중립 31"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=Z38bBGmg48E" target="_blank" rel="noopener">Starsand Island - Launch Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">21,276</b><small>조회수</small></span>
+            <span><b class="num">783</b><small>좋아요</small></span>
+            <span><b class="num">475</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:3.3%; background:var(--s-purchase);" data-tooltip="구매의도 2"></div>
+            <div style="width:3.3%; background:var(--s-positive);" data-tooltip="일반긍정 2"></div>
+            <div style="width:80.0%; background:var(--s-negative);" data-tooltip="부정 48"></div>
+            <div style="width:13.3%; background:var(--s-neutral);" data-tooltip="중립 8"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=FQxIf6bz7B8" target="_blank" rel="noopener">Neverness to Everness (NTE): Ver 1.3 Character Trailer - Zankou | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">20,906</b><small>조회수</small></span>
+            <span><b class="num">799</b><small>좋아요</small></span>
+            <span><b class="num">436</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:3.3%; background:var(--s-positive);" data-tooltip="일반긍정 2"></div>
+            <div style="width:93.3%; background:var(--s-negative);" data-tooltip="부정 56"></div>
+            <div style="width:3.3%; background:var(--s-neutral);" data-tooltip="중립 2"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=CsluYYQtSkg" target="_blank" rel="noopener">RetroSpace - Release Date Reveal Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">18,634</b><small>조회수</small></span>
+            <span><b class="num">466</b><small>좋아요</small></span>
+            <span><b class="num">355</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:5.0%; background:var(--s-purchase);" data-tooltip="구매의도 3"></div>
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:78.3%; background:var(--s-negative);" data-tooltip="부정 47"></div>
+            <div style="width:11.7%; background:var(--s-neutral);" data-tooltip="중립 7"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=2w1Lo7kodDU" target="_blank" rel="noopener">Order of the Sinking Star - Release Date Announcement Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">16,766</b><small>조회수</small></span>
+            <span><b class="num">638</b><small>좋아요</small></span>
+            <span><b class="num">476</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:5.0%; background:var(--s-purchase);" data-tooltip="구매의도 3"></div>
+            <div style="width:1.7%; background:var(--s-advocacy);" data-tooltip="추천/옹호 1"></div>
+            <div style="width:1.7%; background:var(--s-loyalty);" data-tooltip="충성 1"></div>
+            <div style="width:13.3%; background:var(--s-positive);" data-tooltip="일반긍정 8"></div>
+            <div style="width:60.0%; background:var(--s-negative);" data-tooltip="부정 36"></div>
+            <div style="width:18.3%; background:var(--s-neutral);" data-tooltip="중립 11"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-18</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=SD2IrN0DN6E" target="_blank" rel="noopener">Star Wars Zero Company - Final Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">14,924</b><small>조회수</small></span>
+            <span><b class="num">504</b><small>좋아요</small></span>
+            <span><b class="num">435</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:6.7%; background:var(--s-purchase);" data-tooltip="구매의도 4"></div>
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:63.3%; background:var(--s-negative);" data-tooltip="부정 38"></div>
+            <div style="width:25.0%; background:var(--s-neutral);" data-tooltip="중립 15"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=eFP07SswgQg" target="_blank" rel="noopener">Hunting Simulator 3 - Release Date Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">10,749</b><small>조회수</small></span>
+            <span><b class="num">297</b><small>좋아요</small></span>
+            <span><b class="num">315</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:5.0%; background:var(--s-advocacy);" data-tooltip="추천/옹호 3"></div>
+            <div style="width:6.7%; background:var(--s-loyalty);" data-tooltip="충성 4"></div>
+            <div style="width:5.0%; background:var(--s-positive);" data-tooltip="일반긍정 3"></div>
+            <div style="width:35.0%; background:var(--s-negative);" data-tooltip="부정 21"></div>
+            <div style="width:48.3%; background:var(--s-neutral);" data-tooltip="중립 29"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-19</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=kbVVheZq2Lo" target="_blank" rel="noopener">Bus Simulator 27 - Multiplayer Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">7,561</b><small>조회수</small></span>
+            <span><b class="num">284</b><small>좋아요</small></span>
+            <span><b class="num">225</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:1.7%; background:var(--s-advocacy);" data-tooltip="추천/옹호 1"></div>
+            <div style="width:3.3%; background:var(--s-positive);" data-tooltip="일반긍정 2"></div>
+            <div style="width:90.0%; background:var(--s-negative);" data-tooltip="부정 54"></div>
+            <div style="width:3.3%; background:var(--s-neutral);" data-tooltip="중립 2"></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-date num">2026-08-20</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=IGzhNw14JEk" target="_blank" rel="noopener">Grim Trials - Launch Trailer | PS5 Games</a></div>
+          <div class="video-stats">
+            <span><b class="num">802</b><small>조회수</small></span>
+            <span><b class="num">54</b><small>좋아요</small></span>
+            <span><b class="num">33</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:4.8%; background:var(--s-positive);" data-tooltip="일반긍정 2"></div>
+            <div style="width:83.3%; background:var(--s-negative);" data-tooltip="부정 35"></div>
+            <div style="width:11.9%; background:var(--s-neutral);" data-tooltip="중립 5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-header">
+        <span class="cat-chip" style="background:color-mix(in srgb, var(--ct-campaign) 16%, transparent); color:var(--ct-campaign);">브랜드 캠페인</span>
+        <span class="cat-count">1건 전체</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-date num">2026-08-17</div>
+          <div class="video-title"><a href="https://www.youtube.com/watch?v=S6Su0IfHRms" target="_blank" rel="noopener">It Happens On PS5</a></div>
+          <div class="video-stats">
+            <span><b class="num">330,617</b><small>조회수</small></span>
+            <span><b class="num">9,526</b><small>좋아요</small></span>
+            <span><b class="num">4,461</b><small>댓글</small></span>
+          </div>
+          <div class="mini-sent">
+            <div style="width:1.7%; background:var(--s-purchase);" data-tooltip="구매의도 1"></div>
+            <div style="width:6.7%; background:var(--s-attach);" data-tooltip="애착 4"></div>
+            <div style="width:1.7%; background:var(--s-positive);" data-tooltip="일반긍정 1"></div>
+            <div style="width:85.0%; background:var(--s-negative);" data-tooltip="부정 51"></div>
+            <div style="width:5.0%; background:var(--s-neutral);" data-tooltip="중립 3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cat-block">
+      <div class="cat-header">
+        <span class="cat-chip" style="background:color-mix(in srgb, var(--ct-hardware) 16%, transparent); color:var(--ct-hardware);">신제품·하드웨어</span>
+        <span class="cat-count">0건</span>
+      </div>
+      <div class="empty-card">최근 30개 업로드 안에는 해당하는 영상이 없습니다. PS5 하드웨어 리뷰·언박싱류는 게임 트레일러보다 훨씬 드물게 올라와서, 표본을 넓혀야 잡힙니다.</div>
+    </div>
+  </section>
+
+  <section id="sentiment">
+    <div class="section-head">
+      <p class="section-num">03 — 댓글 감정 전체</p>
+      <h2>1,662개 댓글, 실제로는 어떤 반응이었나</h2>
+      <p class="section-desc">댓글 1,662개를 하나씩 개별적으로 LLM이 판독한 결과입니다 (배치 묶음 처리 없이, 댓글마다 별도 판단).</p>
+    </div>
+
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-purchase);">구매의도</span>
+      <div class="sent-track"><div class="sent-fill" style="width:3.0%; background:var(--s-purchase);"></div></div>
+      <span class="sent-pct num">3.0%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-advocacy);">추천/옹호</span>
+      <div class="sent-track"><div class="sent-fill" style="width:0.4%; background:var(--s-advocacy);"></div></div>
+      <span class="sent-pct num">0.4%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-loyalty);">충성</span>
+      <div class="sent-track"><div class="sent-fill" style="width:0.4%; background:var(--s-loyalty);"></div></div>
+      <span class="sent-pct num">0.4%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-attach);">애착</span>
+      <div class="sent-track"><div class="sent-fill" style="width:0.3%; background:var(--s-attach);"></div></div>
+      <span class="sent-pct num">0.3%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-positive);">일반긍정</span>
+      <div class="sent-track"><div class="sent-fill" style="width:5.5%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">5.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--s-negative);">부정</span>
+      <div class="sent-track"><div class="sent-fill" style="width:70.9%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">70.9%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="color:var(--text-muted);">중립</span>
+      <div class="sent-track"><div class="sent-fill" style="width:19.5%; background:var(--s-neutral);"></div></div>
+      <span class="sent-pct num">19.5%</span>
+    </div>
+
+    <div class="callout">
+      <b>왜 규칙 기반과 이렇게 다른가</b> — 이전 키워드 사전 분류기는 "부정 0.7%"로 나왔지만 실제로는 70.9%였습니다. 원인은 이 채널 댓글의 압도적 다수가 <b>"No Disc No Buy"</b>(물리 디스크 드라이브 폐지 반대) 보이콧 운동이고, 그 표현이 풍자·패러디·말장난 형태라 단순 키워드 매칭으로는 전혀 잡히지 않기 때문입니다. 예: "Discs?!?????"(좋아요 1,806) 같은 댓글은 부정 키워드를 단 하나도 포함하지 않지만, 명백한 조롱입니다.
+    </div>
+  </section>
+
+  <section id="compare" class="wide">
+    <div class="section-head">
+      <p class="section-num">04 — 유형별 비교</p>
+      <h2>콘텐츠 유형에 따라 댓글 반응이 다른가</h2>
+      <p class="section-desc">영상 유형별로 1,662개 댓글을 나눠 감정 비중을 비교했습니다. 원 안 숫자는 부정 비중, 조각에 마우스를 올리면 세부 비율이 나옵니다.</p>
+    </div>
+
+    <div class="donut-carousel">
+      <button class="donut-nav donut-nav-prev" id="donutPrev" aria-label="이전 차트" type="button">‹</button>
+      <button class="donut-nav donut-nav-next" id="donutNext" aria-label="다음 차트" type="button">›</button>
+      <div class="donut-track" id="donutTrack">
+        <div class="donut-card">
+          <div class="donut-title">게임 트레일러</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 224 224" width="240" height="240">
+              <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+          <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="370.39 195.09" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 65.5%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="136.28 429.20" stroke-dashoffset="-370.39" transform="rotate(-90 112 112)" data-tooltip="중립 24.1%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="36.19 529.30" stroke-dashoffset="-506.68" transform="rotate(-90 112 112)" data-tooltip="일반긍정 6.4%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-purchase)" stroke-width="38" stroke-dasharray="16.40 549.09" stroke-dashoffset="-542.87" transform="rotate(-90 112 112)" data-tooltip="구매의도 2.9%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-loyalty)" stroke-width="38" stroke-dasharray="2.26 563.22" stroke-dashoffset="-559.27" transform="rotate(-90 112 112)" data-tooltip="충성 0.4%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-advocacy)" stroke-width="38" stroke-dasharray="2.83 562.66" stroke-dashoffset="-561.53" transform="rotate(-90 112 112)" data-tooltip="추천/옹호 0.5%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-attach)" stroke-width="38" stroke-dasharray="0.57 564.92" stroke-dashoffset="-564.36" transform="rotate(-90 112 112)" data-tooltip="애착 0.1%"></circle>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value num">65.5%</div>
+              <div class="donut-center-label">부정</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>65.5%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>24.1%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반긍정 <b>6.4%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매의도 <b>2.9%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-loyalty);"></span>충성 <b>0.4%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-advocacy);"></span>추천/옹호 <b>0.5%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-attach);"></span>애착 <b>0.1%</b></span>
+          </div>
+          <div class="donut-n num">n=1,122</div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-title">브랜드 이벤트</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 224 224" width="240" height="240">
+              <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+          <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="445.60 119.88" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 78.8%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="52.02 513.46" stroke-dashoffset="-445.60" transform="rotate(-90 112 112)" data-tooltip="중립 9.2%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="32.80 532.69" stroke-dashoffset="-497.63" transform="rotate(-90 112 112)" data-tooltip="일반긍정 5.8%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-purchase)" stroke-width="38" stroke-dasharray="32.80 532.69" stroke-dashoffset="-530.43" transform="rotate(-90 112 112)" data-tooltip="구매의도 5.8%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-loyalty)" stroke-width="38" stroke-dasharray="2.26 563.22" stroke-dashoffset="-563.22" transform="rotate(-90 112 112)" data-tooltip="충성 0.4%"></circle>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value num">78.8%</div>
+              <div class="donut-center-label">부정</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>78.8%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>9.2%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반긍정 <b>5.8%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매의도 <b>5.8%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-loyalty);"></span>충성 <b>0.4%</b></span>
+          </div>
+          <div class="donut-n num">n=240</div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-title">신규 게임 발표</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 224 224" width="240" height="240">
+              <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+          <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="480.66 84.82" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 85.0%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="68.42 497.06" stroke-dashoffset="-480.66" transform="rotate(-90 112 112)" data-tooltip="중립 12.1%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="9.61 555.87" stroke-dashoffset="-549.09" transform="rotate(-90 112 112)" data-tooltip="일반긍정 1.7%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-purchase)" stroke-width="38" stroke-dasharray="4.52 560.96" stroke-dashoffset="-558.70" transform="rotate(-90 112 112)" data-tooltip="구매의도 0.8%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-advocacy)" stroke-width="38" stroke-dasharray="2.26 563.22" stroke-dashoffset="-563.22" transform="rotate(-90 112 112)" data-tooltip="추천/옹호 0.4%"></circle>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value num">85.0%</div>
+              <div class="donut-center-label">부정</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>85.0%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>12.1%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반긍정 <b>1.7%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매의도 <b>0.8%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-advocacy);"></span>추천/옹호 <b>0.4%</b></span>
+          </div>
+          <div class="donut-n num">n=240</div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-title">브랜드 캠페인</div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 224 224" width="240" height="240">
+              <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+          <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="480.66 84.82" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 85.0%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="28.27 537.21" stroke-dashoffset="-480.66" transform="rotate(-90 112 112)" data-tooltip="중립 5.0%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="9.61 555.87" stroke-dashoffset="-508.94" transform="rotate(-90 112 112)" data-tooltip="일반긍정 1.7%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-purchase)" stroke-width="38" stroke-dasharray="9.61 555.87" stroke-dashoffset="-518.55" transform="rotate(-90 112 112)" data-tooltip="구매의도 1.7%"></circle>
+        <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-attach)" stroke-width="38" stroke-dasharray="37.89 527.60" stroke-dashoffset="-528.16" transform="rotate(-90 112 112)" data-tooltip="애착 6.7%"></circle>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value num">85.0%</div>
+              <div class="donut-center-label">부정</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>85.0%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>5.0%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반긍정 <b>1.7%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매의도 <b>1.7%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-attach);"></span>애착 <b>6.7%</b></span>
+          </div>
+          <div class="donut-n num">n=60</div>
+        </div>
+      </div>
+      <div class="donut-dots" id="donutDots">
+        <button class="active" data-idx="0" aria-label="1번째 차트로 이동" type="button"></button>
+        <button data-idx="1" aria-label="2번째 차트로 이동" type="button"></button>
+        <button data-idx="2" aria-label="3번째 차트로 이동" type="button"></button>
+        <button data-idx="3" aria-label="4번째 차트로 이동" type="button"></button>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th>콘텐츠 유형</th>
+            <th>표본</th>
+            <th style="color:var(--s-purchase);">구매의도</th>
+            <th style="color:var(--s-positive);">일반긍정</th>
+            <th style="color:var(--s-negative);">부정</th>
+            <th>중립</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>게임 트레일러</td>
+            <td class="num">1,122</td>
+            <td class="num">2.9%</td>
+            <td class="num">6.4%</td>
+            <td class="num">65.5%</td>
+            <td class="num">24.1%</td>
+          </tr>
+          <tr>
+            <td>브랜드 이벤트</td>
+            <td class="num">240</td>
+            <td class="num">5.8%</td>
+            <td class="num">5.8%</td>
+            <td class="num">78.8%</td>
+            <td class="num">9.2%</td>
+          </tr>
+          <tr>
+            <td>신규 게임 발표</td>
+            <td class="num">240</td>
+            <td class="num">0.8%</td>
+            <td class="num">1.7%</td>
+            <td class="num">85.0%</td>
+            <td class="num">12.1%</td>
+          </tr>
+          <tr>
+            <td>브랜드 캠페인</td>
+            <td class="num">60</td>
+            <td class="num">1.7%</td>
+            <td class="num">1.7%</td>
+            <td class="num">85.0%</td>
+            <td class="num">5.0%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>모든 유형에서 부정이 압도적</b> — 신규 게임 발표(85.0%)와 브랜드 캠페인(85.0%)이 가장 높고, 게임 트레일러(65.5%)가 상대적으로 낮습니다(그래도 전체 댓글의 3분의 2). 이 보이콧 운동이 영상 주제와 무관하게 채널 전반의 댓글창을 장악하고 있다는 뜻입니다.
+    </div>
+  </section>
+
+  <section id="pattern">
+    <div class="section-head">
+      <p class="section-num">05 — 주목할 패턴</p>
+      <h2>"No Disc No Buy" — 채널 전체를 뒤덮은 보이콧</h2>
+    </div>
+
+    <div class="pattern-callout">
+      <p>2026년 8월 기준 PlayStation 공식 채널 댓글창은 <b>PS6 물리 디스크 드라이브 폐지설에 대한 조직적 반발</b>로 뒤덮여 있습니다. 영상이 게임 트레일러든, State of Play 이벤트든, GT 월드 시리즈 중계든, "It Happens On PS5" 브랜드 캠페인이든 상관없이 최상위 댓글은 거의 예외 없이 이 주제입니다.</p>
+      <p>가장 상징적인 사례는 브랜드 캠페인 영상 "It Happens On PS5" 자체입니다 — 원래 태그라인 "It Happens On PS5"를 과거형("Discs <em>used to</em> happen on PS5")으로 비틀거나, PlayStation의 다른 슬로건 "Play Has No Limits"를 "Greed Has No Limits"로 패러디하는 등, <b>브랜드의 언어를 그대로 되받아치는 조롱</b>이 좋아요 상위권을 휩쓸었습니다(최고 5,169개).</p>
+      <p>이런 댓글은 "bad", "worst", "hate" 같은 명시적 부정 키워드를 거의 쓰지 않습니다. 그래서 키워드 사전 분류기는 이를 전부 "중립"으로 놓쳤고, LLM으로 하나씩 다시 읽었을 때 비로소 드러났습니다.</p>
+    </div>
+
+    <div class="quote-grid">
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">부정</span>
+          <span class="quote-likes num">♥ 5,169</span>
+        </div>
+        <div class="quote-text">"Discs used to happen on PS5"</div>
+        <div class="quote-translation"><b>번역</b>"PS5에선 예전엔 디스크가 있었지"</div>
+        <div class="quote-src">브랜드 캠페인 · <a href="https://www.youtube.com/watch?v=S6Su0IfHRms" target="_blank" rel="noopener">It Happens On PS5</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">부정</span>
+          <span class="quote-likes num">♥ 1,560</span>
+        </div>
+        <div class="quote-text">"GREED HAS NO LIMITS"</div>
+        <div class="quote-translation"><b>번역</b>"탐욕에는 한계가 없다" <span style="opacity:0.75;">(PS 태그라인 "Play Has No Limits" 패러디)</span></div>
+        <div class="quote-src">브랜드 캠페인 · <a href="https://www.youtube.com/watch?v=S6Su0IfHRms" target="_blank" rel="noopener">It Happens On PS5</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">부정</span>
+          <span class="quote-likes num">♥ 842</span>
+        </div>
+        <div class="quote-text">"The DISContinuation of DISCS is such a DISCgrace."</div>
+        <div class="quote-translation"><b>번역</b>"디스크의 단종(DISContinuation)은 그야말로 굴욕(DISCgrace)이다" <span style="opacity:0.75;">(disc 말장난)</span></div>
+        <div class="quote-src">게임 트레일러 · <a href="https://www.youtube.com/watch?v=ueCeXnq4HOQ" target="_blank" rel="noopener">Silent Hill: Townfall</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">부정</span>
+          <span class="quote-likes num">♥ 742</span>
+        </div>
+        <div class="quote-text">"Play has physical limits"</div>
+        <div class="quote-translation"><b>번역</b>"플레이에는 물리적 한계가 있다" <span style="opacity:0.75;">(PS 태그라인 "Play Has No Limits" 패러디)</span></div>
+        <div class="quote-src">브랜드 이벤트 · <a href="https://www.youtube.com/watch?v=blh1v1dGJ2s" target="_blank" rel="noopener">Phantom Blade Zero – State of Play</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-attach);">애착</span>
+          <span class="quote-likes num">♥ 1,154</span>
+        </div>
+        <div class="quote-text">"Full Physical Discs Forever"</div>
+        <div class="quote-translation"><b>번역</b>"실물 디스크는 영원히"</div>
+        <div class="quote-src">브랜드 캠페인 · <a href="https://www.youtube.com/watch?v=S6Su0IfHRms" target="_blank" rel="noopener">It Happens On PS5</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-purchase);">구매의도</span>
+          <span class="quote-likes num">♥ 756</span>
+        </div>
+        <div class="quote-text">"I can't wait to hold this in my hands physically"</div>
+        <div class="quote-translation"><b>번역</b>"실물로 손에 쥐는 날이 빨리 왔으면 좋겠어요"</div>
+        <div class="quote-src">게임 트레일러 · <a href="https://www.youtube.com/watch?v=ueCeXnq4HOQ" target="_blank" rel="noopener">Silent Hill: Townfall</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-advocacy);">추천/옹호</span>
+          <span class="quote-likes num">♥ 63</span>
+        </div>
+        <div class="quote-text">"Order a Disc, always order a disc!"</div>
+        <div class="quote-translation"><b>번역</b>"디스크로 주문하세요, 항상 디스크로!"</div>
+        <div class="quote-src">게임 트레일러 · <a href="https://www.youtube.com/watch?v=2w1Lo7kodDU" target="_blank" rel="noopener">Order of the Sinking Star</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-loyalty);">충성</span>
+          <span class="quote-likes num">♥ 34</span>
+        </div>
+        <div class="quote-text">"Physical then, now and forever bro"</div>
+        <div class="quote-translation"><b>번역</b>"예전에도, 지금도, 앞으로도 계속 실물이지 형"</div>
+        <div class="quote-src">게임 트레일러 · <a href="https://www.youtube.com/watch?v=eFP07SswgQg" target="_blank" rel="noopener">Hunting Simulator 3</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-positive);">일반긍정</span>
+          <span class="quote-likes num">♥ 308</span>
+        </div>
+        <div class="quote-text">"It's like I'm physically there."</div>
+        <div class="quote-translation"><b>번역</b>"제가 그 자리에 실제로 있는 것 같아요." <span style="opacity:0.75;">(그래픽 퀄리티 칭찬 — 디스크 논쟁과 무관한 순수 긍정 사례)</span></div>
+        <div class="quote-src">게임 트레일러 · <a href="https://www.youtube.com/watch?v=ueCeXnq4HOQ" target="_blank" rel="noopener">Silent Hill: Townfall</a></div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">추천/옹호·충성·애착 유형은 이번 재분류에서 소수(각 5~7건)나마 처음으로 감지됐습니다 — 전부 "그래도 나는 계속 디스크를 산다"는, 보이콧과 반대 방향의 소수 의견입니다.</p>
+  </section>
+
+  <section id="bfi" class="wide">
+    <div class="section-head">
+      <p class="section-num">06 — 브랜드 팬덤 지수</p>
+      <h2>6개 지표를 하나의 점수로 (BFI)</h2>
+      <p class="section-desc">관심도·참여도·애착·충성도·옹호·구매의도 여섯 지표를 가중합산한 종합 지수입니다. 지금은 PlayStation 단독 계산이라 "몇 점이 좋은 건지"는 아직 판단할 수 없고, 추후 Xbox·Nintendo 데이터와 비교해야 의미가 생깁니다.</p>
+    </div>
+
+    <div class="bfi-hero">
+      <div><span class="bfi-score num">28.5</span><span class="bfi-score-max num"> / 100</span></div>
+      <div class="bfi-hero-label"><b>참여도</b>는 만점인데 <b>애착·충성도·옹호</b>가 바닥 — 디스크 드라이브 보이콧이 댓글창을 장악하면서 진짜 팬덤 신호가 묻힌 결과입니다.</div>
+    </div>
+
+    <div class="bfi-contrib-bar">
+      <div style="width:4.5%; background:var(--bfi-attention);" data-tooltip="관심도 4.5pt"></div>
+      <div style="width:20.0%; background:var(--bfi-engagement);" data-tooltip="참여도 20.0pt"></div>
+      <div style="width:0.6%; background:var(--bfi-attachment);" data-tooltip="애착 0.6pt"></div>
+      <div style="width:0.7%; background:var(--bfi-loyalty);" data-tooltip="충성도 0.7pt"></div>
+      <div style="width:0.6%; background:var(--bfi-advocacy);" data-tooltip="옹호 0.6pt"></div>
+      <div style="width:2.0%; background:var(--bfi-purchase);" data-tooltip="구매의도 2.0pt"></div>
+    </div>
+    <div class="dist-legend" style="margin-bottom:20px;">
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-attention);"></span>관심도 <b>4.5</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-engagement);"></span>참여도 <b>20.0</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-attachment);"></span>애착 <b>0.6</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-loyalty);"></span>충성도 <b>0.7</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-advocacy);"></span>옹호 <b>0.6</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--bfi-purchase);"></span>구매의도 <b>2.0</b></span>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp bfi">
+        <thead>
+          <tr>
+            <th>지표</th>
+            <th>가중치</th>
+            <th>실측값</th>
+            <th>환산 점수</th>
+            <th>기여 점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--bfi-attention);">관심도<small>Attention</small></td>
+            <td class="num">15%</td>
+            <td class="num">60,307 views/영상</td>
+            <td class="num">30.2</td>
+            <td class="num">4.5</td>
+          </tr>
+          <tr>
+            <td style="color:var(--bfi-engagement);">참여도<small>Engagement</small></td>
+            <td class="num">20%</td>
+            <td class="num">5.52%</td>
+            <td class="num">100.0</td>
+            <td class="num">20.0</td>
+          </tr>
+          <tr>
+            <td style="color:var(--bfi-attachment);">애착<small>Attachment</small></td>
+            <td class="num">20%</td>
+            <td class="num">0.30%</td>
+            <td class="num">3.0</td>
+            <td class="num">0.6</td>
+          </tr>
+          <tr>
+            <td style="color:var(--bfi-loyalty);">충성도<small>Loyalty</small></td>
+            <td class="num">20%</td>
+            <td class="num">0.36%</td>
+            <td class="num">3.6</td>
+            <td class="num">0.7</td>
+          </tr>
+          <tr>
+            <td style="color:var(--bfi-advocacy);">옹호<small>Advocacy</small></td>
+            <td class="num">15%</td>
+            <td class="num">0.42%</td>
+            <td class="num">4.2</td>
+            <td class="num">0.6</td>
+          </tr>
+          <tr>
+            <td style="color:var(--bfi-purchase);">구매의도<small>Purchase Intention</small></td>
+            <td class="num">10%</td>
+            <td class="num">3.01%</td>
+            <td class="num">20.1</td>
+            <td class="num">2.0</td>
+          </tr>
+          <tr style="font-weight:700;">
+            <td>합계</td>
+            <td class="num">100%</td>
+            <td></td>
+            <td></td>
+            <td class="num">28.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>정규화 기준은 잠정치입니다</b> — 여섯 지표 각각 "무엇이 100점인가"(기준값)를 아직 경쟁사 데이터 없이 제가 임의로 잡았습니다(코드에 문서화). 관심도는 현재 유튜브 조회수로 대체 중이며, 추후 구글 트렌드 검색량을 연동해 보완할 예정입니다. Xbox·Nintendo 데이터가 쌓이면 기준값을 실제 분포 기반으로 재보정해서, 지금의 28.5점을 "경쟁사 대비 몇 위"로 해석할 수 있게 됩니다.
+    </div>
+  </section>
+
+  <section id="console-war" class="wide">
+    <div class="section-head">
+      <p class="section-num">07 — 경쟁 브랜드 언급</p>
+      <h2>Xbox·Nintendo는 얼마나 언급됐나 (Console War)</h2>
+      <p class="section-desc">1,662개 댓글에서 Xbox·Nintendo(Switch 포함) 언급을 찾고, 언급된 맥락을 긍정/비교/비판/옹호로 나눴습니다. "switch to PC" 같은 동사 사용은 Nintendo Switch가 아니므로 제외했습니다.</p>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-tile">
+        <div class="stat-value num">4</div>
+        <div class="stat-label">경쟁 브랜드 언급 댓글</div>
+        <div class="stat-sub">1,662개 중 0.24%</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num">0</div>
+        <div class="stat-label">긍정·옹호 언급</div>
+        <div class="stat-sub">이번 표본에는 없음</div>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th>댓글</th>
+            <th>브랜드</th>
+            <th>유형</th>
+            <th>좋아요</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"we need our discs back otherwise I will switch to x box"</td>
+            <td>Xbox</td>
+            <td>비교 (이탈 위협)</td>
+            <td class="num">39</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"Sony getting ready to enter its Wii u era."</td>
+            <td>Nintendo</td>
+            <td>비판 (Wii U에 빗댐)</td>
+            <td class="num">7</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"I'll see if I can get a cartridge version for switch or a physical disc for a different platform"</td>
+            <td>Nintendo</td>
+            <td>비교 (대안 고려)</td>
+            <td class="num">2</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"WANT TO RIDE LIKE XBOX?"</td>
+            <td>Xbox</td>
+            <td>불분명 (스팸성)</td>
+            <td class="num">1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>왜 이렇게 적은가</b> — 디스크 드라이브 보이콧 이슈가 댓글창을 워낙 압도적으로 장악해서, 평소라면 나왔을 법한 "Xbox가 낫다/Nintendo가 낫다" 콘솔 전쟁 담론이 밀려난 것으로 보입니다. 뒤집어 보면, 이만큼 분노한 유저들도 "경쟁사로 갈아탄다"는 말은 거의 하지 않았다는 뜻이기도 합니다 — 유일한 이탈 위협(39개 좋아요)도 조건부("디스크를 돌려주지 않으면")였습니다.
+    </div>
+
+    <div class="verdict-box">
+      <p class="verdict-label">이번 리포트가 말해주는 PlayStation 팬덤 유형</p>
+      <p class="verdict-text">PlayStation 팬덤은 브랜드나 하드웨어 자체에 대한 충성이 아니라, <b>소장하고 싶은 특정 게임 IP·콘텐츠에 대한 애착</b>이 중심이다 — 그래서 콘텐츠를 "소유"하는 방식(디스크)이 위협받을 때는 격렬히 반발하면서도, 그 콘텐츠가 있는 한 플랫폼 자체를 떠나지는 않는다.</p>
+      <ul class="verdict-evidence">
+        <li>디스크 논쟁과 무관한 순수 긍정 댓글은 전부 특정 IP·캐릭터·연출을 향함 — "Mai Shiranui를 보고 클릭했다"(King of Fighters 크로스오버), "It's like I'm physically there"(Silent Hill 그래픽)</li>
+        <li>유일한 옹호(advocacy) 사례도 브랜드가 아니라 개별 게임의 실물판을 향함 — "This game ACTUALLY IS on physical, so go get it!"(TMNT)</li>
+        <li>격렬한 반발에도 경쟁사 이탈 언급은 0.24%뿐 — 좋아하는 IP가 이 플랫폼에 묶여 있기 때문으로 해석됨 (07번 섹션)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="methodology">
+    <div class="section-head">
+      <p class="section-num">08 — 방법론 · 한계</p>
+      <h2>어떻게 재분류했나</h2>
+    </div>
+    <div class="method-list">
+      <div class="method-item">
+        <span class="method-num num">01</span>
+        <div class="method-body"><b>영상 수집·분류</b> — YouTube Data API v3로 @PlayStation 채널의 최신 업로드 30개(쇼츠 제외)를 가져와 제목을 직접 읽고 5가지 유형으로 분류했습니다. (변경 없음)</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">02</span>
+        <div class="method-body"><b>댓글 수집</b> — 하드웨어(0건)를 제외한 28개 영상에서 관련도순 최대 60개씩(총 1,662개)을 가져왔습니다. (변경 없음)</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">03</span>
+        <div class="method-body"><b>1차 시도 — 키워드 사전 분류기</b> — <code>youtube-link-analyzer</code>의 규칙 기반 분류기(<code>sentiment.py</code>)로 라벨링. 중립 92.6%, 부정 0.7%라는 결과가 나왔지만, 이후 실제 내용과 크게 어긋난다는 게 드러났습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">04</span>
+        <div class="method-body"><b>2차 시도 — Claude API 개별 호출 (실패)</b> — 댓글마다 Claude Haiku 4.5를 한 번씩 호출하도록 구현했지만, 사용한 API 키의 크레딧 잔액 부족으로 모든 호출이 실패하고 조용히 규칙 기반 결과로 대체되고 있었습니다. 변경률이 정확히 0%인 것을 보고 발견해 결과를 폐기했습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">05</span>
+        <div class="method-body"><b>최종 — 분산 LLM 직접 판독</b> — API 크레딧 없이도 가능한 대안으로, 1,662개 댓글을 100개씩 17개 배치로 나눠 17개의 병렬 서브에이전트(각각 Claude)가 직접 읽고 판독했습니다. 배치 간 comment_id 중복·누락 없음을 검증한 뒤 병합했습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">06</span>
+        <div class="method-body"><b>핵심 결과</b> — 라벨의 78.3%(1,662개 중 1,302개)가 바뀌었고, 부정 비중이 0.7% → 70.9%로 드러났습니다. 원인은 "No Disc No Buy" 보이콧 운동의 풍자·패러디 표현을 키워드 매칭이 구조적으로 잡아낼 수 없었기 때문입니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">07</span>
+        <div class="method-body"><b>BFI 지수 계산</b> — <code>game-brand-fandom-collector/src/bfi.py</code>가 위 댓글·영상 데이터를 6개 지표(관심도·참여도·애착·충성도·옹호·구매의도)로 가중합산해 종합 점수(28.5/100)를 냅니다. 자세한 내용은 06번 섹션.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">08</span>
+        <div class="method-body"><b>경쟁 브랜드 언급 탐지</b> — <code>game-brand-fandom-collector/src/competitor_mentions.py</code>가 정규식으로 Xbox·Nintendo/Switch 언급을 찾아냅니다(동사 "switch to" 오탐 제외). 찾아낸 4건은 직접 읽고 긍정/비교/비판/옹호로 분류했습니다 — 표본이 너무 작아 자동 분류기를 만들 단계는 아닙니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">09</span>
+        <div class="method-body"><b>알려진 한계</b> — (1) 신제품·하드웨어 0건, 브랜드 캠페인 1건으로 표본이 작은 유형이 있습니다. (2) LLM 판독도 완벽하지 않으며, 서브에이전트 간 기준 편차가 약간 있을 수 있습니다. (3) 이 결과는 2026년 8월 시점 PS6 디스크 드라이브 논쟁이라는 특정 이슈에 강하게 묶여 있어, 시기가 다르면 전혀 다른 그림이 나올 수 있습니다. (4) BFI의 정규화 기준(TARGET)은 경쟁사 비교 전 잠정치입니다. (5) 경쟁 브랜드 언급 4건은 통계적으로 유의미하다고 보기 어려운 표본입니다.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>데이터 출처: YouTube Data API v3</span>
+    <span>댓글 분류: Claude(서브에이전트 17개 병렬 판독), 2026-08-21</span>
+    <span>영상 원본: game-brand-fandom-collector/data/processed/playstation_content_type_sample_20260820.csv</span>
+  </div>
+</footer>
+
+<style>
+  [data-tooltip] { position: relative; cursor: default; }
+  [data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    background: var(--text-primary); color: var(--bg); font-size: 11.5px; font-weight: 600;
+    padding: 5px 9px; border-radius: 6px; white-space: nowrap; z-index: 30; pointer-events: none;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  [data-tooltip]:hover::before {
+    content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--text-primary); margin-bottom: -2px; z-index: 30;
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<script>
+(function () {
+  var track = document.getElementById('donutTrack');
+  var prevBtn = document.getElementById('donutPrev');
+  var nextBtn = document.getElementById('donutNext');
+  var dotsWrap = document.getElementById('donutDots');
+  if (!track || !dotsWrap) return;
+
+  var cards = Array.prototype.slice.call(track.children);
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  function cardStep() {
+    var style = window.getComputedStyle(track);
+    var gap = parseFloat(style.columnGap || style.gap || '20') || 20;
+    return cards[0].getBoundingClientRect().width + gap;
+  }
+
+  function nearestIndex() {
+    var pos = track.scrollLeft;
+    var step = cardStep();
+    return Math.round(pos / step);
+  }
+
+  function setActiveDot(idx) {
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+  }
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(cards.length - 1, idx));
+    track.scrollTo({ left: idx * cardStep(), behavior: 'smooth' });
+    setActiveDot(idx);
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(nearestIndex() - 1); });
+  nextBtn.addEventListener('click', function () { goTo(nearestIndex() + 1); });
+  dots.forEach(function (d, i) { d.addEventListener('click', function () { goTo(i); }); });
+
+  var scrollTimer = null;
+  track.addEventListener('scroll', function () {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () { setActiveDot(nearestIndex()); }, 80);
+  });
+})();
+</script>
