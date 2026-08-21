@@ -222,6 +222,8 @@
   .topbar-date { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
 
   .app-content { flex: 1; padding: 28px 32px 50px; max-width: 1180px; width: 100%; }
+  .main-only { display: none; }
+  .main-only.active { display: block; }
   .content-header { margin-bottom: 22px; }
   .content-header .title { margin: 0 0 14px; }
   .content-header .meta-line { margin: 0; }
@@ -242,10 +244,7 @@
     .app-topbar, .app-content { padding-left: 18px; padding-right: 18px; }
   }
   .section-head { margin-bottom: 28px; }
-  .section-num {
-    font-size: 12.5px; color: var(--text-muted); margin: 0 0 6px;
-    letter-spacing: 0.03em; font-weight: 600;
-  }
+  .section-num { display: none; }
   h2 {
     font-weight: 700; font-size: 25px; margin: 0 0 8px;
     text-wrap: balance; letter-spacing: -0.01em;
@@ -503,22 +502,24 @@
   </header>
 
   <main class="app-content">
-    <div class="content-header">
-      <h1 class="title">PlayStation 공식 채널,<br><em>영상 30개</em>와 댓글 1,662개로 본 팬덤 반응</h1>
-      <div class="meta-line">
-        <span><b>채널</b> · youtube.com/@PlayStation</span>
-        <span><b>스캔 범위</b> · 최근 업로드 30개 (쇼츠 제외)</span>
-        <span><b>댓글 표본</b> · 영상당 최대 60개, 관련도순</span>
+    <div id="mainOnly" class="main-only active">
+      <div class="content-header">
+        <h1 class="title">PlayStation 공식 채널,<br><em>영상 30개</em>와 댓글 1,662개로 본 팬덤 반응</h1>
+        <div class="meta-line">
+          <span><b>채널</b> · youtube.com/@PlayStation</span>
+          <span><b>스캔 범위</b> · 최근 업로드 30개 (쇼츠 제외)</span>
+          <span><b>댓글 표본</b> · 영상당 최대 60개, 관련도순</span>
+        </div>
       </div>
-    </div>
-    <div class="verdict-box">
-      <p class="verdict-label">이번 리포트가 말해주는 PlayStation 팬덤 유형</p>
-      <p class="verdict-text">PlayStation 팬덤은 브랜드나 하드웨어 자체에 대한 충성이 아니라, <b>소장하고 싶은 특정 게임 IP·콘텐츠에 대한 애착</b>이 중심이다 — 그래서 콘텐츠를 "소유"하는 방식(디스크)이 위협받을 때는 격렬히 반발하면서도, 그 콘텐츠가 있는 한 플랫폼 자체를 떠나지는 않는다.</p>
-      <ul class="verdict-evidence">
-        <li>디스크 논쟁과 무관한 순수 긍정 댓글은 전부 특정 IP·캐릭터·연출을 향함 — "Mai Shiranui를 보고 클릭했다"(King of Fighters 크로스오버), "It's like I'm physically there"(Silent Hill 그래픽)</li>
-        <li>유일한 옹호(advocacy) 사례도 브랜드가 아니라 개별 게임의 실물판을 향함 — "This game ACTUALLY IS on physical, so go get it!"(TMNT)</li>
-        <li>격렬한 반발에도 경쟁사 이탈 언급은 0.24%뿐 — 좋아하는 IP가 이 플랫폼에 묶여 있기 때문으로 해석됨 (07번 섹션)</li>
-      </ul>
+      <div class="verdict-box">
+        <p class="verdict-label">이번 리포트가 말해주는 PlayStation 팬덤 유형</p>
+        <p class="verdict-text">PlayStation 팬덤은 브랜드나 하드웨어 자체에 대한 충성이 아니라, <b>소장하고 싶은 특정 게임 IP·콘텐츠에 대한 애착</b>이 중심이다 — 그래서 콘텐츠를 "소유"하는 방식(디스크)이 위협받을 때는 격렬히 반발하면서도, 그 콘텐츠가 있는 한 플랫폼 자체를 떠나지는 않는다.</p>
+        <ul class="verdict-evidence">
+          <li>디스크 논쟁과 무관한 순수 긍정 댓글은 전부 특정 IP·캐릭터·연출을 향함 — "Mai Shiranui를 보고 클릭했다"(King of Fighters 크로스오버), "It's like I'm physically there"(Silent Hill 그래픽)</li>
+          <li>유일한 옹호(advocacy) 사례도 브랜드가 아니라 개별 게임의 실물판을 향함 — "This game ACTUALLY IS on physical, so go get it!"(TMNT)</li>
+          <li>격렬한 반발에도 경쟁사 이탈 언급은 0.24%뿐 — 좋아하는 IP가 이 플랫폼에 묶여 있기 때문으로 해석됨 (07번 섹션)</li>
+        </ul>
+      </div>
     </div>
 
   <section id="distribution" class="report-section active">
@@ -1600,10 +1601,15 @@
   if (!links.length || !sections.length) return;
 
   var contentEl = document.querySelector('.app-content');
+  var mainOnlyEl = document.getElementById('mainOnly');
+  var MAIN_TAB_ID = 'distribution';
 
   function activate(id, push) {
     sections.forEach(function (s) { s.classList.toggle('active', s.id === id); });
     links.forEach(function (l) { l.classList.toggle('active', l.dataset.tab === id); });
+    if (mainOnlyEl) {
+      mainOnlyEl.classList.toggle('active', id === MAIN_TAB_ID);
+    }
     if (push !== false) {
       history.replaceState(null, '', '#' + id);
     }
