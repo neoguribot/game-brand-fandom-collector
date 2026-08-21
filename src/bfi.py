@@ -119,20 +119,53 @@ def compute_bfi(videos_csv: Path, comments_csv: Path, brand: str) -> BFIResult:
     return BFIResult(brand=brand, raw=raw, scores=scores, total=total)
 
 
+DISPLAY_NAMES_KO = {
+    "attention": "관심도",
+    "engagement": "참여도",
+    "attachment": "애착",
+    "loyalty": "충성도",
+    "advocacy": "옹호",
+    "purchase_intention": "구매의도",
+}
+
+
+def _display_width(s: str) -> int:
+    """Treat CJK characters as 2 columns wide, everything else as 1."""
+    width = 0
+    for ch in s:
+        code = ord(ch)
+        if (
+            0x1100 <= code <= 0x115F  # Hangul Jamo
+            or 0x2E80 <= code <= 0xA4CF  # CJK radicals .. Yi
+            or 0xAC00 <= code <= 0xD7A3  # Hangul syllables
+            or 0xF900 <= code <= 0xFAFF  # CJK compat ideographs
+            or 0xFF00 <= code <= 0xFF60  # fullwidth forms
+        ):
+            width += 2
+        else:
+            width += 1
+    return width
+
+
+def _ljust(s: str, width: int) -> str:
+    return s + " " * max(0, width - _display_width(s))
+
+
 def _format_raw(dim: str, value: float) -> str:
     if dim == "attention":
-        return f"{value:,.0f} views/video"
+        return f"{value:,.0f} 조회수/영상"
     return f"{value * 100:.2f}%"
 
 
 def print_report(result: BFIResult) -> None:
-    print(f"\nBrand Fandom Index — {result.brand}")
+    print(f"\n브랜드 팬덤 지수(BFI) — {result.brand}")
     print("=" * 66)
-    print(f"{'Dimension':<20}{'Weight':>8}{'Raw':>20}{'Score':>9}{'Pts':>9}")
+    print(f"{_ljust('지표', 20)}{'가중치':>8}{'실측값':>20}{'환산점수':>9}{'기여점수':>9}")
     for dim, weight_pct, raw, score, points in result.breakdown_rows():
-        print(f"{dim:<20}{weight_pct:>7.0f}%{_format_raw(dim, raw):>20}{score:>8.1f}{points:>9.1f}")
+        label = DISPLAY_NAMES_KO[dim]
+        print(f"{_ljust(label, 20)}{weight_pct:>7.0f}%{_format_raw(dim, raw):>20}{score:>8.1f}{points:>9.1f}")
     print("-" * 66)
-    print(f"{'TOTAL':<20}{'100%':>8}{'':>20}{'':>9}{result.total:>9.1f}")
+    print(f"{_ljust('합계', 20)}{'100%':>8}{'':>20}{'':>9}{result.total:>9.1f}")
 
 
 if __name__ == "__main__":
