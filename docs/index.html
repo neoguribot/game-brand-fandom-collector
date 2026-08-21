@@ -175,6 +175,11 @@
     padding: 14px 14px; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s, border-color 0.15s;
   }
   .jumpnav a:hover { color: var(--text-primary); }
+  .jumpnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* Tab mode: only the active .report-section is shown */
+  .report-section { display: none; }
+  .report-section.active { display: block; }
 
   section { padding: 56px 0; border-bottom: 1px solid var(--border); }
   section:last-of-type { border-bottom: none; }
@@ -441,21 +446,21 @@
 </div>
 
 <nav class="jumpnav">
-  <div class="jumpnav-inner">
-    <a href="#distribution">콘텐츠 유형 분포</a>
-    <a href="#categories">유형별 영상</a>
-    <a href="#sentiment">댓글 감정 전체</a>
-    <a href="#compare">유형별 비교</a>
-    <a href="#pattern">주목할 패턴</a>
-    <a href="#bfi">BFI 지수</a>
-    <a href="#console-war">경쟁 브랜드 언급</a>
-    <a href="#methodology">방법론·한계</a>
+  <div class="jumpnav-inner" id="jumpnavInner">
+    <a href="#distribution" data-tab="distribution" class="active">콘텐츠 유형 분포</a>
+    <a href="#categories" data-tab="categories">유형별 영상</a>
+    <a href="#sentiment" data-tab="sentiment">댓글 감정 전체</a>
+    <a href="#compare" data-tab="compare">유형별 비교</a>
+    <a href="#pattern" data-tab="pattern">주목할 패턴</a>
+    <a href="#bfi" data-tab="bfi">BFI 지수</a>
+    <a href="#console-war" data-tab="console-war">경쟁 브랜드 언급</a>
+    <a href="#methodology" data-tab="methodology">방법론·한계</a>
   </div>
 </nav>
 
 <div class="wrap">
 
-  <section id="distribution">
+  <section id="distribution" class="report-section active">
     <div class="section-head">
       <p class="section-num">01 — 콘텐츠 유형 분포</p>
       <h2>최근 30개 영상, 무엇을 올렸나</h2>
@@ -479,7 +484,7 @@
     </div>
   </section>
 
-  <section id="categories" class="wide">
+  <section id="categories" class="wide report-section">
     <div class="section-head">
       <p class="section-num">02 — 유형별 영상</p>
       <h2>카테고리별 영상 · 댓글 감정 구성</h2>
@@ -966,7 +971,7 @@
     </div>
   </section>
 
-  <section id="sentiment">
+  <section id="sentiment" class="report-section">
     <div class="section-head">
       <p class="section-num">03 — 댓글 감정 전체</p>
       <h2>1,662개 댓글, 실제로는 어떤 반응이었나</h2>
@@ -1014,7 +1019,7 @@
     </div>
   </section>
 
-  <section id="compare" class="wide">
+  <section id="compare" class="wide report-section">
     <div class="section-head">
       <p class="section-num">04 — 유형별 비교</p>
       <h2>콘텐츠 유형에 따라 댓글 반응이 다른가</h2>
@@ -1192,7 +1197,7 @@
     </div>
   </section>
 
-  <section id="pattern">
+  <section id="pattern" class="report-section">
     <div class="section-head">
       <p class="section-num">05 — 주목할 패턴</p>
       <h2>"No Disc No Buy" — 채널 전체를 뒤덮은 보이콧</h2>
@@ -1290,7 +1295,7 @@
     <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">추천/옹호·충성·애착 유형은 이번 재분류에서 소수(각 5~7건)나마 처음으로 감지됐습니다 — 전부 "그래도 나는 계속 디스크를 산다"는, 보이콧과 반대 방향의 소수 의견입니다.</p>
   </section>
 
-  <section id="bfi" class="wide">
+  <section id="bfi" class="wide report-section">
     <div class="section-head">
       <p class="section-num">06 — 브랜드 팬덤 지수</p>
       <h2>6개 지표를 하나의 점수로 (BFI)</h2>
@@ -1389,7 +1394,7 @@
     </div>
   </section>
 
-  <section id="console-war" class="wide">
+  <section id="console-war" class="wide report-section">
     <div class="section-head">
       <p class="section-num">07 — 경쟁 브랜드 언급</p>
       <h2>Xbox·Nintendo는 얼마나 언급됐나 (Console War)</h2>
@@ -1453,7 +1458,7 @@
     </div>
   </section>
 
-  <section id="methodology">
+  <section id="methodology" class="report-section">
     <div class="section-head">
       <p class="section-num">08 — 방법론 · 한계</p>
       <h2>어떻게 재분류했나</h2>
@@ -1526,6 +1531,43 @@
 <div id="chartTooltip"></div>
 
 <script>
+(function () {
+  // Tab mode: jumpnav links switch the visible .report-section instead of
+  // scrolling to it. Falls back gracefully to plain anchor behavior if the
+  // sections/links aren't found.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.jumpnav a[data-tab]'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.report-section'));
+  if (!links.length || !sections.length) return;
+
+  var navEl = document.querySelector('nav.jumpnav');
+
+  function activate(id, push) {
+    sections.forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    links.forEach(function (l) { l.classList.toggle('active', l.dataset.tab === id); });
+    if (push !== false) {
+      history.replaceState(null, '', '#' + id);
+    }
+    // Scroll just enough to bring the nav (and the newly active section right
+    // below it) into view — not all the way to the top past the masthead.
+    if (navEl && navEl.getBoundingClientRect().top < 0) {
+      navEl.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      activate(link.dataset.tab);
+    });
+  });
+
+  // Support deep-linking: if the URL already has a matching hash on load, show that tab.
+  var initial = (location.hash || '').replace('#', '');
+  if (initial && sections.some(function (s) { return s.id === initial; })) {
+    activate(initial, false);
+  }
+})();
+
 (function () {
   // Delegated hover tooltip for every [data-tooltip] element (HTML bars AND
   // SVG circles). A fixed-position element appended once to the body, so it
