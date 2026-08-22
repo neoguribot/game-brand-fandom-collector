@@ -1,0 +1,645 @@
+<meta charset="utf-8">
+<title>PlayStation 검색 트렌드 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f4f5fb;
+    --surface: #ffffff;
+    --surface-2: #edeefa;
+    --surface-3: #e3e5f4;
+    --border: #dfe1f0;
+    --text: #16171f;
+    --text-secondary: #454758;
+    --text-muted: #7c7e93;
+    --accent: #5b52f0;
+    --accent-soft: #ecebfe;
+    --good: #1f9d63;
+    --good-soft: #e4f7ee;
+    --bad: #cf4a63;
+    --bad-soft: #fbe9ec;
+    --shadow: 0 10px 24px -14px rgba(30, 20, 90, 0.22);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e0f16;
+      --surface: #171822;
+      --surface-2: #1e202c;
+      --surface-3: #262838;
+      --border: #2b2d3d;
+      --text: #f1f1f7;
+      --text-secondary: #b9bacb;
+      --text-muted: #83849c;
+      --accent: #8f89ff;
+      --accent-soft: #232049;
+      --good: #37c17f;
+      --good-soft: #163726;
+      --bad: #e97186;
+      --bad-soft: #3a1f28;
+      --shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e0f16;
+    --surface: #171822;
+    --surface-2: #1e202c;
+    --surface-3: #262838;
+    --border: #2b2d3d;
+    --text: #f1f1f7;
+    --text-secondary: #b9bacb;
+    --text-muted: #83849c;
+    --accent: #8f89ff;
+    --accent-soft: #232049;
+    --good: #37c17f;
+    --good-soft: #163726;
+    --bad: #e97186;
+    --bad-soft: #3a1f28;
+    --shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.55);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14.5px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  h1, h2, h3 { font-weight: 800; letter-spacing: -0.015em; text-wrap: balance; color: var(--text); }
+  h1 { font-size: 26px; margin: 0; }
+  h2 { font-size: 19px; margin: 0; }
+  h3 { font-size: 14.5px; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  /* ---------- shell ---------- */
+  .app-shell { display: flex; align-items: stretch; min-height: 100vh; }
+
+  .app-sidebar {
+    width: 254px; flex-shrink: 0; background: #13131c; color: #a6a7b8;
+    padding: 20px 12px 16px; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .sidebar-brand {
+    display: flex; align-items: center; gap: 9px; padding: 4px 10px 4px;
+    color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -0.01em;
+  }
+  .sidebar-sub {
+    padding: 0 10px 18px; font-size: 11.5px; color: #7678a0; font-weight: 600;
+  }
+  .sidebar-group-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+    color: #5c5e70; padding: 0 12px 8px;
+  }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-nav a {
+    display: flex; align-items: center; gap: 11px; padding: 10px 12px; margin: 0;
+    border-radius: 9px; color: #9294a8; font-size: 13.5px; font-weight: 600;
+    text-decoration: none; transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .sidebar-nav a svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; transition: opacity 0.15s; }
+  .sidebar-nav a:hover { background: #1e2029; color: #fff; }
+  .sidebar-nav a:hover svg { opacity: 1; }
+  .sidebar-nav a.active {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 65%, transparent);
+  }
+  .sidebar-nav a.active svg { opacity: 1; }
+  .sidebar-nav a:active { transform: scale(0.98); }
+  .sidebar-nav a:focus-visible, .app-topbar a:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .sidebar-footer { margin-top: auto; padding: 14px 12px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .sidebar-footer a { display: flex; align-items: center; gap: 8px; color: #6f7188; font-size: 12px; font-weight: 600; text-decoration: none; transition: color 0.15s; }
+  .sidebar-footer a:hover { color: #fff; }
+  .sidebar-footer svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .app-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .app-topbar {
+    position: sticky; top: 0; z-index: 15; background: var(--surface);
+    border-bottom: 1px solid var(--border); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .eyebrow { margin: 0; font-size: 12.5px; font-weight: 700; color: var(--accent); letter-spacing: 0.01em; }
+  .topbar-date { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+
+  .app-content { flex: 1; padding: 30px 32px 56px; max-width: 1080px; width: 100%; }
+  .report-section { display: none; }
+  .report-section.active { display: block; animation: fadeIn 0.25s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .section-head { margin-bottom: 22px; }
+  .section-head h2 { margin-bottom: 8px; }
+  .section-desc { color: var(--text-secondary); font-size: 14px; max-width: 66ch; }
+
+  .content-header { margin-bottom: 22px; }
+  .content-header .title { margin: 0 0 12px; }
+  .meta-line { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 700; }
+
+  .app-footer {
+    padding: 18px 32px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted);
+    display: flex; flex-wrap: wrap; gap: 6px 20px;
+  }
+
+  @media (max-width: 860px) {
+    .app-shell { flex-direction: column; }
+    .app-sidebar { width: 100%; height: auto; position: static; padding-bottom: 8px; }
+    .sidebar-nav { flex-direction: row; overflow-x: auto; }
+    .sidebar-nav a { flex-shrink: 0; white-space: nowrap; }
+    .app-topbar, .app-content { padding-left: 18px; padding-right: 18px; }
+  }
+
+  /* ---------- verdict box ---------- */
+  .verdict-box {
+    background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+    border-radius: 16px; padding: 22px 24px; margin-bottom: 26px;
+  }
+  .verdict-label { font-size: 12px; font-weight: 800; letter-spacing: 0.03em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  .verdict-text { font-size: 16px; line-height: 1.65; color: var(--text); margin-bottom: 14px; }
+  .verdict-text b { color: var(--accent); }
+  .verdict-evidence { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 7px; }
+  .verdict-evidence li { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ---------- stat pills ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-bottom: 8px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 18px 16px; box-shadow: var(--shadow);
+  }
+  .stat-card .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+  .stat-card .stat-value { font-size: 25px; font-weight: 800; color: var(--text); }
+  .stat-card .stat-value.accent { color: var(--accent); }
+  .stat-card .stat-value.good { color: var(--good); }
+  .stat-card .stat-note { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+
+  /* ---------- generic card ---------- */
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px 26px; margin-bottom: 20px; box-shadow: var(--shadow);
+  }
+  .panel h3 { margin-bottom: 12px; }
+  .panel-note { font-size: 12.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+
+  /* ---------- bar rows ---------- */
+  .bar-row { display: flex; align-items: center; gap: 14px; padding: 7px 0; }
+  .bar-row .bar-label { width: 128px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--text); }
+  .bar-row .bar-label small { display: block; font-weight: 500; color: var(--text-muted); font-size: 11px; margin-top: 1px; }
+  .bar-track {
+    flex: 1; height: 15px; background: var(--surface-2); border-radius: 8px; overflow: hidden; position: relative;
+  }
+  .bar-fill { height: 100%; border-radius: 8px; background: var(--accent); transition: filter 0.15s; }
+  .bar-fill.muted { background: var(--surface-3); }
+  .bar-fill:hover { filter: brightness(1.08); }
+  .bar-value { width: 52px; text-align: right; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .bar-value.muted-text { color: var(--text-muted); font-weight: 600; }
+
+  .legend-row { display: flex; flex-wrap: wrap; gap: 14px 20px; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .legend-row .swatch { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+  /* ---------- localization compare ---------- */
+  .locale-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .locale-card { background: var(--surface-2); border-radius: 12px; padding: 16px 18px; }
+  .locale-card .locale-region { font-size: 12.5px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; }
+  .locale-arrow { display: flex; align-items: center; gap: 10px; }
+  .locale-arrow .from { font-size: 15px; color: var(--text-muted); font-weight: 700; }
+  .locale-arrow svg { width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0; }
+  .locale-arrow .to { font-size: 20px; font-weight: 800; color: var(--accent); }
+  .locale-arrow .to.flat { color: var(--text-muted); }
+  .locale-card .locale-note { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; }
+
+  /* ---------- event cards ---------- */
+  .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px 18px; box-shadow: var(--shadow); }
+  .event-card .event-title { font-size: 14.5px; font-weight: 800; margin-bottom: 2px; }
+  .event-card .event-date { font-size: 11.5px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; margin-bottom: 14px; }
+  .event-chart-wrap { position: relative; }
+  .event-chart-wrap svg { width: 100%; height: auto; display: block; }
+  .event-point-label { font-size: 10.5px; fill: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+  .event-point-value { font-size: 12px; font-weight: 700; fill: var(--text); font-family: "IBM Plex Mono", monospace; }
+  .event-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .event-badge {
+    font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .event-badge.pos { background: var(--good-soft); color: var(--good); }
+  .event-badge.neg { background: var(--bad-soft); color: var(--bad); }
+  .event-note { font-size: 12px; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+
+  /* ---------- query chips / table ---------- */
+  .chip-list { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 20px; padding: 7px 13px 7px 10px; font-size: 13px;
+  }
+  .chip .rank { background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 800; width: 17px; height: 17px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chip .vol { color: var(--text-muted); font-family: "IBM Plex Mono", monospace; font-size: 11.5px; }
+
+  table.qtable { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  table.qtable th, table.qtable td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  table.qtable th { color: var(--text-muted); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  table.qtable td.cat { font-weight: 700; color: var(--text); white-space: nowrap; }
+  .overflow-x { overflow-x: auto; }
+
+  /* ---------- methodology list ---------- */
+  .method-list { display: flex; flex-direction: column; }
+  .method-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .method-item:last-child { border-bottom: none; }
+  .method-num {
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; background: var(--surface-2);
+    color: var(--accent); font-weight: 800; font-size: 12.5px; display: flex; align-items: center; justify-content: center;
+  }
+  .method-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; }
+  .method-body b { color: var(--text); }
+  .method-body code {
+    background: var(--surface-2); padding: 1.5px 6px; border-radius: 5px; font-family: "IBM Plex Mono", monospace; font-size: 12px;
+  }
+
+  .open-q-tag {
+    display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em; color: var(--bad);
+    background: var(--bad-soft); padding: 2px 8px; border-radius: 20px; margin-right: 8px; vertical-align: 1px;
+  }
+</style>
+
+<div class="app-shell">
+<aside class="app-sidebar">
+  <div class="sidebar-brand">📈 <span>PlayStation 트렌드</span></div>
+  <p class="sidebar-sub">Google Trends 검색 관심도 분석</p>
+  <p class="sidebar-group-label">리포트 섹션</p>
+  <nav class="sidebar-nav" id="jumpnav">
+    <a href="#overview" data-tab="overview" class="active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 5.2l1.1 2.3 2.5.3-1.8 1.7.4 2.5L8 10.8l-2.2 1.2.4-2.5-1.8-1.7 2.5-.3z" fill="currentColor" stroke="none"/></svg>개요</a>
+    <a href="#global" data-tab="global"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12M8 2c2 2 2 10 0 12M8 2c-2 2-2 10 0 12"/></svg>전 세계 관심도</a>
+    <a href="#region" data-tab="region"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14.2s5-4.6 5-8.2a5 5 0 10-10 0c0 3.6 5 8.2 5 8.2z"/><circle cx="8" cy="6" r="1.8" fill="currentColor" stroke="none"/></svg>지역별 관심도</a>
+    <a href="#events" data-tab="events"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>이벤트 반응</a>
+    <a href="#queries" data-tab="queries"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.8" cy="6.8" r="4.3"/><path d="M10 10l3.5 3.5"/></svg>관련 검색어</a>
+    <a href="#methodology" data-tab="methodology"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>방법론·한계</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://github.com/neoguribot/game-brand-fandom-collector" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span>GitHub 저장소</span>
+    </a>
+  </div>
+</aside>
+
+<div class="app-main">
+  <header class="app-topbar">
+    <p class="eyebrow">Google Trends 분석 · PlayStation 전용 대시보드</p>
+    <span class="topbar-date">조사기간 · 2025-08-22 ~ 2026-08-22</span>
+  </header>
+
+  <main class="app-content">
+    <div class="content-header">
+      <h1 class="title">PlayStation 검색 관심도,<br>Google Trends 12개월로 본 패턴</h1>
+      <div class="meta-line">
+        <span><b>비교 기준</b> · PlayStation / Xbox / Nintendo (Web Search)</span>
+        <span><b>수집 도구</b> · pytrends (비공식 Google Trends API)</span>
+        <span><b>지역</b> · 전 세계 + 미국·일본·한국·영국</span>
+      </div>
+    </div>
+
+    <section id="overview" class="report-section active">
+      <div class="verdict-box">
+        <p class="verdict-label">이번 데이터가 말해주는 PlayStation 검색 관심도 패턴</p>
+        <p class="verdict-text">PlayStation은 검색 관심도 <b>수치 자체는 3사 중 가장 낮지만</b>, 이벤트 이후에도 관심이 꺼지지 않고 <b>이어지는 유일한 "지속형" 브랜드</b>다 — 화제성이 아니라 콘텐츠에 대한 지속적 관심이 검색 패턴에도 그대로 나타난다.</p>
+        <ul class="verdict-evidence">
+          <li>전 세계 평균 검색 관심도 36.4로 Xbox(74.0)·Nintendo(45.8)보다 낮음 — 실제 콘솔 판매량 1위 브랜드임에도 검색 관심도는 최저인 특이 사례</li>
+          <li>State of Play(2025-09-24) 이후 일주일 평균 관심도가 이벤트 이전보다 오히려 <b>+19.7%</b> 더 높게 유지됨 — Nintendo Direct·Xbox Showcase는 당일 급등 후 일주일 뒤 거의 원상복구</li>
+          <li>자국 시장(일본)에서도 3사 중 최저(현지어 포함 30.8) — 검색 관심도가 실제 시장 지배력과 비례하지 않음을 보여주는 근거</li>
+        </ul>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <p class="stat-label">전 세계 평균 검색 관심도</p>
+          <p class="stat-value">36.4<span style="font-size:13px;color:var(--text-muted);font-weight:700;"> / 100</span></p>
+          <p class="stat-note">3사 중 최저 (Xbox 74.0 · Nintendo 45.8)</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">이벤트 후 관심도 지속 상승</p>
+          <p class="stat-value good">+19.7%</p>
+          <p class="stat-note">State of Play(9/24) 이후 1주 평균, 3사 중 유일한 지속형 반응</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">자국 시장(일본) 순위</p>
+          <p class="stat-value accent">3위 / 3</p>
+          <p class="stat-note">현지어 포함 30.8점, Nintendo(57.4)에 못 미침</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">최상위 Rising Query</p>
+          <p class="stat-value" style="font-size:17px;">"playstation news today"</p>
+          <p class="stat-note">검색량 지수 2,600 — PS5 신규 하드웨어·신작 소식 수요 반영</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="global" class="report-section">
+      <div class="section-head">
+        <h2>전 세계 검색 관심도</h2>
+        <p class="section-desc">지난 12개월(2025-08-22~2026-08-22) 전 세계 Web Search 기준 평균 관심도입니다. Xbox·Nintendo 수치는 PlayStation의 상대적 위치를 보여주는 참고용 비교선입니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>브랜드별 평균 검색 관심도 (전 세계, 검색어 방식)</h3>
+        <div class="bar-row">
+          <span class="bar-label">PlayStation</span>
+          <div class="bar-track"><div class="bar-fill" style="width:36.4%" title="PlayStation 36.4"></div></div>
+          <span class="bar-value num">36.4</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label" style="color:var(--text-muted);">Xbox<small>참고</small></span>
+          <div class="bar-track"><div class="bar-fill muted" style="width:74.0%" title="Xbox 74.0"></div></div>
+          <span class="bar-value num muted-text">74.0</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label" style="color:var(--text-muted);">Nintendo<small>참고</small></span>
+          <div class="bar-track"><div class="bar-fill muted" style="width:45.8%" title="Nintendo 45.8"></div></div>
+          <span class="bar-value num muted-text">45.8</span>
+        </div>
+        <p class="panel-note">Xbox는 "Xbox"라는 검색어 자체가 Game Pass 등 서비스명까지 포괄하는 범용어라 실질 브랜드 관심보다 부풀려졌을 가능성이 있습니다(관련 검색어에서 game pass, xbox game pass가 상위 항목으로 확인됨). PlayStation의 낮은 수치를 "관심 부족"으로만 해석하기 전에 이 점을 함께 고려해야 합니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>측정 방식에 따른 PlayStation 수치 차이 — Topic 왜곡 주의</h3>
+        <div class="locale-compare">
+          <div class="locale-card">
+            <p class="locale-region">Topic(mid) 3사 조합 비교 시</p>
+            <div class="locale-arrow"><span class="from num">4~5</span></div>
+            <p class="locale-note">PlayStation 단독으로는 정상 범위(평균 86.5)지만, 3사를 함께 비교하면 비정상적으로 눌려 나오는 정규화 왜곡이 확인됨</p>
+          </div>
+          <div class="locale-card">
+            <p class="locale-region">PlayStation Topic 단독 조회 시</p>
+            <div class="locale-arrow"><span class="to num">86.5</span></div>
+            <p class="locale-note">이 차이 때문에 이 대시보드의 모든 수치는 <b style="color:var(--text);">검색어(키워드) 방식</b>만 사용했습니다</p>
+          </div>
+        </div>
+        <p class="panel-note">원인 미확정 — 다른 PlayStation Topic 후보로 재검증이 필요한 항목입니다 (방법론·한계 탭 참고).</p>
+      </div>
+
+      <div class="panel">
+        <h3>연중 최대 급등 시점</h3>
+        <p class="section-desc" style="margin-bottom:14px;">PlayStation을 포함한 3사 공통으로 검색 관심도가 가장 크게 튀는 구간입니다.</p>
+        <div class="chip-list">
+          <span class="chip"><span class="rank">1</span>2025-12-21 주 — 크리스마스 시즌</span>
+          <span class="chip"><span class="rank">2</span>2025-11-23 주 — 블랙프라이데이 시즌</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="region" class="report-section">
+      <div class="section-head">
+        <h2>지역별 검색 관심도</h2>
+        <p class="section-desc">미국·영국은 영어 검색어 기준, 일본·한국은 현지어를 포함해 재수집한 값(권장 기준)입니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>PlayStation 지역별 평균 관심도</h3>
+        <div class="bar-row">
+          <span class="bar-label">일본<small>현지어 포함</small></span>
+          <div class="bar-track"><div class="bar-fill" style="width:30.8%" title="일본 30.8"></div></div>
+          <span class="bar-value num">30.8</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">미국<small>영어 검색</small></span>
+          <div class="bar-track"><div class="bar-fill" style="width:24.6%" title="미국 24.6"></div></div>
+          <span class="bar-value num">24.6</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">영국<small>영어 검색</small></span>
+          <div class="bar-track"><div class="bar-fill" style="width:22.1%" title="영국 22.1"></div></div>
+          <span class="bar-value num">22.1</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">한국<small>현지어 포함</small></span>
+          <div class="bar-track"><div class="bar-fill" style="width:13.5%" title="한국 13.5"></div></div>
+          <span class="bar-value num">13.5</span>
+        </div>
+        <p class="panel-note">Google Trends는 국가 내 상대 정규화 방식이라, 한국 수치가 가장 낮다고 해서 "한국인의 관심이 낮다"고 해석할 수는 없습니다 — 다른 검색어 대비 이 브랜드의 상대 비중이 낮다는 의미입니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>현지어 보정 효과 — 영어 전용 대비 변화</h3>
+        <p class="section-desc" style="margin-bottom:14px;">최초 수집은 영어 검색어만 사용해 일본·한국 수치가 과소평가됐을 가능성이 있어, 현지어 표기를 포함해 재수집했습니다.</p>
+        <div class="locale-compare">
+          <div class="locale-card">
+            <p class="locale-region">일본 · PlayStation</p>
+            <div class="locale-arrow">
+              <span class="from num">16.1</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+              <span class="to num">30.8</span>
+            </div>
+            <p class="locale-note">현지어(プレイステーション/プレステ) 포함 시 거의 2배로 상승 — 그래도 일본 1위 Nintendo(57.4)에는 못 미침</p>
+          </div>
+          <div class="locale-card">
+            <p class="locale-region">한국 · PlayStation</p>
+            <div class="locale-arrow">
+              <span class="from num">13.5</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+              <span class="to num flat">13.5</span>
+            </div>
+            <p class="locale-note"><span class="open-q-tag">미해결</span>"플레이스테이션" 표기를 추가해도 수치가 전혀 변하지 않음 — 원인 불명, 추가 검증 필요</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="events" class="report-section">
+      <div class="section-head">
+        <h2>이벤트 전후 반응</h2>
+        <p class="section-desc">PlayStation 대표 이벤트 3건의 D-7~D-1 평균(행사 전) → 행사 당일 → D+1~D+7 평균(행사 후) 검색 관심도 흐름입니다.</p>
+      </div>
+
+      <div class="event-grid">
+        <div class="event-card">
+          <p class="event-title">State of Play (Saros / Wolverine)</p>
+          <p class="event-date">2025-09-24</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="0 0 300 130">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,36.9 150,33.0 260,22.4" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="36.9" r="4" fill="var(--good)"/>
+              <circle cx="150" cy="33.0" r="4" fill="var(--good)"/>
+              <circle cx="260" cy="22.4" r="5" fill="var(--surface)" stroke="var(--good)" stroke-width="2.5"/>
+              <text x="40" y="16" text-anchor="middle" class="event-point-value">73.1</text>
+              <text x="150" y="16" text-anchor="middle" class="event-point-value">77.0</text>
+              <text x="260" y="12" text-anchor="middle" class="event-point-value">87.6</text>
+              <text x="40" y="134" text-anchor="middle" class="event-point-label">행사 전 평균</text>
+              <text x="150" y="134" text-anchor="middle" class="event-point-label">행사 당일</text>
+              <text x="260" y="134" text-anchor="middle" class="event-point-label">행사 후 평균</text>
+            </svg>
+          </div>
+          <div class="event-badges">
+            <span class="event-badge pos">당일 +5.3%</span>
+            <span class="event-badge pos">행사 후 +19.7%</span>
+          </div>
+          <p class="event-note">당일 반응은 작지만 이후 한 주간 관심도가 오히려 더 높게 유지됨 — 3건 중 유일한 지속형 반응.</p>
+        </div>
+
+        <div class="event-card">
+          <p class="event-title">State of Play (God of War Laufey)</p>
+          <p class="event-date">2026-06-02</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="0 0 300 130">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,24.7 150,18.0 260,25.1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="24.7" r="4" fill="var(--accent)"/>
+              <circle cx="150" cy="18.0" r="4" fill="var(--accent)"/>
+              <circle cx="260" cy="25.1" r="5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+              <text x="40" y="16" text-anchor="middle" class="event-point-value">85.3</text>
+              <text x="150" y="10" text-anchor="middle" class="event-point-value">92.0</text>
+              <text x="260" y="16" text-anchor="middle" class="event-point-value">84.9</text>
+              <text x="40" y="134" text-anchor="middle" class="event-point-label">행사 전 평균</text>
+              <text x="150" y="134" text-anchor="middle" class="event-point-label">행사 당일</text>
+              <text x="260" y="134" text-anchor="middle" class="event-point-label">행사 후 평균</text>
+            </svg>
+          </div>
+          <div class="event-badges">
+            <span class="event-badge pos">당일 +7.9%</span>
+            <span class="event-badge neg">행사 후 -0.5%</span>
+          </div>
+          <p class="event-note">당일 반응 후 거의 이벤트 이전 수준으로 안정적으로 복귀 — 급락도 급등도 아닌 완만한 흐름.</p>
+        </div>
+
+        <div class="event-card">
+          <p class="event-title">Ghost of Yotei 정식 출시</p>
+          <p class="event-date">2025-10-02</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="0 0 300 130">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,22.4 150,22.0 260,27.3" fill="none" stroke="var(--bad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="22.4" r="4" fill="var(--bad)"/>
+              <circle cx="150" cy="22.0" r="4" fill="var(--bad)"/>
+              <circle cx="260" cy="27.3" r="5" fill="var(--surface)" stroke="var(--bad)" stroke-width="2.5"/>
+              <text x="40" y="14" text-anchor="middle" class="event-point-value">87.6</text>
+              <text x="150" y="14" text-anchor="middle" class="event-point-value">88.0</text>
+              <text x="260" y="19" text-anchor="middle" class="event-point-value">82.7</text>
+              <text x="40" y="134" text-anchor="middle" class="event-point-label">출시 전 평균</text>
+              <text x="150" y="134" text-anchor="middle" class="event-point-label">출시일</text>
+              <text x="260" y="134" text-anchor="middle" class="event-point-label">출시 후 평균</text>
+            </svg>
+          </div>
+          <div class="event-badges">
+            <span class="event-badge pos">당일 +0.5%</span>
+            <span class="event-badge neg">출시 후 -5.5%</span>
+          </div>
+          <p class="event-note">출시 당일 스파이크가 거의 없음 — 사전 기대감이 이미 검색량에 선반영돼 있었을 가능성.</p>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h3>PlayStation 이벤트 반응의 특징 — "터짐"보다 "지속"</h3>
+        <p class="section-desc">Nintendo Direct·Xbox Games Showcase는 당일 최고치(100)까지 급등한 뒤 일주일 만에 거의 원상복구되는 "반짝 스파이크형" 패턴이 뚜렷합니다. PlayStation의 3개 이벤트는 당일 반응 크기는 작지만, 그중 하나(State of Play 9/24)는 오히려 행사 후 관심도가 <b style="color:var(--text);">더 높게 유지</b>됐습니다 — 3사 중 유일하게 관찰된 지속형 반응입니다.</p>
+      </div>
+    </section>
+
+    <section id="queries" class="report-section">
+      <div class="section-head">
+        <h2>관련 검색어 · 급상승 검색어</h2>
+        <p class="section-desc">지난 12개월간 PlayStation과 함께 검색된 상위 연관어와 급상승(Rising) 검색어입니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>급상승 검색어 (Rising Queries)</h3>
+        <div class="chip-list">
+          <span class="chip"><span class="rank">1</span>playstation news today <span class="vol">idx 2,600</span></span>
+          <span class="chip"><span class="rank">2</span>sony playstation 5 console <span class="vol">신규 하드웨어</span></span>
+          <span class="chip"><span class="rank">3</span>sony playstation 5 slim console <span class="vol">신규 하드웨어</span></span>
+          <span class="chip"><span class="rank">4</span>ghost of yotei <span class="vol">신작 게임</span></span>
+        </div>
+        <p class="panel-note">PS5 신규 하드웨어 리비전과 대작 게임(Ghost of Yotei) 출시가 검색 관심도 상승의 주요 요인으로 추정됩니다.</p>
+      </div>
+
+      <div class="panel">
+        <h3>연관 검색어 (Related Queries) — 카테고리별</h3>
+        <div class="overflow-x">
+          <table class="qtable">
+            <thead><tr><th>카테고리</th><th>연관 검색어</th></tr></thead>
+            <tbody>
+              <tr><td class="cat">콘솔 · 하드웨어</td><td>ps5, playstation pro, ps4, playstation controller</td></tr>
+              <tr><td class="cat">구독 · 서비스</td><td>playstation plus, playstation store</td></tr>
+              <tr><td class="cat">자사 · 기업명</td><td>sony, sony playstation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="methodology" class="report-section">
+      <div class="section-head">
+        <h2>방법론 · 한계</h2>
+        <p class="section-desc">이 대시보드의 수집 방식과, 분석 시 반드시 고려해야 할 한계·미해결 의문입니다.</p>
+      </div>
+
+      <div class="panel">
+        <div class="method-list">
+          <div class="method-item">
+            <span class="method-num num">01</span>
+            <div class="method-body"><b>수집 도구</b> — pytrends(Python, 비공식 Google Trends API)로 수집. 브라우저 스크린샷 대신 모든 수치를 CSV로 남겨 검증이 쉬움. 조사 기간 2025-08-22~2026-08-22(최근 12개월), 지역은 전 세계 + 미국·일본·한국·영국.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">02</span>
+            <div class="method-body"><b>Topic 대신 검색어(키워드) 방식 채택</b> — Topic(mid) 조합 비교 시 PlayStation 값만 비정상적으로 눌리는 정규화 왜곡이 확인되어(단독 조회 시 86.5, 3사 조합 비교 시 4~5), 이 대시보드의 모든 수치는 검색어 방식만 사용했습니다.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">03</span>
+            <div class="method-body"><b>일본·한국 현지어 보정</b> — 최초 수집은 영어 검색어만 사용해 과소평가 가능성이 있어, Google 자동완성으로 검증한 현지어 표기를 포함해 재수집했습니다. 한국어 준말 "플스"는 무관한 항목(동음이의어)과 충돌해 제외했습니다.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">04</span>
+            <div class="method-body"><span class="open-q-tag">미해결</span><b>한국 PlayStation 수치 불변</b> — "플레이스테이션" 정식 표기를 추가해도 13.5로 전혀 변화가 없었습니다. 이 검색어 자체가 한국에서 거의 쓰이지 않는지, OR 결합 처리 방식의 문제인지 추가 검증이 필요합니다.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">05</span>
+            <div class="method-body"><span class="open-q-tag">미해결</span><b>Topic 왜곡의 정확한 원인</b> — 다른 PlayStation Topic(mid) 후보로 재검증이 필요합니다.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">06</span>
+            <div class="method-body"><b>국가별 데이터는 절대 비교가 불가능</b> — Google Trends는 국가 내 상대 정규화 방식이므로, 한 국가의 낮은 수치가 "관심이 낮다"가 아니라 "국가 내 다른 검색어 대비 상대 비중이 낮다"는 의미로 해석해야 합니다.</div>
+          </div>
+          <div class="method-item">
+            <span class="method-num num">07</span>
+            <div class="method-body"><b>교차 검증 필요</b> — "PlayStation = 지속형 관심"이라는 이번 패턴이 Reddit(Attachment)·YouTube(Engagement) 데이터에서도 동일하게 나타나는지 확인이 필요합니다. 일치할 경우 Brand Fandom Index의 팬덤 유형 분석에 직접 활용할 수 있습니다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>데이터 출처 · Google Trends (pytrends, 비공식 API)</span>
+    <span>조사기간 · 2025-08-22 ~ 2026-08-22</span>
+    <span>수집일 · 2026-08-22</span>
+    <span>조사자 · 20202170@gm.hannam.ac.kr</span>
+  </footer>
+</div>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar-nav a[data-tab]'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.report-section'));
+  if (!links.length || !sections.length) return;
+  var contentEl = document.querySelector('.app-content');
+
+  function activate(id, push) {
+    sections.forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    links.forEach(function (l) { l.classList.toggle('active', l.dataset.tab === id); });
+    if (push !== false) history.replaceState(null, '', '#' + id);
+    if (contentEl) contentEl.scrollIntoView({ block: 'start' });
+  }
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      activate(link.dataset.tab);
+    });
+  });
+
+  var initial = (location.hash || '').replace('#', '');
+  if (initial && sections.some(function (s) { return s.id === initial; })) {
+    activate(initial, false);
+  }
+})();
+</script>
