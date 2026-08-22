@@ -208,6 +208,29 @@
     font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
     color: #5c5e70; padding: 0 12px 8px;
   }
+  .source-switcher {
+    display: flex; gap: 4px; padding: 4px; margin: 0 12px 18px;
+    background: #1a1c24; border-radius: 10px;
+  }
+  .source-switcher button {
+    position: relative; flex: 1; display: flex; align-items: center; justify-content: center;
+    gap: 5px; padding: 9px 2px; border: none; background: none; color: #7a7c90;
+    font: inherit; font-size: 11px; font-weight: 700; letter-spacing: -0.02em;
+    border-radius: 7px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .source-switcher button svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .source-switcher button span { white-space: nowrap; }
+  .source-switcher button:hover { color: #d5d6e2; }
+  .source-switcher button.active { background: #2a2c38; color: #fff; }
+  .source-switcher button.active svg { color: var(--accent); }
+  .source-switcher button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .source-switcher .soon-badge {
+    position: absolute; top: -6px; right: -2px; font-size: 8px; font-weight: 800;
+    letter-spacing: 0.02em; text-transform: uppercase; background: #33354a; color: #9fa1c9;
+    padding: 1.5px 4.5px; border-radius: 20px; line-height: 1.5;
+  }
+  .nav-source-group { display: flex; flex-direction: column; gap: 2px; }
+  .nav-source-group[hidden] { display: none; }
   .app-sidebar .jumpnav.sidebar-nav {
     position: static; background: none; border: none; backdrop-filter: none;
     display: flex; flex-direction: column; gap: 2px; z-index: auto; overflow: visible;
@@ -279,6 +302,19 @@
     text-wrap: balance; letter-spacing: -0.01em;
   }
   .section-desc { color: var(--text-secondary); font-size: 14.5px; max-width: 62ch; }
+
+  .placeholder-panel {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 12px; padding: 68px 24px; margin: 8px auto 0; max-width: 520px;
+    border: 1.5px dashed var(--border); border-radius: 16px; color: var(--text-muted);
+  }
+  .placeholder-panel .placeholder-icon {
+    width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; background: var(--surface-2); color: var(--accent);
+  }
+  .placeholder-panel .placeholder-icon svg { width: 24px; height: 24px; }
+  .placeholder-panel .placeholder-title { margin: 0; font-size: 17px; font-weight: 700; color: var(--text); }
+  .placeholder-panel .placeholder-desc { margin: 0; font-size: 13.5px; line-height: 1.65; }
 
   /* ---------- stat strip ---------- */
   .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
@@ -537,16 +573,40 @@
 <div class="app-shell">
 <aside class="app-sidebar">
   <div class="sidebar-brand">🎮 <span>PlayStation 팬덤</span></div>
+  <div class="source-switcher" role="tablist" aria-label="데이터 소스 선택">
+    <button type="button" data-source="youtube" class="active" aria-pressed="true">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3.5" width="13" height="9" rx="2.5"/><path d="M6.7 6.2v3.6l3.3-1.8z" fill="currentColor" stroke="none"/></svg>
+      <span>유튜브</span>
+    </button>
+    <button type="button" data-source="reddit" aria-pressed="false">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="8" rx="2"/><path d="M5.5 11v2.3L8 11"/></svg>
+      <span>레딧</span>
+      <em class="soon-badge">예정</em>
+    </button>
+    <button type="button" data-source="trends" aria-pressed="false">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg>
+      <span>트렌드</span>
+      <em class="soon-badge">예정</em>
+    </button>
+  </div>
   <p class="sidebar-group-label">리포트 섹션</p>
   <nav class="jumpnav sidebar-nav" id="jumpnavInner">
-    <a href="#distribution" data-tab="distribution" class="active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2v6l5 3"/></svg>콘텐츠 유형 분포</a>
-    <a href="#categories" data-tab="categories"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>유형별 영상</a>
-    <a href="#sentiment" data-tab="sentiment"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="8" rx="2"/><path d="M5.5 11v2.3L8 11"/></svg>댓글 감정 전체</a>
-    <a href="#compare" data-tab="compare"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V7M8 13V3M13 13V9"/></svg>유형별 비교</a>
-    <a href="#pattern" data-tab="pattern"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l6 11H2z"/><path d="M8 6.5v3M8 11.5h.01"/></svg>주목할 패턴</a>
-    <a href="#bfi" data-tab="bfi"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.8" fill="currentColor" stroke="none"/></svg>BFI 지수</a>
-    <a href="#console-war" data-tab="console-war"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l10 10M13 3L3 13"/></svg>경쟁 브랜드 언급</a>
-    <a href="#methodology" data-tab="methodology"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>방법론·한계</a>
+    <div class="nav-source-group" data-source="youtube">
+      <a href="#distribution" data-tab="distribution" class="active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2v6l5 3"/></svg>콘텐츠 유형 분포</a>
+      <a href="#categories" data-tab="categories"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>유형별 영상</a>
+      <a href="#sentiment" data-tab="sentiment"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="8" rx="2"/><path d="M5.5 11v2.3L8 11"/></svg>댓글 감정 전체</a>
+      <a href="#compare" data-tab="compare"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V7M8 13V3M13 13V9"/></svg>유형별 비교</a>
+      <a href="#pattern" data-tab="pattern"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l6 11H2z"/><path d="M8 6.5v3M8 11.5h.01"/></svg>주목할 패턴</a>
+      <a href="#bfi" data-tab="bfi"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="1.8" fill="currentColor" stroke="none"/></svg>BFI 지수</a>
+      <a href="#console-war" data-tab="console-war"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l10 10M13 3L3 13"/></svg>경쟁 브랜드 언급</a>
+      <a href="#methodology" data-tab="methodology"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>방법론·한계</a>
+    </div>
+    <div class="nav-source-group" data-source="reddit" hidden>
+      <a href="#reddit-soon" data-tab="reddit-soon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="8" rx="2"/><path d="M5.5 11v2.3L8 11"/></svg>레딧 반응 분석</a>
+    </div>
+    <div class="nav-source-group" data-source="trends" hidden>
+      <a href="#trends-soon" data-tab="trends-soon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg>검색 관심도 추이</a>
+    </div>
   </nav>
   <div class="sidebar-footer">
     <a href="https://github.com/neoguribot/game-brand-fandom-collector" target="_blank" rel="noopener">
@@ -558,7 +618,7 @@
 
 <div class="app-main">
   <header class="app-topbar">
-    <p class="eyebrow">YouTube 채널 분석 리포트 · LLM 재분류 반영</p>
+    <p class="eyebrow" id="topbarEyebrow">YouTube 채널 분석 리포트 · LLM 재분류 반영</p>
     <span class="topbar-date">기준일 · 2026-08-21</span>
   </header>
 
@@ -1630,6 +1690,30 @@
       </div>
     </div>
   </section>
+
+  <section id="reddit-soon" class="report-section" data-source="reddit">
+    <div class="section-head">
+      <h2>레딧 반응 분석</h2>
+      <p class="section-desc">PlayStation 관련 서브레딧(r/PS5, r/PlayStation 등)의 게시물·댓글 데이터가 연동되면, 유튜브 탭과 동일한 방식으로 카테고리별 반응과 감정 분포를 이곳에서 확인할 수 있습니다.</p>
+    </div>
+    <div class="placeholder-panel">
+      <div class="placeholder-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="8" rx="2"/><path d="M5.5 11v2.3L8 11"/></svg></div>
+      <p class="placeholder-title">레딧 데이터 연동 예정</p>
+      <p class="placeholder-desc">데이터가 연결되면 이 탭이 자동으로 채워집니다.</p>
+    </div>
+  </section>
+
+  <section id="trends-soon" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>구글 트렌드 · 검색 관심도</h2>
+      <p class="section-desc">PlayStation 관련 검색어의 시간대별 관심도 추이 데이터가 연동되면, 디스크 드라이브 논쟁 등 주요 이슈와 검색량 변화를 함께 볼 수 있습니다.</p>
+    </div>
+    <div class="placeholder-panel">
+      <div class="placeholder-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg></div>
+      <p class="placeholder-title">구글 트렌드 데이터 연동 예정</p>
+      <p class="placeholder-desc">데이터가 연결되면 이 탭이 자동으로 채워집니다.</p>
+    </div>
+  </section>
   </main>
 
   <footer class="app-footer">
@@ -1693,10 +1777,51 @@
     });
   });
 
+  // Source switcher: groups the sidebar tabs (and their sections) by data
+  // source (YouTube / Reddit / Google Trends) so unrelated tabs don't get
+  // mixed together once more sources are connected.
+  var sourceButtons = Array.prototype.slice.call(document.querySelectorAll('.source-switcher button[data-source]'));
+  var navGroups = Array.prototype.slice.call(document.querySelectorAll('.nav-source-group'));
+  var eyebrowEl = document.getElementById('topbarEyebrow');
+  var SOURCE_EYEBROW = {
+    youtube: 'YouTube 채널 분석 리포트 · LLM 재분류 반영',
+    reddit: 'Reddit 커뮤니티 분석 리포트 · 데이터 연동 예정',
+    trends: 'Google 트렌드 분석 리포트 · 데이터 연동 예정'
+  };
+
+  function tabSource(tabId) {
+    var link = links.filter(function (l) { return l.dataset.tab === tabId; })[0];
+    var group = link && link.closest('.nav-source-group');
+    return (group && group.dataset.source) || 'youtube';
+  }
+
+  function setSource(source, focusFirstTab) {
+    navGroups.forEach(function (g) { g.hidden = g.dataset.source !== source; });
+    sourceButtons.forEach(function (b) {
+      var isActive = b.dataset.source === source;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    if (eyebrowEl && SOURCE_EYEBROW[source]) {
+      eyebrowEl.textContent = SOURCE_EYEBROW[source];
+    }
+    if (focusFirstTab) {
+      var firstLink = document.querySelector('.nav-source-group[data-source="' + source + '"] a[data-tab]');
+      if (firstLink) activate(firstLink.dataset.tab);
+    }
+  }
+
+  sourceButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () { setSource(btn.dataset.source, true); });
+  });
+
   // Support deep-linking: if the URL already has a matching hash on load, show that tab.
   var initial = (location.hash || '').replace('#', '');
   if (initial && sections.some(function (s) { return s.id === initial; })) {
+    setSource(tabSource(initial), false);
     activate(initial, false);
+  } else {
+    setSource('youtube', false);
   }
 })();
 
