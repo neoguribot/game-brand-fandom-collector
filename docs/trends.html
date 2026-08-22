@@ -391,6 +391,11 @@
       <div class="panel">
         <h3>PlayStation 지역별 평균 관심도</h3>
         <div class="bar-row">
+          <span class="bar-label">한국<small>현지어+플스 포함</small></span>
+          <div class="bar-track"><div class="bar-fill" style="width:33.4%" title="한국 33.4"></div></div>
+          <span class="bar-value num">33.4</span>
+        </div>
+        <div class="bar-row">
           <span class="bar-label">일본<small>현지어 포함</small></span>
           <div class="bar-track"><div class="bar-fill" style="width:30.8%" title="일본 30.8"></div></div>
           <span class="bar-value num">30.8</span>
@@ -405,12 +410,7 @@
           <div class="bar-track"><div class="bar-fill" style="width:22.1%" title="영국 22.1"></div></div>
           <span class="bar-value num">22.1</span>
         </div>
-        <div class="bar-row">
-          <span class="bar-label">한국<small>현지어 포함</small></span>
-          <div class="bar-track"><div class="bar-fill" style="width:13.5%" title="한국 13.5"></div></div>
-          <span class="bar-value num">13.5</span>
-        </div>
-        <p class="panel-note">Google Trends는 국가 내 상대 정규화 방식이라, 한국 수치가 가장 낮다고 해서 "한국인의 관심이 낮다"고 해석할 수는 없습니다 — 다른 검색어 대비 이 브랜드의 상대 비중이 낮다는 의미입니다.</p>
+        <p class="panel-note">Google Trends는 국가 내 상대 정규화 방식이라, 절대 수치를 국가 간에 직접 비교할 수는 없습니다 — 국가 내 다른 검색어 대비 이 브랜드의 상대 비중을 나타냅니다. 한국은 2026-08-22 재검증으로 "플스" 포함 수치(33.4)를 기준으로 반영했습니다.</p>
       </div>
 
       <div class="panel">
@@ -431,9 +431,9 @@
             <div class="locale-arrow">
               <span class="from num">13.5</span>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
-              <span class="to num flat">13.5</span>
+              <span class="to num">33.4</span>
             </div>
-            <p class="locale-note"><span class="open-q-tag">미해결</span>"플레이스테이션" 표기를 추가해도 수치가 전혀 변하지 않음 — 원인 불명, 추가 검증 필요</p>
+            <p class="locale-note"><span class="resolved-tag">재검증 완료</span>정식 표기("플레이스테이션") 추가만으로는 변화 없었지만(13.5), 준말 <b style="color:var(--text);">"플스"를 포함하자 33.4로 2.5배 상승</b> — Xbox(26.8)를 제치고 한국 2위로 순위가 바뀜. "플스"의 연관 검색어를 확인한 결과 플스 게임·플스 프로·플스 가격 등 100% PlayStation 관련어로, 우려했던 동음이의어 오염은 실제 검색어 방식에서는 확인되지 않음.</p>
           </div>
         </div>
       </div>
@@ -578,11 +578,11 @@
           </div>
           <div class="method-item">
             <span class="method-num num">03</span>
-            <div class="method-body"><b>일본·한국 현지어 보정</b> — 최초 수집은 영어 검색어만 사용해 과소평가 가능성이 있어, Google 자동완성으로 검증한 현지어 표기를 포함해 재수집했습니다. 한국어 준말 "플스"는 무관한 항목(동음이의어)과 충돌해 제외했습니다.</div>
+            <div class="method-body"><b>일본·한국 현지어 보정</b> — 최초 수집은 영어 검색어만 사용해 과소평가 가능성이 있어, Google 자동완성으로 검증한 현지어 표기를 포함해 재수집했습니다. 한국어 준말 "플스"는 최초 수집 시 Topic 자동완성에서 무관한 항목(동음이의어)과 충돌해 제외했으나, 아래 04번 재검증 결과 검색어(키워드) 방식에서는 이 문제가 나타나지 않아 최종 수치에는 포함했습니다.</div>
           </div>
           <div class="method-item">
             <span class="method-num num">04</span>
-            <div class="method-body"><span class="open-q-tag">미해결</span><b>한국 PlayStation 수치 불변</b> — "플레이스테이션" 정식 표기를 추가해도 13.5로 전혀 변화가 없었습니다. 이 검색어 자체가 한국에서 거의 쓰이지 않는지, OR 결합 처리 방식의 문제인지 추가 검증이 필요합니다.</div>
+            <div class="method-body"><span class="resolved-tag">재검증 완료</span><b>한국 PlayStation 수치 불변 — "플스" 누락이 원인</b> — 2026-08-22 pytrends로 재검증. 정식 표기("플레이스테이션")만 추가했을 때는 13.5로 변화가 없었지만, 준말 "플스"를 포함하자 33.4로 2.5배 상승해 Xbox(26.8)를 제치고 한국 2위가 됐습니다. "플스" 단독 연관 검색어(플스 게임·플스 프로·플스 가격·플스 컨트롤러 등)를 확인한 결과 100% PlayStation 관련어로, 최초 조사에서 우려했던 동음이의어 오염은 실제 키워드 검색에서는 확인되지 않았습니다 — 즉 한국에서는 "플스"가 "플레이스테이션"보다 압도적으로 많이 쓰이는 실제 검색어이며, 이를 빼고 측정한 것이 수치가 낮게 고정된 원인이었습니다.</div>
           </div>
           <div class="method-item">
             <span class="method-num num">05</span>
