@@ -1764,21 +1764,27 @@
       <p class="section-desc">감성(긍정/중립/부정)은 댓글당 하나씩 상호배타적으로 분류됩니다. 애착·충성·옹호·구매의도는 감성과 별도로 원문에서 정규식·키워드로 감지하는 독립 신호라 — 같은 댓글에 여러 개가 동시에 붙거나 하나도 안 붙을 수 있습니다. 그래서 두 그룹을 하나의 100% 막대로 합치지 않고 나눠서 보여줍니다.</p>
     </div>
 
-    <p style="font-size:12px; color:var(--text-muted); margin:0 0 8px; font-weight:600;">감성 분포 (상호배타)</p>
-    <div class="sent-row">
-      <span class="sent-label" style="color:var(--s-positive);">긍정</span>
-      <div class="sent-track" data-tooltip="긍정 30건 (15.3%)"><div class="sent-fill" style="width:15.3%; background:var(--s-positive);"></div></div>
-      <span class="sent-pct num">15.3%</span>
-    </div>
-    <div class="sent-row">
-      <span class="sent-label" style="color:var(--text-muted);">중립</span>
-      <div class="sent-track" data-tooltip="중립 159건 (81.1%)"><div class="sent-fill" style="width:81.1%; background:var(--s-neutral);"></div></div>
-      <span class="sent-pct num">81.1%</span>
-    </div>
-    <div class="sent-row">
-      <span class="sent-label" style="color:var(--s-negative);">부정</span>
-      <div class="sent-track" data-tooltip="부정 7건 (3.6%)"><div class="sent-fill" style="width:3.6%; background:var(--s-negative);"></div></div>
-      <span class="sent-pct num">3.6%</span>
+    <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px; font-weight:600;">감성 분포 (상호배타)</p>
+    <div style="display:flex; justify-content:center; margin-bottom:8px;">
+      <div class="donut-card" style="width:min(320px, 100%);">
+        <div class="donut-wrap">
+          <svg viewBox="0 0 224 224" width="240" height="240">
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="20.20 545.29" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 7건 (3.6%)"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="458.74 106.75" stroke-dashoffset="-20.20" transform="rotate(-90 112 112)" data-tooltip="중립 159건 (81.1%)"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="86.55 478.94" stroke-dashoffset="-478.94" transform="rotate(-90 112 112)" data-tooltip="긍정 30건 (15.3%)"></circle>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-center-value num" style="color:var(--text-secondary);">81.1%</div>
+            <div class="donut-center-label">중립</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>긍정 <b>15.3%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>81.1%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>3.6%</b></span>
+        </div>
+      </div>
     </div>
 
     <div class="cmp-table-wrap" style="margin-top:16px;">
@@ -1851,7 +1857,49 @@
       <p class="section-desc">긍정 댓글 30건, 부정 댓글 7건 각각에서 원문 키워드로 카테고리를 추정한 결과입니다. "기타" 비중이 매우 높다는 것 자체가 — 유튜브의 큐레이션된 브랜드 캠페인 댓글과 달리, 레딧의 자연스러운 잡담체에는 사전에 정의한 카테고리 키워드가 잘 들어맞지 않는다는 신호입니다.</p>
     </div>
 
-    <div class="cmp-table-wrap">
+    <p style="font-size:12px; color:var(--text-muted); margin:0 0 10px; font-weight:600;">긍정 요인 분포 (긍정 댓글 30건 중)</p>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">기타</span>
+      <div class="sent-track" data-tooltip="기타 21건 (70.0%)"><div class="sent-fill" style="width:70.0%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">70.0%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">가성비 (value)</span>
+      <div class="sent-track" data-tooltip="가성비 2건 (6.7%)"><div class="sent-fill" style="width:6.7%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">6.7%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">브랜드 역사 (brand_history)</span>
+      <div class="sent-track" data-tooltip="브랜드 역사 2건 (6.7%)"><div class="sent-fill" style="width:6.7%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">6.7%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">향수·추억 (nostalgia)</span>
+      <div class="sent-track" data-tooltip="향수·추억 1건 (3.3%)"><div class="sent-fill" style="width:3.3%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">3.3%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">커뮤니티 (community)</span>
+      <div class="sent-track" data-tooltip="커뮤니티 1건 (3.3%)"><div class="sent-fill" style="width:3.3%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">3.3%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">혁신 (innovation)</span>
+      <div class="sent-track" data-tooltip="혁신 1건 (3.3%)"><div class="sent-fill" style="width:3.3%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">3.3%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">게임 (games)</span>
+      <div class="sent-track" data-tooltip="게임 1건 (3.3%)"><div class="sent-fill" style="width:3.3%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">3.3%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">컨트롤러 (controller)</span>
+      <div class="sent-track" data-tooltip="컨트롤러 1건 (3.3%)"><div class="sent-fill" style="width:3.3%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">3.3%</span>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
       <table class="cmp">
         <thead>
           <tr><th>긍정 요인</th><th>건수</th><th>비중</th></tr>
@@ -1869,7 +1917,19 @@
       </table>
     </div>
 
-    <div class="cmp-table-wrap" style="margin-top:20px;">
+    <p style="font-size:12px; color:var(--text-muted); margin:28px 0 10px; font-weight:600;">불만 카테고리 분포 (부정 댓글 7건 중)</p>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">기타</span>
+      <div class="sent-track" data-tooltip="기타 6건 (85.7%)"><div class="sent-fill" style="width:85.7%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">85.7%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">성능 (performance)</span>
+      <div class="sent-track" data-tooltip="성능 1건 (14.3%)"><div class="sent-fill" style="width:14.3%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">14.3%</span>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
       <table class="cmp">
         <thead>
           <tr><th>불만 카테고리</th><th>건수</th><th>비중</th></tr>
@@ -1973,27 +2033,27 @@
         </thead>
         <tbody>
           <tr>
-            <td style="max-width:340px; white-space:normal;">"Ouch for Xbox"</td>
+            <td style="max-width:340px; white-space:normal;">"Ouch for Xbox"<br><span style="color:var(--text-secondary); font-size:12px;">→ "Xbox 입장에선 아프겠네"</span></td>
             <td>Xbox</td>
             <td>조롱 (판매량 뉴스 반응)</td>
           </tr>
           <tr>
-            <td style="max-width:340px; white-space:normal;">"In a 2 horse console race"</td>
+            <td style="max-width:340px; white-space:normal;">"In a 2 horse console race"<br><span style="color:var(--text-secondary); font-size:12px;">→ "콘솔 시장은 사실상 양강 구도인데"</span></td>
             <td>Xbox</td>
             <td>비교 (Xbox를 경쟁에서 배제)</td>
           </tr>
           <tr>
-            <td style="max-width:340px; white-space:normal;">"also the 4th is an Xbox"</td>
+            <td style="max-width:340px; white-space:normal;">"also the 4th is an Xbox"<br><span style="color:var(--text-secondary); font-size:12px;">→ "게다가 4위도 Xbox네"</span></td>
             <td>Xbox</td>
             <td>비교 (판매 순위 언급)</td>
           </tr>
           <tr>
-            <td style="max-width:340px; white-space:normal;">"The only GOTY nomination xbox ever had was Psychonauts 2 and now that doesn't even belong to xbox anymore lol"</td>
+            <td style="max-width:340px; white-space:normal;">"The only GOTY nomination xbox ever had was Psychonauts 2 and now that doesn't even belong to xbox anymore lol"<br><span style="color:var(--text-secondary); font-size:12px;">→ "Xbox가 GOTY 후보에 오른 건 Psychonauts 2 하나뿐이었는데, 이제 그것도 Xbox 소유가 아니게 됐네 ㅋㅋ"</span></td>
             <td>Xbox</td>
             <td>비판</td>
           </tr>
           <tr style="opacity:0.55;">
-            <td style="max-width:340px; white-space:normal;">"...switching from Starlink Internet to Xplornet Internet..."</td>
+            <td style="max-width:340px; white-space:normal;">"...switching from Starlink Internet to Xplornet Internet..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "...스타링크 인터넷에서 엑스플로넷 인터넷으로 바꾸는 중인데..."</span></td>
             <td>Nintendo <small>(오탐)</small></td>
             <td>제외 — 인터넷 회사 전환, Switch와 무관</td>
           </tr>
@@ -2021,63 +2081,63 @@
         <tbody>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"I understand, but once I began playing, I found it impossible to stop. The game was so captivating..."<br><a href="https://www.reddit.com/r/playstation/comments/1vuxwp7/my_honest_thoughts_after_achieving_my_18th/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">My honest thoughts after achieving my 18th Platinum</a></td>
+            <td style="max-width:360px; white-space:normal;">"I understand, but once I began playing, I found it impossible to stop. The game was so captivating..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "이해는 하지만, 일단 플레이를 시작하니 멈추기가 불가능하더라고요. 게임이 너무 매력적이어서..."</span><br><a href="https://www.reddit.com/r/playstation/comments/1vuxwp7/my_honest_thoughts_after_achieving_my_18th/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">My honest thoughts after achieving my 18th Platinum</a></td>
             <td style="color:var(--text-muted);">중립</td>
             <td>중립층</td>
             <td class="num">08-22</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"You're in for a ride 🫱🏼‍🫲🏻 it's worth it"<br><a href="https://www.reddit.com/r/playstation/comments/1vuxwp7/my_honest_thoughts_after_achieving_my_18th/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">My honest thoughts after achieving my 18th Platinum</a></td>
+            <td style="max-width:360px; white-space:normal;">"You're in for a ride 🫱🏼‍🫲🏻 it's worth it"<br><span style="color:var(--text-secondary); font-size:12px;">→ "제대로 빠져들 준비 하세요, 그만한 가치가 있어요"</span><br><a href="https://www.reddit.com/r/playstation/comments/1vuxwp7/my_honest_thoughts_after_achieving_my_18th/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">My honest thoughts after achieving my 18th Platinum</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>일반 호감층</td>
             <td class="num">08-22</td>
           </tr>
           <tr>
             <td>r/PS5</td>
-            <td style="max-width:360px; white-space:normal;">"All 3 of my ps5 controllers keep disconnecting every 3-5 minutes. Ive disconnected bluetooth and reconnected..."<br><a href="https://www.reddit.com/r/PS5/comments/1h4tety/ps5_help_and_questions_megathread_game/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">PS5 Help and Questions Megathread</a></td>
+            <td style="max-width:360px; white-space:normal;">"All 3 of my ps5 controllers keep disconnecting every 3-5 minutes. Ive disconnected bluetooth and reconnected..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "제 PS5 컨트롤러 3개 전부 3~5분마다 계속 연결이 끊겨요. 블루투스를 껐다 다시 연결해봤는데도..."</span><br><a href="https://www.reddit.com/r/PS5/comments/1h4tety/ps5_help_and_questions_megathread_game/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">PS5 Help and Questions Megathread</a></td>
             <td style="color:var(--text-muted);">중립</td>
             <td>중립층</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"Congrats, I'll always love and defend this game🙌"<br><a href="https://www.reddit.com/r/playstation/comments/1vusrhx/platinum_trophy_in_spiderman_2/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Platinum Trophy in Spider-Man 2</a></td>
+            <td style="max-width:360px; white-space:normal;">"Congrats, I'll always love and defend this game🙌"<br><span style="color:var(--text-secondary); font-size:12px;">→ "축하해요, 저는 이 게임 언제나 사랑하고 지킬 거예요🙌"</span><br><a href="https://www.reddit.com/r/playstation/comments/1vusrhx/platinum_trophy_in_spiderman_2/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Platinum Trophy in Spider-Man 2</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>브랜드 옹호자</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"...I remember playing SSX tricky on it back in the day and it would always crash in the first level..."<br><a href="https://www.reddit.com/r/playstation/comments/1vurfyl/is_every_single_ps1_and_ps2_game_backwards/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Is every PS1/PS2 game backwards compatible with the fat PS3?</a></td>
+            <td style="max-width:360px; white-space:normal;">"...I remember playing SSX tricky on it back in the day and it would always crash in the first level..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "...예전에 SSX Tricky를 했던 기억이 나는데 항상 첫 스테이지에서 튕겼어요..."</span><br><a href="https://www.reddit.com/r/playstation/comments/1vurfyl/is_every_single_ps1_and_ps2_game_backwards/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Is every PS1/PS2 game backwards compatible with the fat PS3?</a></td>
             <td style="color:var(--s-negative);">부정</td>
             <td>비판적 팬</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"There are a few PS2 games that can have minor graphical issues when being played on a backwards compatible PS3, like Persona 4..."<br><a href="https://www.reddit.com/r/playstation/comments/1vurfyl/is_every_single_ps1_and_ps2_game_backwards/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Is every PS1/PS2 game backwards compatible with the fat PS3?</a></td>
+            <td style="max-width:360px; white-space:normal;">"There are a few PS2 games that can have minor graphical issues when being played on a backwards compatible PS3, like Persona 4..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "하위 호환 PS3에서 돌릴 때 그래픽에 약간 문제가 생기는 PS2 게임이 몇 개 있어요, Persona 4처럼..."</span><br><a href="https://www.reddit.com/r/playstation/comments/1vurfyl/is_every_single_ps1_and_ps2_game_backwards/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Is every PS1/PS2 game backwards compatible with the fat PS3?</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>일반 호감층</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"So I'm behind the curve on ps5, lifelong PlayStation lover that had to give up gaming for the longest time due to financial and family struggles..."<br><a href="https://www.reddit.com/r/playstation/comments/1vubtd0/what_have_you_been_playing/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">What have you been playing?</a></td>
+            <td style="max-width:360px; white-space:normal;">"So I'm behind the curve on ps5, lifelong PlayStation lover that had to give up gaming for the longest time due to financial and family struggles..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "그래서 저는 PS5를 이제야 시작했어요, 평생 플레이스테이션을 사랑했지만 경제적·가정 문제로 오랫동안 게임을 포기해야 했거든요..."</span><br><a href="https://www.reddit.com/r/playstation/comments/1vubtd0/what_have_you_been_playing/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">What have you been playing?</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>일반 호감층</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/playstation</td>
-            <td style="max-width:360px; white-space:normal;">"I just got platinum yesterday! It's pretty fun and easy, only tedious part was the random crimes that happen while you explore..."<br><a href="https://www.reddit.com/r/playstation/comments/1vubtd0/what_have_you_been_playing/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">What have you been playing?</a></td>
+            <td style="max-width:360px; white-space:normal;">"I just got platinum yesterday! It's pretty fun and easy, only tedious part was the random crimes that happen while you explore..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "어제 플래티넘 땄어요! 꽤 재밌고 쉬웠는데, 탐험 중에 랜덤으로 발생하는 범죄 이벤트만 좀 지루했어요..."</span><br><a href="https://www.reddit.com/r/playstation/comments/1vubtd0/what_have_you_been_playing/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">What have you been playing?</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>일반 호감층</td>
             <td class="num">08-21</td>
           </tr>
           <tr>
             <td>r/PS5</td>
-            <td style="max-width:360px; white-space:normal;">"Historically, yeah, it meant the game is done and has been shipped to be written to media. It carries less meaning today, with day one patches..."<br><a href="https://www.reddit.com/r/PS5/comments/1vuis2z/marvels_wolverine_has_gone_gold/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Marvel's Wolverine has GONE GOLD!</a></td>
+            <td style="max-width:360px; white-space:normal;">"Historically, yeah, it meant the game is done and has been shipped to be written to media. It carries less meaning today, with day one patches..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "역사적으로 보면, 게임이 완성되어 매체에 기록하기 위해 발송됐다는 뜻이었죠. 요즘은 출시일 패치 때문에 그 의미가 예전만 못하지만..."</span><br><a href="https://www.reddit.com/r/PS5/comments/1vuis2z/marvels_wolverine_has_gone_gold/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Marvel's Wolverine has GONE GOLD!</a></td>
             <td style="color:var(--s-positive);">긍정</td>
             <td>구매 임박층</td>
             <td class="num">08-21</td>
