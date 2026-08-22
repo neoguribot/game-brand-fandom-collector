@@ -261,6 +261,10 @@
     display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em; color: var(--bad);
     background: var(--bad-soft); padding: 2px 8px; border-radius: 20px; margin-right: 8px; vertical-align: 1px;
   }
+  .resolved-tag {
+    display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em; color: var(--good);
+    background: var(--good-soft); padding: 2px 8px; border-radius: 20px; margin-right: 8px; vertical-align: 1px;
+  }
 </style>
 
 <div class="app-shell">
@@ -338,44 +342,34 @@
     <section id="global" class="report-section">
       <div class="section-head">
         <h2>전 세계 검색 관심도</h2>
-        <p class="section-desc">지난 12개월(2025-08-22~2026-08-22) 전 세계 Web Search 기준 평균 관심도입니다. Xbox·Nintendo 수치는 PlayStation의 상대적 위치를 보여주는 참고용 비교선입니다.</p>
+        <p class="section-desc">지난 12개월(2025-08-22~2026-08-22) 전 세계 Web Search 기준, PlayStation 단독 평균 관심도입니다.</p>
       </div>
 
       <div class="panel">
-        <h3>브랜드별 평균 검색 관심도 (전 세계, 검색어 방식)</h3>
+        <h3>PlayStation 평균 검색 관심도 (전 세계, 검색어 방식)</h3>
         <div class="bar-row">
           <span class="bar-label">PlayStation</span>
           <div class="bar-track"><div class="bar-fill" style="width:36.4%" title="PlayStation 36.4"></div></div>
           <span class="bar-value num">36.4</span>
         </div>
-        <div class="bar-row">
-          <span class="bar-label" style="color:var(--text-muted);">Xbox<small>참고</small></span>
-          <div class="bar-track"><div class="bar-fill muted" style="width:74.0%" title="Xbox 74.0"></div></div>
-          <span class="bar-value num muted-text">74.0</span>
-        </div>
-        <div class="bar-row">
-          <span class="bar-label" style="color:var(--text-muted);">Nintendo<small>참고</small></span>
-          <div class="bar-track"><div class="bar-fill muted" style="width:45.8%" title="Nintendo 45.8"></div></div>
-          <span class="bar-value num muted-text">45.8</span>
-        </div>
-        <p class="panel-note">Xbox는 "Xbox"라는 검색어 자체가 Game Pass 등 서비스명까지 포괄하는 범용어라 실질 브랜드 관심보다 부풀려졌을 가능성이 있습니다(관련 검색어에서 game pass, xbox game pass가 상위 항목으로 확인됨). PlayStation의 낮은 수치를 "관심 부족"으로만 해석하기 전에 이 점을 함께 고려해야 합니다.</p>
+        <p class="panel-note">Google Trends 지수는 0~100 범위이며, 100은 조사 기간 내 해당 검색어의 최고 관심도 시점을 나타냅니다. PlayStation의 12개월 평균은 36.4로, 최고치 대비 절반에도 못 미치는 수준에서 등락한 것으로 해석할 수 있습니다.</p>
       </div>
 
       <div class="panel">
-        <h3>측정 방식에 따른 PlayStation 수치 차이 — Topic 왜곡 주의</h3>
+        <h3>측정 방식에 따른 PlayStation 수치 차이 — Topic 왜곡, 재검증으로 원인 특정</h3>
         <div class="locale-compare">
           <div class="locale-card">
-            <p class="locale-region">Topic(mid) 3사 조합 비교 시</p>
-            <div class="locale-arrow"><span class="from num">4~5</span></div>
-            <p class="locale-note">PlayStation 단독으로는 정상 범위(평균 86.5)지만, 3사를 함께 비교하면 비정상적으로 눌려 나오는 정규화 왜곡이 확인됨</p>
+            <p class="locale-region">기존 Topic mid(/m/05zxk) 3사 조합 비교 시</p>
+            <div class="locale-arrow"><span class="from num">4.8</span></div>
+            <p class="locale-note">PlayStation 단독으로는 정상 범위(86.5)지만, Xbox·Nintendo 중 <b style="color:var(--text);">어느 한쪽과만 묶어도</b> 동일하게 눌림(Xbox 조합 시 4.8, Nintendo 조합 시 8.1) — 3사 비교 특유의 문제가 아니라 이 mid 자체의 문제로 재확인됨</p>
           </div>
           <div class="locale-card">
-            <p class="locale-region">PlayStation Topic 단독 조회 시</p>
-            <div class="locale-arrow"><span class="to num">86.5</span></div>
-            <p class="locale-note">이 차이 때문에 이 대시보드의 모든 수치는 <b style="color:var(--text);">검색어(키워드) 방식</b>만 사용했습니다</p>
+            <p class="locale-region">Topic mid를 "Sony PlayStation"(/m/03c3vj4)으로 교체 시</p>
+            <div class="locale-arrow"><span class="to num">54.2</span></div>
+            <p class="locale-note">동일한 Xbox·Nintendo와 조합해도 왜곡 없이 정상 범위로 나옴(Xbox 72.5 · Nintendo 36.6) — mid 교체만으로 왜곡이 해소됨을 pytrends 재검증으로 확인</p>
           </div>
         </div>
-        <p class="panel-note">원인 미확정 — 다른 PlayStation Topic 후보로 재검증이 필요한 항목입니다 (방법론·한계 탭 참고).</p>
+        <p class="panel-note">2026-08-22 재검증(pytrends): "PlayStation"(Console, 세대 통합) mid는 다른 어떤 브랜드 Topic과 묶여도 무너지는 반면, "Sony PlayStation"(Product line) · "PlayStation 4" · "PlayStation 5" 등 대체 mid는 모두 정상 범위로 나옴 — 특정 mid 하나의 정규화 이상으로 좁혀졌습니다. 다만 대체 mid는 측정 대상이 "브랜드 전체"에서 "특정 제품/세대"로 좁아지므로, 이 대시보드는 여전히 검색어(키워드) 방식을 기본으로 유지합니다. 상세 내용은 방법론·한계 탭 참고.</p>
       </div>
 
       <div class="panel">
@@ -592,7 +586,7 @@
           </div>
           <div class="method-item">
             <span class="method-num num">05</span>
-            <div class="method-body"><span class="open-q-tag">미해결</span><b>Topic 왜곡의 정확한 원인</b> — 다른 PlayStation Topic(mid) 후보로 재검증이 필요합니다.</div>
+            <div class="method-body"><span class="resolved-tag">재검증 완료</span><b>Topic 왜곡의 원인 — 특정 mid 문제로 확인</b> — 2026-08-22 pytrends로 재검증. 기존 PlayStation mid(<code>/m/05zxk</code>, "Console" 유형)는 Xbox·Nintendo 중 어느 한쪽과만 묶어도 동일하게 무너짐(단독 86.5 → Xbox 조합 시 4.8, Nintendo 조합 시 8.1) — 3사 조합 특유의 문제가 아니라 이 mid 하나의 정규화 이상이었습니다. <code>/m/03c3vj4</code>("Sony PlayStation", Product line), <code>/m/0r4_kmc</code>(PlayStation 4), <code>/g/11h10_t1nf</code>(PlayStation 5) 등 대체 mid는 모두 왜곡 없이 정상 범위로 나왔습니다. 다만 대체 mid는 측정 범위가 브랜드 전체에서 특정 제품·세대로 좁아지는 트레이드오프가 있어, 이 대시보드는 검색어(키워드) 방식을 기본값으로 유지합니다.</div>
           </div>
           <div class="method-item">
             <span class="method-num num">06</span>
