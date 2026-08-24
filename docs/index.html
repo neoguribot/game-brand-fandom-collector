@@ -201,6 +201,7 @@
   .panel-note { font-size: 12.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
 
   .bar-row { display: flex; align-items: center; gap: 14px; padding: 7px 0; }
+  .bar-row[hidden] { display: none; }
   .bar-row .bar-label { width: 128px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--text-primary); }
   .bar-row .bar-label small { display: block; font-weight: 500; color: var(--text-muted); font-size: 11px; margin-top: 1px; }
   .bar-track { flex: 1; height: 15px; background: var(--surface-2); border-radius: 8px; overflow: hidden; position: relative; }
@@ -558,9 +559,26 @@
     border-right: 1px solid rgba(255,255,255,0.06);
   }
   .sidebar-brand {
-    display: flex; align-items: center; gap: 9px; padding: 4px 10px 20px;
+    display: flex; align-items: center; gap: 9px; padding: 4px 10px 16px;
     color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -0.01em;
   }
+  .brand-switcher {
+    display: flex; gap: 4px; padding: 4px; margin: 0 12px 6px; background: #1a1c24; border-radius: 10px;
+  }
+  .brand-switcher button {
+    flex: 1; padding: 8px 4px; border: none; background: none; color: #8a8c9e; font: inherit;
+    font-size: 12px; font-weight: 700; border-radius: 7px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .brand-switcher button:hover { color: #d5d6e2; }
+  .brand-switcher button.active[data-brand="playstation"] { background: var(--accent); color: #fff; }
+  .brand-switcher button.active[data-brand="xbox"] { background: #1e8a3c; color: #fff; }
+  .brand-switcher button.active[data-brand="nintendo"] { background: #c31f2e; color: #fff; }
+  .brand-switcher button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .brand-data-note {
+    font-size: 10.5px; line-height: 1.5; color: #8a8c9e; margin: 0 12px 16px; padding: 8px 10px;
+    background: rgba(255,255,255,0.04); border-radius: 8px;
+  }
+  .line-legend-row span.legend-primary { font-weight: 700; color: var(--text-primary); }
   .sidebar-group-label {
     font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
     color: #5c5e70; padding: 0 12px 8px;
@@ -725,6 +743,13 @@
   .placeholder-panel .placeholder-icon svg { width: 24px; height: 24px; }
   .placeholder-panel .placeholder-title { margin: 0; font-size: 17px; font-weight: 700; color: var(--text); }
   .placeholder-panel .placeholder-desc { margin: 0; font-size: 13.5px; line-height: 1.65; }
+
+  #brandNoDataOverlay { display: none; padding-top: 40px; }
+  .app-content.brand-nodata > #mainOnly,
+  .app-content.brand-nodata > .report-section { display: none !important; }
+  .app-content.brand-nodata > #brandNoDataOverlay { display: block; }
+  .ps-only-panel { display: block; }
+  body:not(.brand-playstation) .ps-only-panel { display: none; }
 
   /* ---------- stat strip ---------- */
   .stat-grid {
@@ -1012,7 +1037,13 @@
 </header>
 <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
 <aside class="app-sidebar" id="appSidebar">
-  <div class="sidebar-brand">🎮 <span>PlayStation 팬덤</span></div>
+  <div class="sidebar-brand">🎮 <span>브랜드별 팬덤지수</span></div>
+  <div class="brand-switcher" role="tablist" aria-label="브랜드 선택">
+    <button type="button" data-brand="playstation" class="active" aria-pressed="true">PlayStation</button>
+    <button type="button" data-brand="xbox" aria-pressed="false">Xbox</button>
+    <button type="button" data-brand="nintendo" aria-pressed="false">Nintendo</button>
+  </div>
+  <p id="brandDataNote" class="brand-data-note" hidden>Xbox·Nintendo는 구글 트렌드 비교 데이터만 있어요. 유튜브·레딧 분석은 PlayStation 채널만 진행했습니다.</p>
   <div class="source-switcher" role="tablist" aria-label="데이터 소스 선택">
     <button type="button" data-source="youtube" class="active" aria-pressed="true">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3.5" width="13" height="9" rx="2.5"/><path d="M6.7 6.2v3.6l3.3-1.8z" fill="currentColor" stroke="none"/></svg>
@@ -1085,9 +1116,18 @@
   </header>
 
   <main class="app-content">
+    <div id="brandNoDataOverlay">
+      <div class="placeholder-panel">
+        <div class="placeholder-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        </div>
+        <p class="placeholder-title" id="brandNoDataTitle">Xbox 유튜브 분석 데이터 없음</p>
+        <p class="placeholder-desc" id="brandNoDataDesc">이번 조사는 PlayStation 공식 채널의 영상·댓글만 수집·분석했습니다. Xbox·Nintendo의 유튜브·레딧 분석은 진행되지 않아 표시할 데이터가 없습니다. 브랜드 간 비교가 가능한 지표는 트렌드 탭을 확인해 주세요.</p>
+      </div>
+    </div>
     <div id="mainOnly" class="main-only active">
       <div class="content-header">
-        <h1 class="title">PlayStation 공식 채널,<br><em>영상 30개</em>와 댓글 1,662개로 본 팬덤 반응</h1>
+        <h1 class="title" data-field="yt_heroTitle">PlayStation 공식 채널,<br><em>영상 30개</em>와 댓글 1,662개로 본 팬덤 반응</h1>
         <div class="meta-line">
           <span><b>채널</b> · youtube.com/@PlayStation</span>
           <span><b>스캔 범위</b> · 최근 업로드 30개 (쇼츠 제외)</span>
@@ -2640,7 +2680,7 @@
 
   <section id="trends-overview" class="report-section" data-source="trends">
     <div class="content-header">
-      <h1 class="title">PlayStation 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴</h1>
+      <h1 class="title" data-field="ov_title">PlayStation 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴</h1>
       <div class="meta-line">
         <span><b>비교 기준</b> · PlayStation / Xbox / Nintendo (Web Search)</span>
         <span><b>수집 도구</b> · pytrends (비공식 Google Trends API)</span>
@@ -2648,9 +2688,9 @@
       </div>
     </div>
     <div class="verdict-box">
-      <p class="verdict-label">이번 데이터가 말해주는 PlayStation 검색 관심도 패턴</p>
-      <p class="verdict-text">PlayStation은 검색 관심도 <b>수치 자체는 3사 중 가장 낮지만</b>, 이벤트 이후에도 관심이 꺼지지 않고 <b>이어지는 유일한 "지속형" 브랜드</b>다 — 화제성이 아니라 콘텐츠에 대한 지속적 관심이 검색 패턴에도 그대로 나타난다.</p>
-      <ul class="verdict-evidence">
+      <p class="verdict-label" data-field="ov_verdictLabel">이번 데이터가 말해주는 PlayStation 검색 관심도 패턴</p>
+      <p class="verdict-text" data-field="ov_verdictText">PlayStation은 검색 관심도 <b>수치 자체는 3사 중 가장 낮지만</b>, 이벤트 이후에도 관심이 꺼지지 않고 <b>이어지는 유일한 "지속형" 브랜드</b>다 — 화제성이 아니라 콘텐츠에 대한 지속적 관심이 검색 패턴에도 그대로 나타난다.</p>
+      <ul class="verdict-evidence" data-field="ov_verdictEvidence">
         <li>전 세계 평균 검색 관심도 36.4로 Xbox(74.0)·Nintendo(45.8)보다 낮음 — 실제 콘솔 판매량 1위 브랜드임에도 검색 관심도는 최저인 특이 사례</li>
         <li>State of Play(2025-09-24) 이후 일주일 평균 관심도가 이벤트 이전보다 오히려 <b>+19.7%</b> 더 높게 유지됨 — Nintendo Direct·Xbox Showcase는 당일 급등 후 일주일 뒤 거의 원상복구</li>
         <li>자국 시장(일본)에서도 3사 중 최저(현지어 포함 30.8) — 검색 관심도가 실제 시장 지배력과 비례하지 않음을 보여주는 근거</li>
@@ -2662,24 +2702,24 @@
     </div>
     <div class="stat-grid">
       <div class="stat-tile">
-        <div class="stat-value num">36.4</div>
-        <div class="stat-label">전 세계 평균 검색 관심도</div>
-        <div class="stat-sub">3사 중 최저 (Xbox 74.0 · Nintendo 45.8)</div>
+        <div class="stat-value num" data-field="ov_stat1_value">36.4</div>
+        <div class="stat-label" data-field="ov_stat1_label">전 세계 평균 검색 관심도</div>
+        <div class="stat-sub" data-field="ov_stat1_sub">3사 중 최저 (Xbox 74.0 · Nintendo 45.8)</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-value num" style="color:var(--s-positive);">+19.7%</div>
-        <div class="stat-label">이벤트 후 관심도 지속 상승</div>
-        <div class="stat-sub">State of Play(9/24) 이후 1주 평균, 3사 중 유일한 지속형 반응</div>
+        <div class="stat-value num" style="color:var(--s-positive);" data-field="ov_stat2_value">+19.7%</div>
+        <div class="stat-label" data-field="ov_stat2_label">이벤트 후 관심도 지속 상승</div>
+        <div class="stat-sub" data-field="ov_stat2_sub">State of Play(9/24) 이후 1주 평균, 3사 중 유일한 지속형 반응</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-value num" style="color:var(--accent);">3 / 3</div>
-        <div class="stat-label">자국 시장(일본) 순위</div>
-        <div class="stat-sub">현지어 포함 30.8점, Nintendo(57.4)에 못 미침</div>
+        <div class="stat-value num" style="color:var(--accent);" data-field="ov_stat3_value">3 / 3</div>
+        <div class="stat-label" data-field="ov_stat3_label">자국 시장(일본) 순위</div>
+        <div class="stat-sub" data-field="ov_stat3_sub">현지어 포함 30.8점, Nintendo(57.4)에 못 미침</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-value" style="font-size:16px;">"playstation news today"</div>
+        <div class="stat-value" style="font-size:16px;" data-field="ov_stat4_value">"playstation news today"</div>
         <div class="stat-label">최상위 Rising Query</div>
-        <div class="stat-sub">검색량 지수 2,600 — PS5 신규 하드웨어·신작 소식 수요 반영</div>
+        <div class="stat-sub" data-field="ov_stat4_sub">검색량 지수 2,600 — PS5 신규 하드웨어·신작 소식 수요 반영</div>
       </div>
     </div>
   </section>
@@ -2687,26 +2727,26 @@
   <section id="trends-global" class="report-section" data-source="trends">
     <div class="section-head">
       <h2>전 세계 검색 관심도</h2>
-      <p class="section-desc">지난 12개월 전 세계 Web Search 기준, PlayStation 검색 관심도 추이입니다.</p>
+      <p class="section-desc" data-field="gl_desc">지난 12개월 전 세계 Web Search 기준, PlayStation 검색 관심도 추이입니다.</p>
     </div>
 
     <div class="panel">
-      <h3>PlayStation 검색 관심도 — 최댓값 · 평균값 · 최솟값</h3>
+      <h3 data-field="gl_statTitle">PlayStation 검색 관심도 — 최댓값 · 평균값 · 최솟값</h3>
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;">
         <div class="stat-tile">
-          <div class="stat-value num">59</div>
+          <div class="stat-value num" data-field="gl_max">59</div>
           <div class="stat-label">최댓값</div>
-          <div class="stat-sub">2025-12-21 주</div>
+          <div class="stat-sub" data-field="gl_maxSub">2025-12-21 주</div>
         </div>
         <div class="stat-tile">
-          <div class="stat-value num" style="color:var(--accent);">37.1</div>
+          <div class="stat-value num" style="color:var(--accent);" data-field="gl_avg">37.1</div>
           <div class="stat-label">평균값</div>
           <div class="stat-sub">최근 12개월 주간 평균</div>
         </div>
         <div class="stat-tile">
-          <div class="stat-value num">27</div>
+          <div class="stat-value num" data-field="gl_min">27</div>
           <div class="stat-label">최솟값</div>
-          <div class="stat-sub">2025-09-14 주</div>
+          <div class="stat-sub" data-field="gl_minSub">2025-09-14 주</div>
         </div>
       </div>
 
@@ -2738,16 +2778,20 @@
       <text x="791.8" y="286" class="line-axis-label">7월</text>
       <line x1="861.6" y1="20" x2="861.6" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
       <text x="861.6" y="286" class="line-axis-label">8월</text>
-          <polyline points="6.0,170.1 23.5,167.6 40.9,160.2 58.4,175.0 75.8,175.0 93.3,175.0 110.8,162.7 128.2,167.6 145.7,165.1 163.2,170.1 180.6,165.1 198.1,150.4 215.5,140.5 233.0,108.6 250.5,135.6 267.9,138.1 285.4,128.2 302.8,59.4 320.3,111.0 337.8,150.4 355.2,162.7 372.7,160.2 390.2,157.8 407.6,162.7 425.1,167.6 442.5,160.2 460.0,155.3 477.5,155.3 494.9,152.8 512.4,160.2 529.8,150.4 547.3,135.6 564.8,143.0 582.2,138.1 599.7,138.1 617.2,143.0 634.6,135.6 652.1,138.1 669.5,152.8 687.0,145.5 704.5,143.0 721.9,130.7 739.4,157.8 756.8,157.8 774.3,157.8 791.8,157.8 809.2,170.1 826.7,162.7 844.2,167.6 861.6,165.1 879.1,165.1 896.5,162.7 914.0,155.3" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-          <polyline points="6.0,101.2 23.5,101.2 40.9,115.9 58.4,113.5 75.8,103.6 93.3,76.6 110.8,96.3 128.2,88.9 145.7,111.0 163.2,106.1 180.6,111.0 198.1,81.5 215.5,76.6 233.0,61.8 250.5,79.0 267.9,84.0 285.4,69.2 302.8,27.4 320.3,44.6 337.8,88.9 355.2,103.6 372.7,98.7 390.2,101.2 407.6,108.6 425.1,120.9 442.5,98.7 460.0,113.5 477.5,108.6 494.9,106.1 512.4,111.0 529.8,84.0 547.3,56.9 564.8,59.4 582.2,71.7 599.7,84.0 617.2,76.6 634.6,69.2 652.1,66.7 669.5,59.4 687.0,49.5 704.5,44.6 721.9,20.0 739.4,64.3 756.8,37.2 774.3,54.4 791.8,59.4 809.2,79.0 826.7,74.1 844.2,49.5 861.6,79.0 879.1,71.7 896.5,86.4 914.0,69.2" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-          <polyline points="6.0,189.7 23.5,184.8 40.9,197.1 58.4,199.6 75.8,194.7 93.3,179.9 110.8,184.8 128.2,189.7 145.7,187.3 163.2,189.7 180.6,184.8 198.1,175.0 215.5,160.2 233.0,143.0 250.5,152.8 267.9,155.3 285.4,157.8 302.8,120.9 320.3,150.4 337.8,179.9 355.2,187.3 372.7,184.8 390.2,187.3 407.6,192.2 425.1,187.3 442.5,182.4 460.0,189.7 477.5,189.7 494.9,192.2 512.4,182.4 529.8,175.0 547.3,162.7 564.8,165.1 582.2,167.6 599.7,172.5 617.2,170.1 634.6,170.1 652.1,172.5 669.5,175.0 687.0,170.1 704.5,165.1 721.9,175.0 739.4,179.9 756.8,152.8 774.3,147.9 791.8,160.2 809.2,175.0 826.7,157.8 844.2,179.9 861.6,184.8 879.1,184.8 896.5,182.4 914.0,167.6" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="75.8" y1="20" x2="75.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="75.8" cy="18" r="8" fill="var(--accent)"/><text x="75.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">1</text>
-      <line x1="110.8" y1="20" x2="110.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="110.8" cy="18" r="8" fill="var(--accent)"/><text x="110.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">2</text>
+          <polyline id="lineSeriesNin" points="6.0,170.1 23.5,167.6 40.9,160.2 58.4,175.0 75.8,175.0 93.3,175.0 110.8,162.7 128.2,167.6 145.7,165.1 163.2,170.1 180.6,165.1 198.1,150.4 215.5,140.5 233.0,108.6 250.5,135.6 267.9,138.1 285.4,128.2 302.8,59.4 320.3,111.0 337.8,150.4 355.2,162.7 372.7,160.2 390.2,157.8 407.6,162.7 425.1,167.6 442.5,160.2 460.0,155.3 477.5,155.3 494.9,152.8 512.4,160.2 529.8,150.4 547.3,135.6 564.8,143.0 582.2,138.1 599.7,138.1 617.2,143.0 634.6,135.6 652.1,138.1 669.5,152.8 687.0,145.5 704.5,143.0 721.9,130.7 739.4,157.8 756.8,157.8 774.3,157.8 791.8,157.8 809.2,170.1 826.7,162.7 844.2,167.6 861.6,165.1 879.1,165.1 896.5,162.7 914.0,155.3" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+          <polyline id="lineSeriesXbox" points="6.0,101.2 23.5,101.2 40.9,115.9 58.4,113.5 75.8,103.6 93.3,76.6 110.8,96.3 128.2,88.9 145.7,111.0 163.2,106.1 180.6,111.0 198.1,81.5 215.5,76.6 233.0,61.8 250.5,79.0 267.9,84.0 285.4,69.2 302.8,27.4 320.3,44.6 337.8,88.9 355.2,103.6 372.7,98.7 390.2,101.2 407.6,108.6 425.1,120.9 442.5,98.7 460.0,113.5 477.5,108.6 494.9,106.1 512.4,111.0 529.8,84.0 547.3,56.9 564.8,59.4 582.2,71.7 599.7,84.0 617.2,76.6 634.6,69.2 652.1,66.7 669.5,59.4 687.0,49.5 704.5,44.6 721.9,20.0 739.4,64.3 756.8,37.2 774.3,54.4 791.8,59.4 809.2,79.0 826.7,74.1 844.2,49.5 861.6,79.0 879.1,71.7 896.5,86.4 914.0,69.2" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+          <polyline id="lineSeriesPs" points="6.0,189.7 23.5,184.8 40.9,197.1 58.4,199.6 75.8,194.7 93.3,179.9 110.8,184.8 128.2,189.7 145.7,187.3 163.2,189.7 180.6,184.8 198.1,175.0 215.5,160.2 233.0,143.0 250.5,152.8 267.9,155.3 285.4,157.8 302.8,120.9 320.3,150.4 337.8,179.9 355.2,187.3 372.7,184.8 390.2,187.3 407.6,192.2 425.1,187.3 442.5,182.4 460.0,189.7 477.5,189.7 494.9,192.2 512.4,182.4 529.8,175.0 547.3,162.7 564.8,165.1 582.2,167.6 599.7,172.5 617.2,170.1 634.6,170.1 652.1,172.5 669.5,175.0 687.0,170.1 704.5,165.1 721.9,175.0 739.4,179.9 756.8,152.8 774.3,147.9 791.8,160.2 809.2,175.0 826.7,157.8 844.2,179.9 861.6,184.8 879.1,184.8 896.5,182.4 914.0,167.6" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line id="trMark1Line" x1="75.8" y1="20" x2="75.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle id="trMark1Circle" cx="75.8" cy="18" r="8" fill="var(--accent)"/><text id="trMark1Text" x="75.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">1</text>
+      <line id="trMark2Line" x1="110.8" y1="20" x2="110.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle id="trMark2Circle" cx="110.8" cy="18" r="8" fill="var(--accent)"/><text id="trMark2Text" x="110.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">2</text>
       <line x1="233.0" y1="20" x2="233.0" y2="266" stroke="var(--text-muted)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="233.0" cy="18" r="8" fill="var(--text-muted)"/><text x="233.0" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">3</text>
       <line x1="302.8" y1="20" x2="302.8" y2="266" stroke="var(--text-muted)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="302.8" cy="18" r="8" fill="var(--text-muted)"/><text x="302.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">4</text>
-      <line x1="704.5" y1="20" x2="704.5" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="704.5" cy="18" r="8" fill="var(--accent)"/><text x="704.5" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">5</text>
-          <circle cx="302.8" cy="120.9" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
-          <circle cx="58.4" cy="199.6" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+      <line id="trMark5Line" x1="704.5" y1="20" x2="704.5" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle id="trMark5Circle" cx="704.5" cy="18" r="8" fill="var(--accent)"/><text id="trMark5Text" x="704.5" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">5</text>
+          <circle id="trMaxCircle" cx="302.8" cy="120.9" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+          <circle id="trMinCircle" cx="58.4" cy="199.6" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+          <circle id="trMaxCircleXbox" cx="721.9" cy="20.0" r="4.5" fill="#1e8a3c" stroke="var(--surface)" stroke-width="1.5" hidden/>
+          <circle id="trMinCircleXbox" cx="425.1" cy="120.9" r="4.5" fill="#1e8a3c" stroke="var(--surface)" stroke-width="1.5" hidden/>
+          <circle id="trMaxCircleNin" cx="302.8" cy="59.4" r="4.5" fill="#c31f2e" stroke="var(--surface)" stroke-width="1.5" hidden/>
+          <circle id="trMinCircleNin" cx="58.4" cy="175.0" r="4.5" fill="#c31f2e" stroke="var(--surface)" stroke-width="1.5" hidden/>
           <g id="trCrosshairGroup" style="display:none;">
             <line id="trCrosshairLine" x1="0" y1="20" x2="0" y2="266" stroke="var(--text-muted)" stroke-width="1"/>
             <circle id="trCrosshairPs" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
@@ -2811,31 +2855,31 @@
           </g>
         </svg>
       </div>
-      <div class="line-legend-row">
-        <span><span class="swatch-line" style="background:var(--accent);"></span>PlayStation</span>
-        <span><span class="swatch-line" style="background:#b7b9cc;"></span>Xbox <small style="color:var(--text-muted);">(참고)</small></span>
-        <span><span class="swatch-line" style="background:#b7b9cc;border-top:2px dashed #8b8dab;height:0;"></span>Nintendo <small style="color:var(--text-muted);">(참고, 점선)</small></span>
+      <div class="line-legend-row" id="trLegendRow">
+        <span data-brand-legend="playstation"><span class="swatch-line" style="background:var(--accent);"></span>PlayStation <small class="ref-tag" style="color:var(--text-muted);" hidden>(참고)</small></span>
+        <span data-brand-legend="xbox"><span class="swatch-line" style="background:#b7b9cc;"></span>Xbox <small class="ref-tag" style="color:var(--text-muted);">(참고)</small></span>
+        <span data-brand-legend="nintendo"><span class="swatch-line" style="background:#b7b9cc;border-top:2px dashed #8b8dab;height:0;"></span>Nintendo <small class="ref-tag" style="color:var(--text-muted);">(참고, 점선)</small></span>
       </div>
       <div class="marks-legend">
-        <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">1</span><span>이벤트 · State of Play (Saros/Wolverine)</span><span class="mark-date num">2025-09-24</span></div>
-          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">2</span><span>이벤트 · Ghost of Yotei 출시</span><span class="mark-date num">2025-10-02</span></div>
+        <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">1</span><span data-field="gl_mark1Label">이벤트 · State of Play (Saros/Wolverine)</span><span class="mark-date num" data-field="gl_mark1Date">2025-09-24</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">2</span><span data-field="gl_mark2Label">이벤트 · Ghost of Yotei 출시</span><span class="mark-date num" data-field="gl_mark2Date">2025-10-02</span></div>
           <div class="mark-row"><span class="mark-badge" style="background:var(--text-muted);">3</span><span>급등 · 블랙프라이데이 급등</span><span class="mark-date num">2025-11-23</span></div>
           <div class="mark-row"><span class="mark-badge" style="background:var(--text-muted);">4</span><span>급등 · 크리스마스 급등</span><span class="mark-date num">2025-12-21</span></div>
-          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">5</span><span>이벤트 · State of Play (God of War Laufey)</span><span class="mark-date num">2026-06-02</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">5</span><span data-field="gl_mark5Label">이벤트 · State of Play (God of War Laufey)</span><span class="mark-date num" data-field="gl_mark5Date">2026-06-02</span></div>
       </div>
       <p class="panel-note" style="margin-top:14px;">Google Trends 지수는 0~100 범위이며, 100은 조사 기간 내 해당 검색어의 최고 관심도 시점을 나타냅니다. 그래프 위에 마우스를 올리면 해당 주의 정확한 날짜와 3사 수치를 확인할 수 있습니다.</p>
     </div>
 
     <div class="panel">
       <h3>연중 최대 급등 시점</h3>
-      <p class="section-desc" style="margin-bottom:14px;">PlayStation을 포함한 3사 공통으로 검색 관심도가 가장 크게 튀는 구간입니다(그래프의 급등 마크 참고).</p>
+      <p class="section-desc" style="margin-bottom:14px;">3사 공통으로 검색 관심도가 가장 크게 튀는 구간입니다(그래프의 급등 마크 참고).</p>
       <div class="chip-list">
         <span class="chip"><span class="rank">1</span>2025-12-21 주 — 크리스마스 시즌</span>
         <span class="chip"><span class="rank">2</span>2025-11-23 주 — 블랙프라이데이 시즌</span>
       </div>
     </div>
 
-    <div class="panel">
+    <div class="panel ps-only-panel">
       <h3>측정 방식에 따른 PlayStation 수치 차이 — Topic 왜곡, 재검증으로 원인 특정</h3>
       <div class="locale-compare">
         <div class="locale-card">
@@ -2860,51 +2904,51 @@
     </div>
 
     <div class="panel">
-      <h3>PlayStation 지역별 평균 관심도</h3>
-      <div class="bar-row">
-        <span class="bar-label">한국<small>영어 및 현지어 검색</small></span>
-        <div class="bar-track"><div class="bar-fill" style="width:33.4%" title="한국 33.4"></div></div>
-        <span class="bar-value num">33.4</span>
+      <h3 data-field="rg_barTitle">PlayStation 지역별 평균 관심도</h3>
+      <div class="bar-row" data-field-row="rg_kr">
+        <span class="bar-label">한국<small data-field="rg_krSmall">영어 및 현지어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" data-field="rg_krFill" style="width:33.4%" title="한국 33.4"></div></div>
+        <span class="bar-value num" data-field="rg_kr">33.4</span>
       </div>
-      <div class="bar-row">
-        <span class="bar-label">일본<small>영어 및 현지어 검색</small></span>
-        <div class="bar-track"><div class="bar-fill" style="width:30.8%" title="일본 30.8"></div></div>
-        <span class="bar-value num">30.8</span>
+      <div class="bar-row" data-field-row="rg_jp">
+        <span class="bar-label">일본<small data-field="rg_jpSmall">영어 및 현지어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" data-field="rg_jpFill" style="width:30.8%" title="일본 30.8"></div></div>
+        <span class="bar-value num" data-field="rg_jp">30.8</span>
       </div>
-      <div class="bar-row">
+      <div class="bar-row" data-field-row="rg_us">
         <span class="bar-label">미국<small>영어 검색</small></span>
         <div class="bar-track"><div class="bar-fill" style="width:24.6%" title="미국 24.6"></div></div>
         <span class="bar-value num">24.6</span>
       </div>
-      <div class="bar-row">
+      <div class="bar-row" data-field-row="rg_uk">
         <span class="bar-label">영국<small>영어 검색</small></span>
         <div class="bar-track"><div class="bar-fill" style="width:22.1%" title="영국 22.1"></div></div>
         <span class="bar-value num">22.1</span>
       </div>
-      <p class="panel-note">Google Trends는 국가 내 상대 정규화 방식이라, 절대 수치를 국가 간에 직접 비교할 수는 없습니다 — 국가 내 다른 검색어 대비 이 브랜드의 상대 비중을 나타냅니다.</p>
+      <p class="panel-note" data-field="rg_barNote">Google Trends는 국가 내 상대 정규화 방식이라, 절대 수치를 국가 간에 직접 비교할 수는 없습니다 — 국가 내 다른 검색어 대비 이 브랜드의 상대 비중을 나타냅니다.</p>
     </div>
 
     <div class="panel">
-      <h3>현지어 보정 효과 — 영어 전용 대비 변화</h3>
-      <p class="section-desc" style="margin-bottom:14px;">최초 수집은 영어 검색어만 사용해 일본·한국 수치가 과소평가됐을 가능성이 있어, 현지어 표기를 포함해 재수집했습니다.</p>
+      <h3 data-field="rg_localeTitle">현지어 보정 효과 — 영어 전용 대비 변화</h3>
+      <p class="section-desc" style="margin-bottom:14px;" data-field="rg_localeDesc">최초 수집은 영어 검색어만 사용해 일본·한국 수치가 과소평가됐을 가능성이 있어, 현지어 표기를 포함해 재수집했습니다.</p>
       <div class="locale-compare">
         <div class="locale-card">
-          <p class="locale-region">일본 · PlayStation</p>
+          <p class="locale-region" data-field="rg_jpCardTitle">일본 · PlayStation</p>
           <div class="locale-arrow">
-            <span class="from num">16.1</span>
+            <span class="from num" data-field="rg_jpFrom">16.1</span>
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
-            <span class="to num">30.8</span>
+            <span class="to num" data-field="rg_jpTo">30.8</span>
           </div>
-          <p class="locale-note">현지어(プレイステーション/プレステ) 포함 시 거의 2배로 상승 — 그래도 일본 1위 Nintendo(57.4)에는 못 미침</p>
+          <p class="locale-note" data-field="rg_jpNote">현지어(プレイステーション/プレステ) 포함 시 거의 2배로 상승 — 그래도 일본 1위 Nintendo(57.4)에는 못 미침</p>
         </div>
         <div class="locale-card">
-          <p class="locale-region">한국 · PlayStation</p>
+          <p class="locale-region" data-field="rg_krCardTitle">한국 · PlayStation</p>
           <div class="locale-arrow">
-            <span class="from num">13.5</span>
+            <span class="from num" data-field="rg_krFrom">13.5</span>
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
-            <span class="to num">33.4</span>
+            <span class="to num" data-field="rg_krTo">33.4</span>
           </div>
-          <p class="locale-note"><span class="resolved-tag">재검증 완료</span>정식 표기("플레이스테이션") 추가만으로는 변화 없었지만(13.5), 준말 <b style="color:var(--text-primary);">"플스"를 포함하자 33.4로 2.5배 상승</b> — Xbox(26.8)를 제치고 한국 2위로 순위가 바뀜. "플스"의 연관 검색어를 확인한 결과 플스 게임·플스 프로·플스 가격 등 100% PlayStation 관련어로, 우려했던 동음이의어 오염은 실제 검색어 방식에서는 확인되지 않음.</p>
+          <p class="locale-note" data-field="rg_krNote"><span class="resolved-tag">재검증 완료</span>정식 표기("플레이스테이션") 추가만으로는 변화 없었지만(13.5), 준말 <b style="color:var(--text-primary);">"플스"를 포함하자 33.4로 2.5배 상승</b> — Xbox(26.8)를 제치고 한국 2위로 순위가 바뀜. "플스"의 연관 검색어를 확인한 결과 플스 게임·플스 프로·플스 가격 등 100% PlayStation 관련어로, 우려했던 동음이의어 오염은 실제 검색어 방식에서는 확인되지 않음.</p>
         </div>
       </div>
     </div>
@@ -2912,11 +2956,22 @@
 
   <section id="trends-events" class="report-section" data-source="trends">
     <p class="events-eyebrow">Google Trends / Event Analysis</p>
-    <h1 class="events-h1">이벤트가 만든 관심은 얼마나 오래갔을까?</h1>
-    <p class="events-summary">
+    <h1 class="events-h1" data-field="ev_h1">이벤트가 만든 관심은 얼마나 오래갔을까?</h1>
+    <p class="events-summary" data-field="ev_summary">
       PlayStation 이벤트 3건 중 <b>Saros / Wolverine 한 건만 이벤트 후에도 관심도가 계속 늘었고</b>,
       나머지 두 건(God of War Laufey, Ghost of Yotei)은 이벤트 이전 수준으로 돌아가거나 그 아래로 떨어졌습니다.
     </p>
+
+    <div id="eventsBrandSummary" class="panel" hidden>
+      <h3 data-field="ev_bs_title">Xbox 이벤트 요약 — 참고용</h3>
+      <p class="panel-note" style="margin-bottom:14px;" data-field="ev_bs_note">PlayStation과 동일한 일 단위(D-7~D+7) 전/후 지수는 수집하지 않아, 이벤트 전후 정확한 반응도(%)·Impact Score는 계산할 수 없습니다. 아래는 Google Trends 주간 시계열과 조사 메모에 근거한 정성적 요약입니다.</p>
+      <div class="chip-list" data-field="ev_bs_events">
+        <span class="chip">이벤트 목록 준비 중</span>
+      </div>
+      <p class="panel-note" style="margin-top:14px;" data-field="ev_bs_pattern">패턴 요약 준비 중</p>
+    </div>
+
+    <div id="eventsPsDetail">
     <div class="events-meta-row">
       <span class="events-meta-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><b>분석 기간</b></span>
       <span class="date-range-picker">
@@ -3228,26 +3283,27 @@
     <div class="events-download-row">
       <button type="button" class="events-download-btn" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M2.5 12v1.5A1.5 1.5 0 004 15h8a1.5 1.5 0 001.5-1.5V12"/></svg>리포트 다운로드</button>
     </div>
+    </div>
   </section>
 
   <section id="trends-queries" class="report-section" data-source="trends">
     <div class="section-head">
       <h2>관련 검색어 · 급상승 검색어</h2>
-      <p class="section-desc">지난 12개월간 PlayStation과 함께 검색된 상위 연관어와 급상승(Rising) 검색어입니다.</p>
+      <p class="section-desc" data-field="qr_desc">지난 12개월간 PlayStation과 함께 검색된 상위 연관어와 급상승(Rising) 검색어입니다.</p>
     </div>
 
     <div class="panel">
-      <h3>급상승 검색어 (Rising Queries)</h3>
-      <div class="chip-list">
+      <h3 data-field="qr_risingTitle">급상승 검색어 (Rising Queries)</h3>
+      <div class="chip-list" data-field="qr_risingChips">
         <span class="chip"><span class="rank">1</span>playstation news today <span class="vol">idx 2,600</span></span>
         <span class="chip"><span class="rank">2</span>sony playstation 5 console <span class="vol">신규 하드웨어</span></span>
         <span class="chip"><span class="rank">3</span>sony playstation 5 slim console <span class="vol">신규 하드웨어</span></span>
         <span class="chip"><span class="rank">4</span>ghost of yotei <span class="vol">신작 게임</span></span>
       </div>
-      <p class="panel-note">PS5 신규 하드웨어 리비전과 대작 게임(Ghost of Yotei) 출시가 검색 관심도 상승의 주요 요인으로 추정됩니다.</p>
+      <p class="panel-note" data-field="qr_risingNote">PS5 신규 하드웨어 리비전과 대작 게임(Ghost of Yotei) 출시가 검색 관심도 상승의 주요 요인으로 추정됩니다.</p>
     </div>
 
-    <div class="panel">
+    <div class="panel ps-only-panel">
       <h3>연관 검색어 (Related Queries) — 카테고리별</h3>
       <div class="tr-table-wrap">
         <table class="tr-qtable">
@@ -3555,7 +3611,7 @@
   var SOURCE_EYEBROW = {
     youtube: 'YouTube 채널 분석 리포트 · LLM 재분류 반영',
     reddit: 'Reddit 커뮤니티 분석 리포트 · 규칙 기반(Mock) 분류 반영',
-    trends: 'Google Trends 분석 리포트 · PlayStation 전용'
+    trends: 'Google Trends 분석 리포트 · PlayStation / Xbox / Nintendo 비교'
   };
   var SOURCE_FOOTER = {
     youtube: [
@@ -3587,6 +3643,8 @@
   }
 
   function setSource(source, focusFirstTab) {
+    window.currentSource = source;
+    if (window.__onSourceChange) window.__onSourceChange(source);
     navGroups.forEach(function (g) { g.hidden = g.dataset.source !== source; });
     sourceButtons.forEach(function (b) {
       var isActive = b.dataset.source === source;
@@ -3811,6 +3869,251 @@
     rect.addEventListener('mouseenter', function (e) { show(i); moveTip(e); });
   });
   svg.addEventListener('mouseleave', hide);
+})();
+</script>
+<script>
+(function () {
+  var BRAND_COLOR = { playstation: 'var(--accent)', xbox: '#1e8a3c', nintendo: '#c31f2e' };
+  var SOURCE_LABEL_KO = { youtube: '유튜브', reddit: '레딧' };
+
+  var BRANDS = {
+    playstation: {
+      fields: {
+        ov_title: 'PlayStation 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴',
+        ov_verdictLabel: '이번 데이터가 말해주는 PlayStation 검색 관심도 패턴',
+        ov_verdictText: 'PlayStation은 검색 관심도 <b>수치 자체는 3사 중 가장 낮지만</b>, 이벤트 이후에도 관심이 꺼지지 않고 <b>이어지는 유일한 "지속형" 브랜드</b>다 — 화제성이 아니라 콘텐츠에 대한 지속적 관심이 검색 패턴에도 그대로 나타난다.',
+        ov_verdictEvidence: '<li>전 세계 평균 검색 관심도 36.4로 Xbox(74.0)·Nintendo(45.8)보다 낮음 — 실제 콘솔 판매량 1위 브랜드임에도 검색 관심도는 최저인 특이 사례</li><li>State of Play(2025-09-24) 이후 일주일 평균 관심도가 이벤트 이전보다 오히려 <b>+19.7%</b> 더 높게 유지됨 — Nintendo Direct·Xbox Showcase는 당일 급등 후 일주일 뒤 거의 원상복구</li><li>자국 시장(일본)에서도 3사 중 최저(현지어 포함 30.8) — 검색 관심도가 실제 시장 지배력과 비례하지 않음을 보여주는 근거</li>',
+        ov_stat1_value: '36.4', ov_stat1_label: '전 세계 평균 검색 관심도', ov_stat1_sub: '3사 중 최저 (Xbox 74.0 · Nintendo 45.8)',
+        ov_stat2_value: '+19.7%', ov_stat2_label: '이벤트 후 관심도 지속 상승', ov_stat2_sub: 'State of Play(9/24) 이후 1주 평균, 3사 중 유일한 지속형 반응',
+        ov_stat3_value: '3 / 3', ov_stat3_label: '자국 시장(일본) 순위', ov_stat3_sub: '현지어 포함 30.8점, Nintendo(57.4)에 못 미침',
+        ov_stat4_value: '"playstation news today"', ov_stat4_sub: '검색량 지수 2,600 — PS5 신규 하드웨어·신작 소식 수요 반영',
+        gl_desc: '지난 12개월 전 세계 Web Search 기준, PlayStation 검색 관심도 추이입니다.',
+        gl_statTitle: 'PlayStation 검색 관심도 — 최댓값 · 평균값 · 최솟값',
+        gl_max: '59', gl_maxSub: '2025-12-21 주', gl_avg: '37.1', gl_min: '27', gl_minSub: '2025-09-14 주',
+        gl_mark1Label: '이벤트 · State of Play (Saros/Wolverine)', gl_mark1Date: '2025-09-24',
+        gl_mark2Label: '이벤트 · Ghost of Yotei 출시', gl_mark2Date: '2025-10-02',
+        gl_mark5Label: '이벤트 · State of Play (God of War Laufey)', gl_mark5Date: '2026-06-02',
+        rg_barTitle: 'PlayStation 지역별 평균 관심도',
+        rg_kr: '33.4', rg_krSmall: '영어 및 현지어 검색', rg_krFill: 33.4,
+        rg_jp: '30.8', rg_jpSmall: '영어 및 현지어 검색', rg_jpFill: 30.8,
+        rg_barNote: 'Google Trends는 국가 내 상대 정규화 방식이라, 절대 수치를 국가 간에 직접 비교할 수는 없습니다 — 국가 내 다른 검색어 대비 이 브랜드의 상대 비중을 나타냅니다.',
+        rg_localeTitle: '현지어 보정 효과 — 영어 전용 대비 변화',
+        rg_localeDesc: '최초 수집은 영어 검색어만 사용해 일본·한국 수치가 과소평가됐을 가능성이 있어, 현지어 표기를 포함해 재수집했습니다.',
+        rg_jpCardTitle: '일본 · PlayStation', rg_jpFrom: '16.1', rg_jpTo: '30.8',
+        rg_jpNote: '현지어(プレイステーション/プレステ) 포함 시 거의 2배로 상승 — 그래도 일본 1위 Nintendo(57.4)에는 못 미침',
+        rg_krCardTitle: '한국 · PlayStation', rg_krFrom: '13.5', rg_krTo: '33.4',
+        rg_krNote: '<span class="resolved-tag">재검증 완료</span>정식 표기("플레이스테이션") 추가만으로는 변화 없었지만(13.5), 준말 <b style="color:var(--text-primary);">"플스"를 포함하자 33.4로 2.5배 상승</b> — Xbox(26.8)를 제치고 한국 2위로 순위가 바뀜. "플스"의 연관 검색어를 확인한 결과 플스 게임·플스 프로·플스 가격 등 100% PlayStation 관련어로, 우려했던 동음이의어 오염은 실제 검색어 방식에서는 확인되지 않음.',
+        qr_desc: '지난 12개월간 PlayStation과 함께 검색된 상위 연관어와 급상승(Rising) 검색어입니다.',
+        qr_risingTitle: '급상승 검색어 (Rising Queries)',
+        qr_risingChips: '<span class="chip"><span class="rank">1</span>playstation news today <span class="vol">idx 2,600</span></span><span class="chip"><span class="rank">2</span>sony playstation 5 console <span class="vol">신규 하드웨어</span></span><span class="chip"><span class="rank">3</span>sony playstation 5 slim console <span class="vol">신규 하드웨어</span></span><span class="chip"><span class="rank">4</span>ghost of yotei <span class="vol">신작 게임</span></span>',
+        qr_risingNote: 'PS5 신규 하드웨어 리비전과 대작 게임(Ghost of Yotei) 출시가 검색 관심도 상승의 주요 요인으로 추정됩니다.',
+        ev_summary: 'PlayStation 이벤트 3건 중 <b>Saros / Wolverine 한 건만 이벤트 후에도 관심도가 계속 늘었고</b>, 나머지 두 건(God of War Laufey, Ghost of Yotei)은 이벤트 이전 수준으로 돌아가거나 그 아래로 떨어졌습니다.'
+      },
+      markX: { m1: 75.8, m2: 110.8, m5: 704.5 },
+      region: { showUsUk: true },
+      eventsHasDetail: true
+    },
+    xbox: {
+      fields: {
+        ov_title: 'Xbox 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴',
+        ov_verdictLabel: '이번 데이터가 말해주는 Xbox 검색 관심도 패턴',
+        ov_verdictText: 'Xbox는 검색 관심도 <b>수치 자체는 3사 중 가장 높지만</b>, 그 반응은 <b>행사 규모에 따라 극과 극으로 갈리는 "변동형" 브랜드</b>다 — 대형 쇼케이스에는 크게 반응하지만 소규모 발표에는 반응이 작거나 오히려 줄고, 반응 자체도 오래 남지 않는다.',
+        ov_verdictEvidence: '<li>전 세계 평균 검색 관심도 74.0으로 3사 중 1위 — 다만 "Xbox"라는 검색어 자체가 Game Pass 등 서비스명까지 포괄해 실질 브랜드 관심보다 부풀려졌을 가능성이 있음</li><li>행사 규모에 따라 반응이 정반대 — Xbox Games Showcase(대형, 2026-06-07)는 당일 <b>+49.3%</b> 급등했지만, Xbox Developer Direct(소규모, 2026-01-22)는 오히려 당일 <b>-8.2%</b> 하락</li><li>두 이벤트 모두 일주일 뒤엔 이벤트 이전 수준으로 복귀 — 3사 중 지속성이 가장 낮은 편</li>',
+        ov_stat1_value: '74.0', ov_stat1_label: '전 세계 평균 검색 관심도', ov_stat1_sub: '3사 중 최고 (PlayStation 36.4 · Nintendo 45.8)',
+        ov_stat2_value: '+49.3%', ov_stat2_label: '대형 쇼케이스 당일 반응', ov_stat2_sub: 'Xbox Games Showcase(6/7) 당일, 일주일 뒤엔 원상복구',
+        ov_stat3_value: '57.5%p', ov_stat3_label: '행사 규모별 반응 격차', ov_stat3_sub: 'Games Showcase(+49.3%) vs Developer Direct(-8.2%)',
+        ov_stat4_value: '"xbox helix"', ov_stat4_sub: '차세대 콘솔 프로젝트 코드네임 — 2026년 3월 공개',
+        gl_desc: '지난 12개월 전 세계 Web Search 기준, Xbox 검색 관심도 추이입니다.',
+        gl_statTitle: 'Xbox 검색 관심도 — 최댓값 · 평균값 · 최솟값',
+        gl_max: '100.0', gl_maxSub: '2026-06-07 주 (Xbox Games Showcase)', gl_avg: '75.3', gl_min: '59.0', gl_minSub: '2026년 2월 초',
+        gl_mark1Label: '이벤트 · Call of Duty: Black Ops 7 출시', gl_mark1Date: '2025-11-14',
+        gl_mark2Label: '이벤트 · Xbox Developer Direct 2026', gl_mark2Date: '2026-01-22',
+        gl_mark5Label: '이벤트 · Xbox Games Showcase + Gears of War E-Day Direct', gl_mark5Date: '2026-06-07',
+        rg_barTitle: 'Xbox 지역별 평균 관심도 (현지어 반영 국가만)',
+        rg_kr: '26.8', rg_krSmall: '현지어(엑스박스) 포함', rg_krFill: 26.8,
+        rg_jp: '12.4', rg_jpSmall: '현지어(エックスボックス) 포함', rg_jpFill: 12.4,
+        rg_barNote: 'Xbox는 미국·영국 개별 지역 수치를 이번 조사에서 별도 수집하지 않아 일본·한국만 표시합니다. Google Trends는 국가 내 상대 정규화 방식이라 절대 수치를 국가 간에 직접 비교할 수 없습니다.',
+        rg_localeTitle: '현지어 보정 효과 — 영어 전용 대비 변화',
+        rg_localeDesc: '일본·한국 모두 현지어 검색어를 포함하자 오히려 수치가 감소했습니다 — 아래 카드에서 그 이유를 확인하세요.',
+        rg_jpCardTitle: '일본 · Xbox', rg_jpFrom: '30.4', rg_jpTo: '12.4',
+        rg_jpNote: '현지어(エックスボックス) 포함 시 오히려 절반 이하로 감소 — Xbox는 한국어 준말("엑박")과 마찬가지로 일본어 표기도 검색어 정규화 과정에서 다른 항목과의 상대 비중이 낮아졌을 가능성이 있습니다(추정, 추가 검증 필요).',
+        rg_krCardTitle: '한국 · Xbox', rg_krFrom: '32.5', rg_krTo: '26.8',
+        rg_krNote: '한국어 준말 "엑박"은 Google이 무관한 항목(동음이의어)으로 인식해 검색어에서 제외됐습니다. 현지어 보정 후에도 수치가 감소한 것은 PlayStation·Nintendo와 반대 방향으로, 정확한 원인은 추가 검증이 필요합니다.',
+        qr_desc: '지난 12개월간 Xbox와 함께 검색된 급상승(Rising) 검색어입니다. 카테고리별 연관 검색어는 이번 조사에서 PlayStation만 별도로 정리했습니다.',
+        qr_risingTitle: '급상승 검색어 (Rising Queries)',
+        qr_risingChips: '<span class="chip"><span class="rank">1</span>xbox helix <span class="vol">차세대 콘솔 코드네임</span></span><span class="chip"><span class="rank">2</span>resident evil requiem <span class="vol">신작 게임</span></span><span class="chip"><span class="rank">3</span>crimson desert xbox <span class="vol">신작 게임</span></span><span class="chip"><span class="rank">4</span>arc raiders xbox <span class="vol">신작 게임</span></span><span class="chip"><span class="rank">5</span>asus rog xbox ally x <span class="vol">신규 하드웨어</span></span>',
+        qr_risingNote: '차세대 콘솔 프로젝트("xbox helix")와 다수의 신작 게임 발매 소식이 검색 관심도 상승의 주요 요인으로 추정됩니다.',
+        ev_summary: 'PlayStation과 동일한 일 단위 전/후 지수는 이번 조사에서 수집하지 않았습니다. 대신 Google Trends 주간 시계열과 조사 메모를 바탕으로, Xbox 이벤트 3건에 대한 정성적 패턴을 아래에 정리했습니다.',
+        ev_bs_title: 'Xbox 이벤트 요약 — 참고용',
+        ev_bs_note: 'PlayStation과 동일한 일 단위(D-7~D+7) 전/후 지수는 수집하지 않아, 이벤트 전후 정확한 반응도(%)·Impact Score는 계산할 수 없습니다. 아래는 조사 메모에 근거한 정성적 요약입니다.',
+        ev_bs_events: '<span class="chip"><span class="rank">1</span>Call of Duty: Black Ops 7 출시 <span class="vol">2025-11-14</span></span><span class="chip"><span class="rank">2</span>Xbox Developer Direct 2026 <span class="vol">2026-01-22</span></span><span class="chip"><span class="rank">3</span>Xbox Games Showcase + Gears of War E-Day Direct <span class="vol">2026-06-07</span></span>',
+        ev_bs_pattern: '행사 규모에 따라 반응이 극과 극으로 갈립니다 — 대형 행사인 Xbox Games Showcase(6/7)는 당일 검색 관심도가 <b>+49.3%</b> 급등한 반면, 소규모 발표인 Xbox Developer Direct(1/22)는 오히려 당일 <b>-8.2%</b> 하락했습니다. 두 이벤트 모두 일주일 뒤에는 이벤트 이전 수준으로 복귀해, PlayStation 같은 "지속형" 반응은 관찰되지 않았습니다. (Call of Duty: Black Ops 7 출시는 이번 조사에서 반응도 수치를 확보하지 못했습니다.)'
+      },
+      markX: { m1: 215.5, m2: 390.2, m5: 721.9 },
+      region: { showUsUk: false },
+      eventsHasDetail: false
+    },
+    nintendo: {
+      fields: {
+        ov_title: 'Nintendo 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴',
+        ov_verdictLabel: '이번 데이터가 말해주는 Nintendo 검색 관심도 패턴',
+        ov_verdictText: 'Nintendo는 검색 관심도가 <b>3사 중 유일하게 자국 시장(일본)에서 1위</b>를 차지하는 브랜드다 — 다만 그 반응은 <b>Direct 발표 당일에만 반짝 튀었다가 곧바로 가라앉는 "스파이크형"</b>이 뚜렷하다.',
+        ov_verdictEvidence: '<li>전 세계 평균 검색 관심도 45.8로 3사 중 2위 — Xbox(74.0)보다 낮고 PlayStation(36.4)보다 높음</li><li>일본에서는 유일하게 1위로 순위가 역전(현지어 포함 57.4) — 한국에서도 현지어(닌텐도) 포함 시 71.3까지 상승, 3사 중 자국 효과가 가장 뚜렷함</li><li>Direct 3개(2025-09-12, 2026-02-05, 2026-06-09) 모두 당일 최고치(100)까지 급등하지만 일주일 뒤 평균은 거의 원상복구(변화율 0~5%) — 3사 중 "반짝 스파이크형" 패턴이 가장 뚜렷함</li>',
+        ov_stat1_value: '45.8', ov_stat1_label: '전 세계 평균 검색 관심도', ov_stat1_sub: '3사 중 2위 (Xbox 74.0 · PlayStation 36.4)',
+        ov_stat2_value: '0~5%', ov_stat2_label: 'Direct 이후 관심도 변화', ov_stat2_sub: '당일 100 급등 후 1주 평균, 3사 중 가장 빠르게 원상복구',
+        ov_stat3_value: '1 / 3', ov_stat3_label: '자국 시장(일본) 순위', ov_stat3_sub: '현지어 포함 57.4점 — 3사 중 유일하게 자국 1위',
+        ov_stat4_value: '"nintendo direct june 2026"', ov_stat4_sub: '2026년 6월 Direct 발표를 앞두고 검색량 급상승',
+        gl_desc: '지난 12개월 전 세계 Web Search 기준, Nintendo 검색 관심도 추이입니다.',
+        gl_statTitle: 'Nintendo 검색 관심도 — 최댓값 · 평균값 · 최솟값',
+        gl_max: '84.0', gl_maxSub: '2025-12-21 주', gl_avg: '46.4', gl_min: '37.0', gl_minSub: '2025-09-14 주',
+        gl_mark1Label: '이벤트 · Nintendo Direct (Mario 40주년)', gl_mark1Date: '2025-09-12',
+        gl_mark2Label: '이벤트 · Nintendo Direct: Partner Showcase', gl_mark2Date: '2026-02-05',
+        gl_mark5Label: '이벤트 · Nintendo Direct (오카리나 오브 타임 리메이크 등)', gl_mark5Date: '2026-06-09',
+        rg_barTitle: 'Nintendo 지역별 평균 관심도 (현지어 반영 국가만)',
+        rg_kr: '71.3', rg_krSmall: '현지어(닌텐도) 포함', rg_krFill: 71.3,
+        rg_jp: '57.4', rg_jpSmall: '현지어(任天堂/닌텐도) 포함', rg_jpFill: 57.4,
+        rg_barNote: 'Nintendo는 미국·영국 개별 지역 수치를 이번 조사에서 별도 수집하지 않아 일본·한국만 표시합니다. Google Trends는 국가 내 상대 정규화 방식이라 절대 수치를 국가 간에 직접 비교할 수 없습니다.',
+        rg_localeTitle: '현지어 보정 효과 — 영어 전용 대비 변화',
+        rg_localeDesc: '일본·한국 모두 현지어 포함 시 수치가 크게 상승했습니다 — 3사 중 자국 효과가 가장 뚜렷합니다.',
+        rg_jpCardTitle: '일본 · Nintendo', rg_jpFrom: '45.2', rg_jpTo: '57.4',
+        rg_jpNote: '현지어(任天堂/닌텐도) 포함 시 상승하며 3사 중 유일하게 일본 1위로 순위가 바뀜',
+        rg_krCardTitle: '한국 · Nintendo', rg_krFrom: '26.3', rg_krTo: '71.3',
+        rg_krNote: '현지어(닌텐도) 포함 시 2.7배 상승 — 한국에서도 3사 중 1위로 순위가 바뀜, 3사 중 자국어 효과가 가장 큰 브랜드',
+        qr_desc: '지난 12개월간 Nintendo와 함께 검색된 급상승(Rising) 검색어입니다. 카테고리별 연관 검색어는 이번 조사에서 PlayStation만 별도로 정리했습니다.',
+        qr_risingTitle: '급상승 검색어 (Rising Queries)',
+        qr_risingChips: '<span class="chip"><span class="rank">1</span>nintendo direct june 2026 <span class="vol">이벤트 예고</span></span><span class="chip"><span class="rank">2</span>nintendo direct 2026 <span class="vol">이벤트 예고</span></span>',
+        qr_risingNote: '2026년 Direct 발표를 앞둔 예고 검색이 급상승 검색어의 대부분을 차지합니다.',
+        ev_summary: 'PlayStation과 동일한 일 단위 전/후 지수는 이번 조사에서 수집하지 않았습니다. 대신 Google Trends 주간 시계열과 조사 메모를 바탕으로, Nintendo 이벤트 3건에 대한 정성적 패턴을 아래에 정리했습니다.',
+        ev_bs_title: 'Nintendo 이벤트 요약 — 참고용',
+        ev_bs_note: 'PlayStation과 동일한 일 단위(D-7~D+7) 전/후 지수는 수집하지 않아, 이벤트 전후 정확한 반응도(%)·Impact Score는 계산할 수 없습니다. 아래는 조사 메모에 근거한 정성적 요약입니다.',
+        ev_bs_events: '<span class="chip"><span class="rank">1</span>Nintendo Direct (Mario 40주년) <span class="vol">2025-09-12</span></span><span class="chip"><span class="rank">2</span>Nintendo Direct: Partner Showcase <span class="vol">2026-02-05</span></span><span class="chip"><span class="rank">3</span>Nintendo Direct (오카리나 오브 타임 리메이크 등) <span class="vol">2026-06-09</span></span>',
+        ev_bs_pattern: 'Direct 3건 모두 당일 검색 관심도가 최고치(100)까지 급등하지만, 일주일 뒤 평균은 거의 원상복구됩니다(변화율 0~5%) — 3사 중 "반짝 스파이크형" 패턴이 가장 뚜렷합니다. PlayStation처럼 이벤트 후에도 관심이 유지되는 지속형 반응은 관찰되지 않았습니다.'
+      },
+      markX: { m1: 58.4, m2: 425.1, m5: 739.4 },
+      region: { showUsUk: false },
+      eventsHasDetail: false
+    }
+  };
+
+  function setField(key, html) {
+    document.querySelectorAll('[data-field="' + key + '"]').forEach(function (el) { el.innerHTML = html; });
+  }
+
+  function applyGlobalChart(brand) {
+    var lineIds = { playstation: 'lineSeriesPs', xbox: 'lineSeriesXbox', nintendo: 'lineSeriesNin' };
+    Object.keys(lineIds).forEach(function (b) {
+      var el = document.getElementById(lineIds[b]);
+      if (!el) return;
+      if (b === brand) {
+        el.setAttribute('stroke', BRAND_COLOR[b]);
+        el.setAttribute('stroke-width', '2.6');
+        el.removeAttribute('stroke-dasharray');
+        el.setAttribute('opacity', '1');
+      } else {
+        el.setAttribute('stroke', '#b7b9cc');
+        el.setAttribute('stroke-width', '1.6');
+        el.setAttribute('opacity', '0.85');
+        if (b === 'nintendo') { el.setAttribute('stroke-dasharray', '4 3'); } else { el.removeAttribute('stroke-dasharray'); }
+      }
+    });
+
+    ['', 'Xbox', 'Nin'].forEach(function (suf) {
+      var maxEl = document.getElementById('trMaxCircle' + suf);
+      var minEl = document.getElementById('trMinCircle' + suf);
+      var owner = suf === '' ? 'playstation' : (suf === 'Xbox' ? 'xbox' : 'nintendo');
+      if (maxEl) maxEl.hidden = owner !== brand;
+      if (minEl) minEl.hidden = owner !== brand;
+    });
+
+    var markColor = brand === 'playstation' ? 'var(--accent)' : BRAND_COLOR[brand];
+    var mx = BRANDS[brand].markX;
+    [['1', mx.m1], ['2', mx.m2], ['5', mx.m5]].forEach(function (pair) {
+      var n = pair[0], x = pair[1];
+      var line = document.getElementById('trMark' + n + 'Line');
+      var circle = document.getElementById('trMark' + n + 'Circle');
+      var text = document.getElementById('trMark' + n + 'Text');
+      if (line) { line.setAttribute('x1', x); line.setAttribute('x2', x); line.setAttribute('stroke', markColor); }
+      if (circle) { circle.setAttribute('cx', x); circle.setAttribute('fill', markColor); }
+      if (text) { text.setAttribute('x', x); }
+    });
+
+    document.querySelectorAll('[data-brand-legend]').forEach(function (span) {
+      var isPrimary = span.getAttribute('data-brand-legend') === brand;
+      span.classList.toggle('legend-primary', isPrimary);
+      var tag = span.querySelector('.ref-tag');
+      if (tag) tag.hidden = isPrimary;
+    });
+  }
+
+  function applyRegionRows(brand) {
+    var showUsUk = BRANDS[brand].region.showUsUk;
+    var us = document.querySelector('[data-field-row="rg_us"]');
+    var uk = document.querySelector('[data-field-row="rg_uk"]');
+    if (us) us.hidden = !showUsUk;
+    if (uk) uk.hidden = !showUsUk;
+    ['rg_kr', 'rg_jp'].forEach(function (key) {
+      var fillVal = BRANDS[brand].fields[key + 'Fill'];
+      document.querySelectorAll('[data-field="' + key + 'Fill"]').forEach(function (el) {
+        el.style.width = fillVal + '%';
+        el.title = (key === 'rg_kr' ? '한국 ' : '일본 ') + fillVal;
+      });
+    });
+  }
+
+  function applyEventsVisibility(brand) {
+    var detail = document.getElementById('eventsPsDetail');
+    var summary = document.getElementById('eventsBrandSummary');
+    var hasDetail = BRANDS[brand].eventsHasDetail;
+    if (detail) detail.hidden = !hasDetail;
+    if (summary) summary.hidden = hasDetail;
+  }
+
+  function applySourceOverlay(brand) {
+    var overlay = document.querySelector('.app-content');
+    var source = window.currentSource || 'youtube';
+    var noData = brand !== 'playstation' && (source === 'youtube' || source === 'reddit');
+    if (overlay) overlay.classList.toggle('brand-nodata', noData);
+    var titleEl = document.getElementById('brandNoDataTitle');
+    var descEl = document.getElementById('brandNoDataDesc');
+    var brandNameKo = brand === 'xbox' ? 'Xbox' : (brand === 'nintendo' ? 'Nintendo' : 'PlayStation');
+    if (titleEl) titleEl.textContent = brandNameKo + ' ' + (SOURCE_LABEL_KO[source] || '') + ' 분석 데이터 없음';
+    if (descEl) descEl.textContent = '이번 조사는 PlayStation 공식 채널의 영상·댓글만 수집·분석했습니다. Xbox·Nintendo의 유튜브·레딧 분석은 진행되지 않아 표시할 데이터가 없습니다. 브랜드 간 비교가 가능한 지표는 트렌드 탭을 확인해 주세요.';
+  }
+
+  window.currentBrand = 'playstation';
+
+  window.applyBrandContent = function applyBrandContent(brand) {
+    var data = BRANDS[brand];
+    if (!data) return;
+    window.currentBrand = brand;
+    Object.keys(data.fields).forEach(function (key) {
+      if (key === 'rg_krFill' || key === 'rg_jpFill') return;
+      setField(key, data.fields[key]);
+    });
+    applyGlobalChart(brand);
+    applyRegionRows(brand);
+    applyEventsVisibility(brand);
+    applySourceOverlay(brand);
+    document.body.classList.toggle('brand-playstation', brand === 'playstation');
+    var note = document.getElementById('brandDataNote');
+    if (note) note.hidden = brand === 'playstation';
+  };
+
+  window.__onSourceChange = function () { applySourceOverlay(window.currentBrand); };
+
+  document.body.classList.add('brand-playstation');
+
+  document.querySelectorAll('.brand-switcher button[data-brand]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var brand = btn.getAttribute('data-brand');
+      document.querySelectorAll('.brand-switcher button[data-brand]').forEach(function (b) {
+        var active = b === btn;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      window.applyBrandContent(brand);
+    });
+  });
 })();
 </script>
 
