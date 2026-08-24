@@ -289,7 +289,7 @@
   .event-chart-wrap { position: relative; max-width: 240px; margin: 0 auto; }
   .event-chart-wrap svg { width: 100%; height: auto; display: block; }
   .event-point-label { font-size: 10px; fill: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
-  .event-point-value { font-size: 10px; font-weight: 700; fill: var(--text-primary); font-family: "IBM Plex Mono", monospace; }
+  .event-point-value { font-size: 13px; font-weight: 700; fill: var(--text-primary); font-family: "IBM Plex Mono", monospace; }
   .event-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .event-badge { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; font-family: "IBM Plex Mono", monospace; }
   .event-badge.pos { background: color-mix(in srgb, var(--status-positive) 15%, transparent); color: var(--status-positive); }
@@ -425,7 +425,7 @@
 
   .event-stat-row { display: flex; gap: 8px; margin-top: 10px; }
   .event-stat-box { flex: 1; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
-  .event-stat-value { font-size: 14px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+  .event-stat-value { font-size: 18px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
   .event-stat-value.pos { color: var(--status-positive); }
   .event-stat-value.neg { color: var(--status-negative); }
   .event-stat-label { font-size: 10px; color: var(--text-secondary); font-weight: 700; margin-top: 2px; }
@@ -438,6 +438,7 @@
   table.event-cmp thead th { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
   table.event-cmp tbody tr:last-child td { border-bottom: none; }
   table.event-cmp td { font-family: "IBM Plex Mono", monospace; }
+  table.event-cmp td:not(:first-child) { font-size: 17px; }
   table.event-cmp td:first-child { font-family: inherit; font-weight: 700; }
   table.event-cmp td.pos { color: var(--status-positive); }
   table.event-cmp td.neg { color: var(--status-negative); }
@@ -451,7 +452,7 @@
   .sustain-fill { position: absolute; top: 3px; bottom: 3px; border-radius: 4px; min-width: 3px; }
   .sustain-fill.pos { background: var(--status-positive); }
   .sustain-fill.neg { background: var(--status-negative); }
-  .sustain-value { width: 62px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+  .sustain-value { width: 68px; flex-shrink: 0; text-align: right; font-size: 17px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
   .sustain-value.pos { color: var(--status-positive); }
   .sustain-value.neg { color: var(--status-negative); }
   .sustain-axis-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
@@ -707,10 +708,10 @@
   .stat-grid-compact .stat-tile { padding: 16px 16px; }
   .stat-grid-compact .stat-icon { width: 24px; height: 24px; border-radius: 8px; margin-bottom: 8px; }
   .stat-grid-compact .stat-icon svg { width: 13px; height: 13px; }
-  .stat-grid-compact .stat-value { font-size: 20px; margin-bottom: 5px; }
+  .stat-grid-compact .stat-value { font-size: 26px; margin-bottom: 5px; }
   .stat-grid-compact .stat-label { font-size: 11.5px; }
   .stat-grid-compact .stat-sub { font-size: 10.5px; }
-  .stat-grid-compact .kpi-delta { font-size: 20px; }
+  .stat-grid-compact .kpi-delta { font-size: 26px; }
 
   /* ---------- channel reference shot ---------- */
   .channel-shot-card {
