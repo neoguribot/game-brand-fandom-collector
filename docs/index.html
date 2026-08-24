@@ -383,6 +383,29 @@
     background: var(--surface-2); border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; white-space: nowrap;
   }
   .events-period-pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  .date-range-picker {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--surface-2); border: 1px solid var(--border);
+    padding: 6px 10px; border-radius: 20px;
+  }
+  .date-input {
+    border: none; background: none; font: inherit; font-size: 12.5px; font-weight: 700; color: var(--text-primary);
+    font-family: "IBM Plex Mono", monospace; padding: 2px 0; cursor: pointer; color-scheme: light dark;
+  }
+  .date-input::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+  .date-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .date-range-sep { color: var(--text-muted); font-size: 12px; }
+  .date-reset-btn {
+    font: inherit; font-size: 11px; font-weight: 700; color: var(--accent); background: none; border: none;
+    cursor: pointer; padding: 2px 4px; text-decoration: underline; text-underline-offset: 2px;
+  }
+  .date-range-note { font-size: 11.5px; color: var(--text-muted); margin: 8px 0 22px; line-height: 1.5; }
+  [data-event].is-filtered-out { display: none !important; }
+  #eventsEmptyState {
+    display: none; text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 13.5px;
+    background: var(--surface-2); border-radius: var(--radius-md); border: 1px dashed var(--border);
+  }
+  #eventsEmptyState.show { display: block; }
   .events-refresh-btn {
     display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: #fff;
     background: var(--accent-grad); border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; white-space: nowrap;
@@ -2894,39 +2917,46 @@
       나머지 두 건(God of War Laufey, Ghost of Yotei)은 이벤트 이전 수준으로 돌아가거나 그 아래로 떨어졌습니다.
     </p>
     <div class="events-meta-row">
-      <span class="events-meta-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><b>분석 기간</b>&nbsp;2025-08-22 ~ 2026-08-22</span>
-      <span class="events-meta-item">표본&nbsp;<b>3개 이벤트</b></span>
+      <span class="events-meta-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><b>분석 기간</b></span>
+      <span class="date-range-picker">
+        <input type="date" id="eventsDateStart" class="date-input" value="2025-08-22" min="2025-08-22" max="2026-08-22" aria-label="분석 기간 시작일">
+        <span class="date-range-sep">~</span>
+        <input type="date" id="eventsDateEnd" class="date-input" value="2026-08-22" min="2025-08-22" max="2026-08-22" aria-label="분석 기간 종료일">
+        <button type="button" class="date-reset-btn" id="eventsDateReset" aria-label="분석 기간 초기화">초기화</button>
+      </span>
+      <span class="events-meta-item">표본&nbsp;<b id="eventsSampleCount">3개 이벤트</b></span>
       <button type="button" class="topbar-btn" id="eventsRefreshBtn" aria-label="이벤트 데이터 새로고침">
         <svg class="icon-refresh" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 10-1.6 3.9M13.5 8V4.5M13.5 8H10"/></svg><span class="topbar-btn-label">새로고침</span>
       </button>
     </div>
+    <p class="date-range-note">최근 12개월(2025-08-22~2026-08-22) 수집 데이터 안에서만 조회할 수 있습니다. 기간을 좁히면 해당 기간의 이벤트만 카드·표·그래프·지표에 반영됩니다.</p>
 
     <div class="stat-grid stat-grid-compact" style="grid-template-columns:repeat(4,1fr); margin-bottom:28px;">
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg></div>
-        <div class="stat-value num">3<span style="font-size:12px;color:var(--text-muted);font-weight:700;">개</span></div>
+        <div class="stat-value num" id="kpiCountValue">3<span style="font-size:12px;color:var(--text-muted);font-weight:700;">개</span></div>
         <div class="stat-label">분석 이벤트 수</div>
-        <div class="stat-sub">PlayStation 대표 이벤트</div>
+        <div class="stat-sub" id="kpiCountSub">PlayStation 대표 이벤트</div>
       </div>
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.2L3.2 9h4l-1 5.8L12.8 7h-4z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="stat-value num"><span class="kpi-delta pos">+4.6%</span></div>
+        <div class="stat-value num" id="kpiDayValue"><span class="kpi-delta pos">+4.6%</span></div>
         <div class="stat-label">평균 당일 반응도</div>
-        <div class="stat-sub">전 평균 대비, 3건 평균</div>
-        <div class="stat-microbar"><div class="stat-microbar-fill" style="width:46%; background:var(--status-positive);"></div></div>
+        <div class="stat-sub" id="kpiDaySub">전 평균 대비, 3건 평균</div>
+        <div class="stat-microbar"><div class="stat-microbar-fill" id="kpiDayBar" style="width:46%; background:var(--status-positive);"></div></div>
       </div>
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg></div>
-        <div class="stat-value num"><span class="kpi-delta pos">+4.6%</span></div>
+        <div class="stat-value num" id="kpiSustainValue"><span class="kpi-delta pos">+4.6%</span></div>
         <div class="stat-label">평균 지속 반응도</div>
-        <div class="stat-sub">전 평균 대비, 3건 평균</div>
-        <div class="stat-microbar"><div class="stat-microbar-fill" style="width:46%; background:var(--status-positive);"></div></div>
+        <div class="stat-sub" id="kpiSustainSub">전 평균 대비, 3건 평균</div>
+        <div class="stat-microbar"><div class="stat-microbar-fill" id="kpiSustainBar" style="width:46%; background:var(--status-positive);"></div></div>
       </div>
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5l1.8 3.8 4.2.5-3 3 .7 4.2L8 11.8l-3.7 2.2.7-4.2-3-3 4.2-.5z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="stat-value" style="font-size:15px;">Saros / Wolverine</div>
+        <div class="stat-value" style="font-size:15px;" id="kpiBestName">Saros / Wolverine</div>
         <div class="stat-label">최고 지속 반응 이벤트</div>
-        <div class="stat-sub">지속 반응도 +19.7%</div>
+        <div class="stat-sub" id="kpiBestSub">지속 반응도 +19.7%</div>
       </div>
     </div>
 
@@ -2937,7 +2967,7 @@
           <p class="panel-note" style="margin:0 0 16px;">기준: 이벤트 전 평균 대비 이벤트 후 평균 변화율. 0%보다 오른쪽(양수)일수록 이벤트가 끝난 뒤에도 관심이 남아있었다는 뜻입니다.</p>
           <span class="sr-only">막대 그래프 요약: Saros/Wolverine 플러스 19.7퍼센트로 가장 높음, God of War Laufey 마이너스 0.5퍼센트, Ghost of Yotei 마이너스 5.5퍼센트로 가장 낮음.</span>
           <div class="sustain-chart" aria-hidden="true">
-            <div class="sustain-row">
+            <div class="sustain-row" data-event="saros" data-date="2025-09-24">
               <span class="sustain-label">Saros / Wolverine</span>
               <div class="sustain-track">
                 <div class="sustain-zero" style="left:31.25%"></div>
@@ -2945,7 +2975,7 @@
               </div>
               <span class="sustain-value pos">+19.7%</span>
             </div>
-            <div class="sustain-row">
+            <div class="sustain-row" data-event="gow" data-date="2026-06-02">
               <span class="sustain-label">God of War Laufey</span>
               <div class="sustain-track">
                 <div class="sustain-zero" style="left:31.25%"></div>
@@ -2953,7 +2983,7 @@
               </div>
               <span class="sustain-value neg">-0.5%</span>
             </div>
-            <div class="sustain-row">
+            <div class="sustain-row" data-event="yotei" data-date="2025-10-02">
               <span class="sustain-label">Ghost of Yotei</span>
               <div class="sustain-track">
                 <div class="sustain-zero" style="left:31.25%"></div>
@@ -3006,25 +3036,27 @@
           <text x="62" y="89" text-anchor="end" class="combo-axis-label">85</text>
           <text x="62" y="27" text-anchor="end" class="combo-axis-label">95</text>
 
-          <polyline points="110,84.1 340,42.6 570,86.6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="110,69.9 340,67.4 570,100.3" fill="none" stroke="var(--status-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="110,159.8 340,135.6 570,69.9" fill="none" stroke="var(--status-positive)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-          <g class="combo-pts">
+          <g data-event="gow" data-date="2026-06-02">
+            <polyline points="110,84.1 340,42.6 570,86.6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="110" cy="84.1" r="4" fill="var(--accent)"/>
             <circle cx="340" cy="42.6" r="4" fill="var(--accent)"/>
             <circle cx="570" cy="86.6" r="4.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+            <text x="596" y="82.6" text-anchor="end" class="combo-end-label" fill="var(--accent)">85</text>
+          </g>
+          <g data-event="yotei" data-date="2025-10-02">
+            <polyline points="110,69.9 340,67.4 570,100.3" fill="none" stroke="var(--status-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="110" cy="69.9" r="4" fill="var(--status-negative)"/>
             <circle cx="340" cy="67.4" r="4" fill="var(--status-negative)"/>
             <circle cx="570" cy="100.3" r="4.5" fill="var(--surface)" stroke="var(--status-negative)" stroke-width="2.5"/>
+            <text x="596" y="112.3" text-anchor="end" class="combo-end-label" fill="var(--status-negative)">83</text>
+          </g>
+          <g data-event="saros" data-date="2025-09-24">
+            <polyline points="110,159.8 340,135.6 570,69.9" fill="none" stroke="var(--status-positive)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="110" cy="159.8" r="4" fill="var(--status-positive)"/>
             <circle cx="340" cy="135.6" r="4" fill="var(--status-positive)"/>
             <circle cx="570" cy="69.9" r="5" fill="var(--surface)" stroke="var(--status-positive)" stroke-width="3"/>
+            <text x="596" y="63.9" text-anchor="end" class="combo-end-label" fill="var(--status-positive)">88</text>
           </g>
-
-          <text x="596" y="82.6" text-anchor="end" class="combo-end-label" fill="var(--accent)">85</text>
-          <text x="596" y="112.3" text-anchor="end" class="combo-end-label" fill="var(--status-negative)">83</text>
-          <text x="596" y="63.9" text-anchor="end" class="combo-end-label" fill="var(--status-positive)">88</text>
 
           <text x="110" y="234" text-anchor="middle" class="combo-axis-label">이벤트 전 평균</text>
           <text x="340" y="234" text-anchor="middle" class="combo-axis-label">이벤트 당일</text>
@@ -3032,9 +3064,9 @@
         </svg>
       </div>
       <div class="line-legend-row">
-        <span><span class="swatch-line" style="background:var(--status-positive);"></span>Saros / Wolverine</span>
-        <span><span class="swatch-line" style="background:var(--status-negative);"></span>Ghost of Yotei</span>
-        <span><span class="swatch-line" style="background:var(--accent);"></span>God of War Laufey</span>
+        <span data-event="saros" data-date="2025-09-24"><span class="swatch-line" style="background:var(--status-positive);"></span>Saros / Wolverine</span>
+        <span data-event="yotei" data-date="2025-10-02"><span class="swatch-line" style="background:var(--status-negative);"></span>Ghost of Yotei</span>
+        <span data-event="gow" data-date="2026-06-02"><span class="swatch-line" style="background:var(--accent);"></span>God of War Laufey</span>
       </div>
     </div>
 
@@ -3043,8 +3075,9 @@
       <p class="section-desc">이벤트 전 평균(D-7~D-1) → 이벤트 당일 → 이벤트 후 평균(D+1~D+7) 순으로, 오래된 이벤트부터 표시합니다.</p>
     </div>
 
+    <p id="eventsEmptyState">선택한 기간(<span id="eventsEmptyRange"></span>) 안에는 분석된 이벤트가 없습니다. 기간을 넓혀보세요.</p>
     <div class="event-timeline">
-      <div class="timeline-item">
+      <div class="timeline-item" data-event="saros" data-date="2025-09-24">
         <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-positive);"></span></div>
         <div class="event-card best">
           <span class="best-badge">BEST SUSTAINED</span>
@@ -3083,7 +3116,7 @@
         </div>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item" data-event="yotei" data-date="2025-10-02">
         <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-negative);"></span></div>
         <div class="event-card">
           <p class="event-title">Ghost of Yotei 정식 출시</p>
@@ -3121,7 +3154,7 @@
         </div>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item" data-event="gow" data-date="2026-06-02">
         <div class="timeline-rail"><span class="timeline-dot" style="background:var(--accent);"></span></div>
         <div class="event-card">
           <p class="event-title">State of Play (God of War Laufey)</p>
@@ -3173,9 +3206,9 @@
             <tr><th scope="col">이벤트</th><th scope="col">전 평균</th><th scope="col">당일</th><th scope="col">후 평균</th><th scope="col">당일 반응도</th><th scope="col">지속 반응도</th><th scope="col">Impact Score</th></tr>
           </thead>
           <tbody>
-            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-positive);margin-right:8px;vertical-align:1px;"></span>Saros / Wolverine</td><td>73.1</td><td>77.0</td><td>87.6</td><td class="pos">+5.3%</td><td class="pos">+19.7%</td><td class="score">+13.9</td></tr>
-            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-negative);margin-right:8px;vertical-align:1px;"></span>Ghost of Yotei</td><td>87.6</td><td>88.0</td><td>82.7</td><td class="pos">+0.5%</td><td class="neg">-5.5%</td><td class="score">-3.1</td></tr>
-            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;"></span>God of War Laufey</td><td>85.3</td><td>92.0</td><td>84.9</td><td class="pos">+7.9%</td><td class="neg">-0.5%</td><td class="score">+2.9</td></tr>
+            <tr data-event="saros" data-date="2025-09-24"><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-positive);margin-right:8px;vertical-align:1px;"></span>Saros / Wolverine</td><td>73.1</td><td>77.0</td><td>87.6</td><td class="pos">+5.3%</td><td class="pos">+19.7%</td><td class="score">+13.9</td></tr>
+            <tr data-event="yotei" data-date="2025-10-02"><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-negative);margin-right:8px;vertical-align:1px;"></span>Ghost of Yotei</td><td>87.6</td><td>88.0</td><td>82.7</td><td class="pos">+0.5%</td><td class="neg">-5.5%</td><td class="score">-3.1</td></tr>
+            <tr data-event="gow" data-date="2026-06-02"><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;"></span>God of War Laufey</td><td>85.3</td><td>92.0</td><td>84.9</td><td class="pos">+7.9%</td><td class="neg">-0.5%</td><td class="score">+2.9</td></tr>
           </tbody>
         </table>
       </div>
@@ -3355,6 +3388,111 @@
   var downloadBtn = document.getElementById('topbarDownloadBtn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', function () { window.print(); });
+  }
+})();
+
+(function () {
+  // Events-tab date-range filter. All three events' figures are already
+  // embedded on the page (this is a static report, not a live query), so
+  // "필터링" here means: show/hide the cards, table rows, chart lines and
+  // bars whose date falls in the selected range, and recompute the KPI
+  // cards from whichever events remain visible. Nothing is fabricated for
+  // ranges outside the collected window (2025-08-22~2026-08-22) - the
+  // date inputs are clamped to that window.
+  var EVENTS = {
+    saros: { name: 'Saros / Wolverine', date: '2025-09-24', day: 5.3, sustain: 19.7 },
+    yotei: { name: 'Ghost of Yotei', date: '2025-10-02', day: 0.5, sustain: -5.5 },
+    gow: { name: 'God of War Laufey', date: '2026-06-02', day: 7.9, sustain: -0.5 }
+  };
+  var DATA_MIN = '2025-08-22';
+  var DATA_MAX = '2026-08-22';
+
+  var startInput = document.getElementById('eventsDateStart');
+  var endInput = document.getElementById('eventsDateEnd');
+  var resetBtn = document.getElementById('eventsDateReset');
+  if (!startInput || !endInput) return;
+
+  var taggedEls = Array.prototype.slice.call(document.querySelectorAll('[data-event][data-date]'));
+  var emptyState = document.getElementById('eventsEmptyState');
+  var emptyRangeEl = document.getElementById('eventsEmptyRange');
+
+  function fmtPct(v) {
+    var s = v.toFixed(1);
+    return (v > 0 ? '+' : '') + s + '%';
+  }
+  function barWidth(v) {
+    return Math.max(0, Math.min(100, v * 10)) + '%';
+  }
+
+  function applyFilter() {
+    var start = startInput.value || DATA_MIN;
+    var end = endInput.value || DATA_MAX;
+    if (start > end) { var t = start; start = end; end = t; }
+
+    var activeIds = Object.keys(EVENTS).filter(function (id) {
+      var d = EVENTS[id].date;
+      return d >= start && d <= end;
+    });
+
+    taggedEls.forEach(function (el) {
+      var inRange = el.dataset.date >= start && el.dataset.date <= end;
+      el.classList.toggle('is-filtered-out', !inRange);
+    });
+
+    var count = activeIds.length;
+    var countValueEl = document.getElementById('kpiCountValue');
+    if (countValueEl) countValueEl.innerHTML = count + '<span style="font-size:12px;color:var(--text-muted);font-weight:700;">개</span>';
+    var sampleCountEl = document.getElementById('eventsSampleCount');
+    if (sampleCountEl) sampleCountEl.textContent = count + '개 이벤트';
+
+    var dayValueEl = document.getElementById('kpiDayValue');
+    var daySubEl = document.getElementById('kpiDaySub');
+    var dayBarEl = document.getElementById('kpiDayBar');
+    var sustainValueEl = document.getElementById('kpiSustainValue');
+    var sustainSubEl = document.getElementById('kpiSustainSub');
+    var sustainBarEl = document.getElementById('kpiSustainBar');
+    var bestNameEl = document.getElementById('kpiBestName');
+    var bestSubEl = document.getElementById('kpiBestSub');
+
+    if (count === 0) {
+      if (dayValueEl) dayValueEl.innerHTML = '<span class="kpi-delta">-</span>';
+      if (daySubEl) daySubEl.textContent = '해당 기간에 이벤트 없음';
+      if (dayBarEl) dayBarEl.style.width = '0%';
+      if (sustainValueEl) sustainValueEl.innerHTML = '<span class="kpi-delta">-</span>';
+      if (sustainSubEl) sustainSubEl.textContent = '해당 기간에 이벤트 없음';
+      if (sustainBarEl) sustainBarEl.style.width = '0%';
+      if (bestNameEl) bestNameEl.textContent = '-';
+      if (bestSubEl) bestSubEl.textContent = '해당 기간에 이벤트 없음';
+      if (emptyRangeEl) emptyRangeEl.textContent = start + ' ~ ' + end;
+      if (emptyState) emptyState.classList.add('show');
+      return;
+    }
+    if (emptyState) emptyState.classList.remove('show');
+
+    var avgDay = activeIds.reduce(function (s, id) { return s + EVENTS[id].day; }, 0) / count;
+    var avgSustain = activeIds.reduce(function (s, id) { return s + EVENTS[id].sustain; }, 0) / count;
+    var best = activeIds.reduce(function (a, id) { return EVENTS[id].sustain > EVENTS[a].sustain ? id : a; }, activeIds[0]);
+
+    if (dayValueEl) dayValueEl.innerHTML = '<span class="kpi-delta ' + (avgDay >= 0 ? 'pos' : 'neg') + '">' + fmtPct(avgDay) + '</span>';
+    if (daySubEl) daySubEl.textContent = '전 평균 대비, ' + count + '건 평균';
+    if (dayBarEl) { dayBarEl.style.width = barWidth(avgDay); dayBarEl.style.background = avgDay >= 0 ? 'var(--status-positive)' : 'var(--status-negative)'; }
+
+    if (sustainValueEl) sustainValueEl.innerHTML = '<span class="kpi-delta ' + (avgSustain >= 0 ? 'pos' : 'neg') + '">' + fmtPct(avgSustain) + '</span>';
+    if (sustainSubEl) sustainSubEl.textContent = '전 평균 대비, ' + count + '건 평균';
+    if (sustainBarEl) { sustainBarEl.style.width = barWidth(avgSustain); sustainBarEl.style.background = avgSustain >= 0 ? 'var(--status-positive)' : 'var(--status-negative)'; }
+
+    if (bestNameEl) bestNameEl.textContent = EVENTS[best].name;
+    if (bestSubEl) bestSubEl.textContent = '지속 반응도 ' + fmtPct(EVENTS[best].sustain);
+  }
+
+  startInput.addEventListener('change', applyFilter);
+  endInput.addEventListener('change', applyFilter);
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      startInput.value = DATA_MIN;
+      endInput.value = DATA_MAX;
+      applyFilter();
+    });
   }
 })();
 
