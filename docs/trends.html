@@ -228,6 +228,51 @@
   .event-badge.pos { background: var(--good-soft); color: var(--good); }
   .event-badge.neg { background: var(--bad-soft); color: var(--bad); }
   .event-note { font-size: 12px; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+  /* ---------- trends events: reaction type + comparison ---------- */
+  .reaction-tag {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800;
+    padding: 4px 10px; border-radius: 20px; margin-top: 2px;
+  }
+  .reaction-tag.sustained { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); }
+  .reaction-tag.transient { background: var(--accent-soft); color: var(--accent); }
+  .reaction-tag.flat { background: var(--surface-2); color: var(--text-muted); }
+  .reaction-type-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+
+  .event-stat-row { display: flex; gap: 10px; margin-top: 14px; }
+  .event-stat-box { flex: 1; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+  .event-stat-value { font-size: 16px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+  .event-stat-value.pos { color: var(--good); }
+  .event-stat-value.neg { color: var(--bad); }
+  .event-stat-label { font-size: 11px; color: var(--text-secondary); font-weight: 700; margin-top: 3px; }
+  .event-stat-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+  .event-cmp-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table.event-cmp { width: 100%; border-collapse: collapse; min-width: 620px; font-size: 13px; }
+  table.event-cmp th, table.event-cmp td { padding: 11px 14px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  table.event-cmp th:first-child, table.event-cmp td:first-child { text-align: left; }
+  table.event-cmp thead th { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+  table.event-cmp tbody tr:last-child td { border-bottom: none; }
+  table.event-cmp td { font-family: "IBM Plex Mono", monospace; }
+  table.event-cmp td:first-child { font-family: inherit; font-weight: 700; }
+  table.event-cmp td.pos { color: var(--good); }
+  table.event-cmp td.neg { color: var(--bad); }
+  table.event-cmp td.score { font-weight: 800; color: var(--accent); }
+
+  .sustain-chart { display: flex; flex-direction: column; gap: 10px; }
+  .sustain-row { display: flex; align-items: center; gap: 12px; }
+  .sustain-label { width: 150px; flex-shrink: 0; font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
+  .sustain-track { flex: 1; position: relative; height: 26px; background: var(--surface-2); border-radius: 6px; }
+  .sustain-zero { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .sustain-fill { position: absolute; top: 3px; bottom: 3px; border-radius: 4px; min-width: 3px; }
+  .sustain-fill.pos { background: var(--good); }
+  .sustain-fill.neg { background: var(--bad); }
+  .sustain-value { width: 62px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+  .sustain-value.pos { color: var(--good); }
+  .sustain-value.neg { color: var(--bad); }
+  .sustain-axis-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
+  .sustain-axis { flex: 1; position: relative; height: 16px; }
+  .sustain-axis span { position: absolute; transform: translateX(-50%); font-size: 10px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+
 
   /* ---------- highlight callout (accent, like verdict-box) ---------- */
   .highlight-box {
@@ -631,11 +676,20 @@
               <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
             </svg>
           </div>
-          <div class="event-badges">
-            <span class="event-badge pos">당일 +5.3%</span>
-            <span class="event-badge pos">이벤트 후 +19.7%</span>
+          <span class="reaction-tag sustained">지속 상승형</span>
+        <p class="reaction-type-desc">이벤트 이후에도 관심도가 계속 증가</p>
+        <div class="event-stat-row">
+          <div class="event-stat-box">
+            <div class="event-stat-value pos">+5.3%</div>
+            <div class="event-stat-label">당일 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
           </div>
-          <p class="event-note">당일 반응은 작지만 이후 한 주간 관심도가 오히려 더 높게 유지됨 — 3건 중 유일한 지속형 반응.</p>
+          <div class="event-stat-box">
+            <div class="event-stat-value pos">+19.7%</div>
+            <div class="event-stat-label">지속 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
+          </div>
+        </div>
         </div>
 
         <div class="event-card">
@@ -657,11 +711,20 @@
               <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
             </svg>
           </div>
-          <div class="event-badges">
-            <span class="event-badge pos">당일 +0.5%</span>
-            <span class="event-badge neg">이벤트 후 -5.5%</span>
+          <span class="reaction-tag flat">무반응형</span>
+        <p class="reaction-type-desc">출시 전 기대감이 이미 반영되어 추가 상승이 제한적</p>
+        <div class="event-stat-row">
+          <div class="event-stat-box">
+            <div class="event-stat-value pos">+0.5%</div>
+            <div class="event-stat-label">당일 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
           </div>
-          <p class="event-note">출시 당일 스파이크가 거의 없음 — 사전 기대감이 이미 검색량에 선반영돼 있었을 가능성.</p>
+          <div class="event-stat-box">
+            <div class="event-stat-value neg">-5.5%</div>
+            <div class="event-stat-label">지속 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
+          </div>
+        </div>
         </div>
 
         <div class="event-card">
@@ -683,15 +746,85 @@
               <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
             </svg>
           </div>
-          <div class="event-badges">
-            <span class="event-badge pos">당일 +7.9%</span>
-            <span class="event-badge neg">이벤트 후 -0.5%</span>
+          <span class="reaction-tag transient">일시적 반응형</span>
+        <p class="reaction-type-desc">이벤트 당일 관심도 상승 후 기존 수준으로 복귀</p>
+        <div class="event-stat-row">
+          <div class="event-stat-box">
+            <div class="event-stat-value pos">+7.9%</div>
+            <div class="event-stat-label">당일 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
           </div>
-          <p class="event-note">당일 반응 후 거의 이벤트 이전 수준으로 안정적으로 복귀 — 급락도 급등도 아닌 완만한 흐름.</p>
+          <div class="event-stat-box">
+            <div class="event-stat-value neg">-0.5%</div>
+            <div class="event-stat-label">지속 반응도</div>
+            <div class="event-stat-sub">전 평균 대비</div>
+          </div>
+        </div>
         </div>
       </div>
 
-      <div class="highlight-box" style="margin-top:20px;">
+      <div class="panel">
+      <h3>이벤트 효과 비교</h3>
+      <p class="panel-note" style="margin:0 0 14px;">기준: 이벤트 전 평균 대비 변화율. <b style="color:var(--text-primary);">Event Impact Score = 당일 반응도 × 0.4 + 지속 반응도 × 0.6</b> — 이벤트 당일의 일시적 화제성보다, 이벤트가 끝난 뒤에도 남아있는 관심(팬덤 영향)에 더 큰 비중(60%)을 둔 지표입니다.</p>
+      <div class="event-cmp-wrap">
+        <table class="event-cmp">
+          <thead>
+            <tr><th>이벤트</th><th>전 평균</th><th>당일</th><th>후 평균</th><th>당일 반응도</th><th>지속 반응도</th><th>Impact Score</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Saros / Wolverine</td><td>73.1</td><td>77.0</td><td>87.6</td><td class="pos">+5.3%</td><td class="pos">+19.7%</td><td class="score">+13.9</td></tr>
+            <tr><td>Ghost of Yotei</td><td>87.6</td><td>88.0</td><td>82.7</td><td class="pos">+0.5%</td><td class="neg">-5.5%</td><td class="score">-3.1</td></tr>
+            <tr><td>God of War Laufey</td><td>85.3</td><td>92.0</td><td>84.9</td><td class="pos">+7.9%</td><td class="neg">-0.5%</td><td class="score">+2.9</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>지속 반응 비교</h3>
+      <p class="panel-note" style="margin:0 0 16px;">기준: 이벤트 전 평균 대비 이벤트 후 평균 변화율(지속 반응도). 값이 클수록 이벤트가 끝난 뒤에도 관심이 오래 남았다는 뜻입니다.</p>
+      <div class="sustain-chart">
+        <div class="sustain-row">
+          <span class="sustain-label">Saros / Wolverine</span>
+          <div class="sustain-track">
+            <div class="sustain-zero" style="left:31.25%"></div>
+            <div class="sustain-fill pos" style="left:31.25%; width:61.56%;"></div>
+          </div>
+          <span class="sustain-value pos">+19.7%</span>
+        </div>
+        <div class="sustain-row">
+          <span class="sustain-label">God of War Laufey</span>
+          <div class="sustain-track">
+            <div class="sustain-zero" style="left:31.25%"></div>
+            <div class="sustain-fill neg" style="left:29.69%; width:1.56%;"></div>
+          </div>
+          <span class="sustain-value neg">-0.5%</span>
+        </div>
+        <div class="sustain-row">
+          <span class="sustain-label">Ghost of Yotei</span>
+          <div class="sustain-track">
+            <div class="sustain-zero" style="left:31.25%"></div>
+            <div class="sustain-fill neg" style="left:14.06%; width:17.19%;"></div>
+          </div>
+          <span class="sustain-value neg">-5.5%</span>
+        </div>
+        <div class="sustain-axis-row">
+          <span class="sustain-label"></span>
+          <div class="sustain-axis">
+            <span style="left:0%;">-10%</span>
+            <span style="left:15.625%;">-5%</span>
+            <span style="left:31.25%;">0%</span>
+            <span style="left:46.875%;">+5%</span>
+            <span style="left:62.5%;">+10%</span>
+            <span style="left:78.125%;">+15%</span>
+            <span style="left:93.75%;">+20%</span>
+          </div>
+          <span class="sustain-value"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:20px;">
         <p class="verdict-label">PlayStation 이벤트 반응의 특징 — "터짐"보다 "지속"</p>
         <p>Nintendo Direct·Xbox Games Showcase는 당일 최고치(100)까지 급등한 뒤 일주일 만에 거의 원상복구되는 "반짝 스파이크형" 패턴이 뚜렷합니다. PlayStation의 3개 이벤트는 당일 반응 크기는 작지만, 그중 하나(State of Play 9/24)는 오히려 <b>이벤트 후 관심도가 더 높게 유지</b>됐습니다 — <b>3사 중 유일하게 관찰된 지속형 반응</b>입니다.</p>
       </div>
