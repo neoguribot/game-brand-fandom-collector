@@ -333,18 +333,21 @@
   @media (max-width: 860px) { .insight-panel { grid-template-columns: 1fr; } }
 
   /* ---------- event timeline ---------- */
-  .event-timeline { position: relative; display: flex; flex-direction: column; gap: 18px; }
-  .timeline-item { display: flex; gap: 16px; align-items: stretch; }
-  .timeline-rail { width: 16px; flex-shrink: 0; position: relative; display: flex; justify-content: center; }
-  .timeline-rail::before {
-    content: ""; position: absolute; top: 26px; bottom: -18px; width: 2px; background: var(--border);
+  .event-carousel { position: relative; margin-bottom: 8px; }
+  .event-track {
+    display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    padding: 4px 2px 10px; scrollbar-width: none;
   }
-  .timeline-item:last-child .timeline-rail::before { display: none; }
-  .timeline-dot {
-    width: 12px; height: 12px; border-radius: 50%; background: var(--accent); margin-top: 20px;
-    box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--border); flex-shrink: 0; z-index: 1;
+  .event-track::-webkit-scrollbar { display: none; }
+  .event-track .event-card {
+    scroll-snap-align: center; flex: 0 0 auto; width: min(440px, 88vw);
   }
-  .timeline-item .event-card { flex: 1; }
+  .event-nav-prev { left: -8px; }
+  .event-nav-next { right: -8px; }
+  @media (max-width: 640px) {
+    .event-nav-prev { left: -4px; }
+    .event-nav-next { right: -4px; }
+  }
   .event-card.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm); position: relative; }
   .best-badge {
     position: absolute; top: -11px; right: 18px; background: var(--accent); color: #fff; font-size: 10px;
@@ -984,8 +987,6 @@
   }
   @media (max-width: 479px) {
     .stat-grid { grid-template-columns: 1fr !important; }
-    .timeline-item { flex-direction: column; gap: 8px; }
-    .timeline-rail { display: none; }
     .event-stat-row { flex-direction: column; }
   }
   @media (max-width: 640px) {
@@ -3076,10 +3077,11 @@
     </div>
 
     <p id="eventsEmptyState">선택한 기간(<span id="eventsEmptyRange"></span>) 안에는 분석된 이벤트가 없습니다. 기간을 넓혀보세요.</p>
-    <div class="event-timeline">
-      <div class="timeline-item" data-event="saros" data-date="2025-09-24">
-        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-positive);"></span></div>
-        <div class="event-card best">
+    <div class="event-carousel">
+      <button class="donut-nav event-nav-prev" id="eventPrev" aria-label="이전 이벤트" type="button">‹</button>
+      <button class="donut-nav event-nav-next" id="eventNext" aria-label="다음 이벤트" type="button">›</button>
+      <div class="event-track" id="eventTrack">
+        <div class="event-card best" data-event="saros" data-date="2025-09-24">
           <span class="best-badge">BEST SUSTAINED</span>
           <p class="event-title">State of Play (Saros / Wolverine)</p>
           <p class="event-date">2025-09-24</p>
@@ -3114,11 +3116,8 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="timeline-item" data-event="yotei" data-date="2025-10-02">
-        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-negative);"></span></div>
-        <div class="event-card">
+        <div class="event-card" data-event="yotei" data-date="2025-10-02">
           <p class="event-title">Ghost of Yotei 정식 출시</p>
           <p class="event-date">2025-10-02</p>
           <p class="event-desc">Sucker Punch의 오픈월드 사무라이 액션 신작 "Ghost of Yotei"의 PS5 정식 출시.</p>
@@ -3152,11 +3151,8 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="timeline-item" data-event="gow" data-date="2026-06-02">
-        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--accent);"></span></div>
-        <div class="event-card">
+        <div class="event-card" data-event="gow" data-date="2026-06-02">
           <p class="event-title">State of Play (God of War Laufey)</p>
           <p class="event-date">2026-06-02</p>
           <p class="event-desc">God of War: Ragnarok 세계관의 신작 "Laufey"를 처음 공개한 PlayStation 라이브 쇼케이스.</p>
@@ -3190,6 +3186,11 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="donut-dots event-dots" id="eventDots">
+        <button data-event="saros" data-date="2025-09-24" class="active" aria-label="Saros / Wolverine 카드 보기" type="button"></button>
+        <button data-event="yotei" data-date="2025-10-02" aria-label="Ghost of Yotei 카드 보기" type="button"></button>
+        <button data-event="gow" data-date="2026-06-02" aria-label="God of War Laufey 카드 보기" type="button"></button>
       </div>
     </div>
 
@@ -3465,6 +3466,7 @@
       if (bestSubEl) bestSubEl.textContent = '해당 기간에 이벤트 없음';
       if (emptyRangeEl) emptyRangeEl.textContent = start + ' ~ ' + end;
       if (emptyState) emptyState.classList.add('show');
+      window.dispatchEvent(new Event('events-filter-changed'));
       return;
     }
     if (emptyState) emptyState.classList.remove('show');
@@ -3483,6 +3485,7 @@
 
     if (bestNameEl) bestNameEl.textContent = EVENTS[best].name;
     if (bestSubEl) bestSubEl.textContent = '지속 반응도 ' + fmtPct(EVENTS[best].sustain);
+    window.dispatchEvent(new Event('events-filter-changed'));
   }
 
   startInput.addEventListener('change', applyFilter);
@@ -3696,6 +3699,76 @@
   track.addEventListener('scroll', function () {
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function () { setActiveDot(nearestIndex()); }, 80);
+  });
+})();
+
+(function () {
+  // Event-detail carousel (같은 도넛 캐러셀 패턴, 단 날짜 필터로 카드가
+  // 숨겨질 수 있으므로 매번 "현재 보이는 카드/점"을 다시 조회한다).
+  var track = document.getElementById('eventTrack');
+  var prevBtn = document.getElementById('eventPrev');
+  var nextBtn = document.getElementById('eventNext');
+  var dotsWrap = document.getElementById('eventDots');
+  if (!track || !dotsWrap) return;
+
+  function visibleCards() {
+    return Array.prototype.slice.call(track.children).filter(function (c) {
+      return !c.classList.contains('is-filtered-out');
+    });
+  }
+  function visibleDots() {
+    return Array.prototype.slice.call(dotsWrap.children).filter(function (d) {
+      return !d.classList.contains('is-filtered-out');
+    });
+  }
+  function cardStep() {
+    var cards = visibleCards();
+    if (!cards.length) return 0;
+    var style = window.getComputedStyle(track);
+    var gap = parseFloat(style.columnGap || style.gap || '20') || 20;
+    return cards[0].getBoundingClientRect().width + gap;
+  }
+  function nearestIndex() {
+    var step = cardStep();
+    if (!step) return 0;
+    return Math.round(track.scrollLeft / step);
+  }
+  function setActiveDot(idx) {
+    var dots = visibleDots();
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+  }
+  function goTo(idx) {
+    var cards = visibleCards();
+    if (!cards.length) return;
+    idx = Math.max(0, Math.min(cards.length - 1, idx));
+    var step = cardStep();
+    track.scrollTo({ left: idx * step, behavior: 'smooth' });
+    setActiveDot(idx);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function () { goTo(nearestIndex() - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { goTo(nearestIndex() + 1); });
+  Array.prototype.slice.call(dotsWrap.children).forEach(function (dotBtn) {
+    dotBtn.addEventListener('click', function () {
+      var card = track.querySelector('.event-card[data-event="' + dotBtn.dataset.event + '"]');
+      if (!card) return;
+      var idx = visibleCards().indexOf(card);
+      if (idx >= 0) goTo(idx);
+    });
+  });
+
+  var scrollTimer2 = null;
+  track.addEventListener('scroll', function () {
+    clearTimeout(scrollTimer2);
+    scrollTimer2 = setTimeout(function () { setActiveDot(nearestIndex()); }, 80);
+  });
+
+  // When the date-range filter changes which events are shown, snap the
+  // carousel back to the first visible card so it never gets stuck
+  // scrolled past a now-hidden slide.
+  window.addEventListener('events-filter-changed', function () {
+    track.scrollLeft = 0;
+    setActiveDot(0);
   });
 })();
 </script>
