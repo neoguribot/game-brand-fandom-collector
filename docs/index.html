@@ -8,25 +8,33 @@
 <style>
   :root {
     color-scheme: light;
-    --bg: #f9f9f7;
-    --surface: #fcfcfb;
-    --surface-2: #f2f1ec;
-    --text-primary: #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted: #898781;
-    --border: rgba(11,11,11,0.10);
-    --grid: #e1e0d9;
-    --accent: #2a78d6;
-    --accent-soft: rgba(42,120,214,0.10);
-    --accent-2: #7c5cff;
+    --bg: #f7f8fb;
+    --surface: #ffffff;
+    --surface-2: #f0f2f7;
+    --text-primary: #111827;
+    --text-secondary: #4b5468;
+    --text-muted: #667085;
+    --border: #e4e7ec;
+    --grid: #e4e7ec;
+    --accent: #2563eb;
+    --accent-soft: rgba(37,99,235,0.09);
+    --accent-2: #7c3aed;
     --accent-grad: linear-gradient(135deg, var(--accent), var(--accent-2));
-    --shadow-sm: 0 2px 10px -4px rgba(20,24,50,0.10);
-    --shadow-md: 0 14px 32px -12px rgba(20,24,50,0.18);
-    --shadow-lg: 0 28px 56px -18px rgba(20,24,50,0.26);
-    --ease: cubic-bezier(.16,1,.3,1);
-    --radius-sm: 10px;
+    --status-positive: #0f9f6e;
+    --status-positive-soft: rgba(15,159,110,0.11);
+    --status-negative: #dc4c64;
+    --status-negative-soft: rgba(220,76,100,0.11);
+    --status-warning: #d97706;
+    --status-warning-soft: rgba(217,119,6,0.12);
+    --shadow-sm: 0 8px 24px rgba(16,24,40,0.06);
+    --shadow-md: 0 12px 28px -4px rgba(16,24,40,0.10);
+    --shadow-lg: 0 20px 44px -10px rgba(16,24,40,0.14);
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --radius-sm: 12px;
     --radius-md: 16px;
-    --radius-lg: 22px;
+    --radius-lg: 20px;
+    --sidebar-bg: #0b1020;
+    --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px;
 
     /* content-type categorical (adjacency-validated) */
     --ct-hardware: #2a78d6;
@@ -61,21 +69,28 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       color-scheme: dark;
-      --bg: #0d0d0d;
-      --surface: #1a1a19;
-      --surface-2: #201f1c;
-      --text-primary: #ffffff;
-      --text-secondary: #c3c2b7;
-      --text-muted: #8f8d86;
+      --bg: #0b0d14;
+      --surface: #12141c;
+      --surface-2: #191c26;
+      --text-primary: #f3f4f6;
+      --text-secondary: #b0b6c4;
+      --text-muted: #7d8494;
       --border: rgba(255,255,255,0.10);
-      --grid: #2c2c2a;
-      --accent: #3987e5;
-      --accent-soft: rgba(57,135,229,0.14);
-      --accent-2: #9b82ff;
+      --grid: #262a36;
+      --accent: #5b8def;
+      --accent-soft: rgba(91,141,239,0.16);
+      --accent-2: #9b6bf2;
       --accent-grad: linear-gradient(135deg, var(--accent), var(--accent-2));
-      --shadow-sm: 0 2px 12px -4px rgba(0,0,0,0.45);
-      --shadow-md: 0 16px 36px -14px rgba(0,0,0,0.55);
-      --shadow-lg: 0 30px 60px -20px rgba(0,0,0,0.65);
+      --status-positive: #2fbf85;
+      --status-positive-soft: rgba(47,191,133,0.16);
+      --status-negative: #ea6a80;
+      --status-negative-soft: rgba(234,106,128,0.16);
+      --status-warning: #e2973e;
+      --status-warning-soft: rgba(226,151,62,0.18);
+      --shadow-sm: 0 2px 10px -3px rgba(0,0,0,0.40);
+      --shadow-md: 0 10px 28px -8px rgba(0,0,0,0.50);
+      --shadow-lg: 0 24px 52px -18px rgba(0,0,0,0.60);
+      --sidebar-bg: #0b1020;
 
       --ct-hardware: #3987e5;
       --ct-trailer:  #d95926;
@@ -106,21 +121,28 @@
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #0d0d0d;
-    --surface: #1a1a19;
-    --surface-2: #201f1c;
-    --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted: #8f8d86;
+    --bg: #0b0d14;
+    --surface: #12141c;
+    --surface-2: #191c26;
+    --text-primary: #f3f4f6;
+    --text-secondary: #b0b6c4;
+    --text-muted: #7d8494;
     --border: rgba(255,255,255,0.10);
-    --grid: #2c2c2a;
-    --accent: #3987e5;
-    --accent-soft: rgba(57,135,229,0.14);
-    --accent-2: #9b82ff;
+    --grid: #262a36;
+    --accent: #5b8def;
+    --accent-soft: rgba(91,141,239,0.16);
+    --accent-2: #9b6bf2;
     --accent-grad: linear-gradient(135deg, var(--accent), var(--accent-2));
-    --shadow-sm: 0 2px 12px -4px rgba(0,0,0,0.45);
-    --shadow-md: 0 16px 36px -14px rgba(0,0,0,0.55);
-    --shadow-lg: 0 30px 60px -20px rgba(0,0,0,0.65);
+    --status-positive: #2fbf85;
+    --status-positive-soft: rgba(47,191,133,0.16);
+    --status-negative: #ea6a80;
+    --status-negative-soft: rgba(234,106,128,0.16);
+    --status-warning: #e2973e;
+    --status-warning-soft: rgba(226,151,62,0.18);
+    --shadow-sm: 0 2px 10px -3px rgba(0,0,0,0.40);
+    --shadow-md: 0 10px 28px -8px rgba(0,0,0,0.50);
+    --shadow-lg: 0 24px 52px -18px rgba(0,0,0,0.60);
+    --sidebar-bg: #0b1020;
 
     --ct-hardware: #3987e5;
     --ct-trailer:  #d95926;
@@ -152,16 +174,19 @@
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
-    margin: 0; color: var(--text-primary);
-    background:
-      radial-gradient(1100px 600px at 88% -8%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%),
-      radial-gradient(900px 500px at -8% 18%, color-mix(in srgb, var(--accent-2) 6%, transparent), transparent 55%),
-      var(--bg);
-    background-attachment: fixed;
-    font-family: "Noto Sans KR", "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.65;
+    margin: 0; color: var(--text-primary); background: var(--bg);
+    font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px; line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     word-break: keep-all; overflow-wrap: break-word;
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
   .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
@@ -195,8 +220,8 @@
     display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em;
     padding: 2px 8px; border-radius: 20px; margin-right: 8px; vertical-align: 1px;
   }
-  .resolved-tag { color: var(--s-positive); background: color-mix(in srgb, var(--s-positive) 15%, transparent); }
-  .open-q-tag { color: var(--s-negative); background: color-mix(in srgb, var(--s-negative) 15%, transparent); }
+  .resolved-tag { color: var(--status-positive); background: color-mix(in srgb, var(--status-positive) 15%, transparent); }
+  .open-q-tag { color: var(--status-negative); background: color-mix(in srgb, var(--status-negative) 15%, transparent); }
 
   .highlight-box {
     position: relative; overflow: hidden;
@@ -267,9 +292,89 @@
   .event-point-value { font-size: 12px; font-weight: 700; fill: var(--text-primary); font-family: "IBM Plex Mono", monospace; }
   .event-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .event-badge { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; font-family: "IBM Plex Mono", monospace; }
-  .event-badge.pos { background: color-mix(in srgb, var(--s-positive) 15%, transparent); color: var(--s-positive); }
-  .event-badge.neg { background: color-mix(in srgb, var(--s-negative) 15%, transparent); color: var(--s-negative); }
+  .event-badge.pos { background: color-mix(in srgb, var(--status-positive) 15%, transparent); color: var(--status-positive); }
+  .event-badge.neg { background: color-mix(in srgb, var(--status-negative) 15%, transparent); color: var(--status-negative); }
   .event-note { font-size: 12px; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+
+  /* ---------- events page: summary / meta / KPI micro-bar ---------- */
+  .events-eyebrow {
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  .events-h1 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin: 0 0 12px; letter-spacing: -0.01em; text-wrap: balance; }
+  .events-summary { font-size: 15.5px; color: var(--text-secondary); max-width: 68ch; margin: 0 0 18px; line-height: 1.65; }
+  .events-summary b { color: var(--text-primary); }
+  .events-meta-row {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border);
+  }
+  .events-meta-item { font-size: 12.5px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+  .events-meta-item b { color: var(--text-secondary); font-weight: 700; }
+  .stat-tile .stat-microbar { height: 4px; border-radius: 2px; background: var(--surface-2); margin-top: 10px; overflow: hidden; }
+  .stat-tile .stat-microbar-fill { height: 100%; border-radius: 2px; }
+  .kpi-delta { display: inline-flex; align-items: center; gap: 3px; }
+  .kpi-delta.pos { color: var(--status-positive); }
+  .kpi-delta.neg { color: var(--status-negative); }
+
+  /* ---------- main insight panel ---------- */
+  .insight-panel { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; align-items: start; }
+  .insight-chart-col h3 { margin: 0 0 4px; }
+  .insight-takeaway {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 18px 20px;
+  }
+  .insight-takeaway h4 {
+    margin: 0 0 12px; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent);
+  }
+  .insight-takeaway ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .insight-takeaway li { font-size: 13px; color: var(--text-secondary); line-height: 1.55; padding-left: 16px; position: relative; }
+  .insight-takeaway li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+  .insight-takeaway b { color: var(--text-primary); }
+  @media (max-width: 860px) { .insight-panel { grid-template-columns: 1fr; } }
+
+  /* ---------- event timeline ---------- */
+  .event-timeline { position: relative; display: flex; flex-direction: column; gap: 18px; }
+  .timeline-item { display: flex; gap: 16px; align-items: stretch; }
+  .timeline-rail { width: 16px; flex-shrink: 0; position: relative; display: flex; justify-content: center; }
+  .timeline-rail::before {
+    content: ""; position: absolute; top: 26px; bottom: -18px; width: 2px; background: var(--border);
+  }
+  .timeline-item:last-child .timeline-rail::before { display: none; }
+  .timeline-dot {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--accent); margin-top: 20px;
+    box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--border); flex-shrink: 0; z-index: 1;
+  }
+  .timeline-item .event-card { flex: 1; }
+  .event-card.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm); position: relative; }
+  .best-badge {
+    position: absolute; top: -11px; right: 18px; background: var(--accent); color: #fff; font-size: 10px;
+    font-weight: 800; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* ---------- comparison table extras ---------- */
+  .table-legend {
+    display: flex; flex-wrap: wrap; gap: 14px 20px; font-size: 12px; color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .table-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .table-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .event-cmp-wrap { position: relative; }
+  table.event-cmp thead th { position: sticky; top: 0; background: var(--surface); z-index: 1; }
+  .table-scroll-hint { display: none; font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  @media (max-width: 640px) {
+    .table-scroll-hint { display: block; }
+    .event-cmp-wrap { -webkit-mask-image: linear-gradient(to right, black 92%, transparent); mask-image: linear-gradient(to right, black 92%, transparent); }
+  }
+
+  /* ---------- method callout ---------- */
+  .method-callout {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 18px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.65;
+  }
+  .method-callout code {
+    background: var(--surface); border: 1px solid var(--border); padding: 1px 6px; border-radius: 5px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--text-primary);
+  }
   /* ---------- events toolbar + KPI icons ---------- */
   .events-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .events-toolbar { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -313,7 +418,7 @@
     display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800;
     padding: 4px 10px; border-radius: 20px; margin-top: 2px;
   }
-  .reaction-tag.sustained { background: color-mix(in srgb, var(--s-positive) 15%, transparent); color: var(--s-positive); }
+  .reaction-tag.sustained { background: color-mix(in srgb, var(--status-positive) 15%, transparent); color: var(--status-positive); }
   .reaction-tag.transient { background: var(--accent-soft); color: var(--accent); }
   .reaction-tag.flat { background: var(--surface-2); color: var(--text-muted); }
   .reaction-type-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
@@ -321,8 +426,8 @@
   .event-stat-row { display: flex; gap: 10px; margin-top: 14px; }
   .event-stat-box { flex: 1; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
   .event-stat-value { font-size: 16px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
-  .event-stat-value.pos { color: var(--s-positive); }
-  .event-stat-value.neg { color: var(--s-negative); }
+  .event-stat-value.pos { color: var(--status-positive); }
+  .event-stat-value.neg { color: var(--status-negative); }
   .event-stat-label { font-size: 11px; color: var(--text-secondary); font-weight: 700; margin-top: 3px; }
   .event-stat-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
 
@@ -334,8 +439,8 @@
   table.event-cmp tbody tr:last-child td { border-bottom: none; }
   table.event-cmp td { font-family: "IBM Plex Mono", monospace; }
   table.event-cmp td:first-child { font-family: inherit; font-weight: 700; }
-  table.event-cmp td.pos { color: var(--s-positive); }
-  table.event-cmp td.neg { color: var(--s-negative); }
+  table.event-cmp td.pos { color: var(--status-positive); }
+  table.event-cmp td.neg { color: var(--status-negative); }
   table.event-cmp td.score { font-weight: 800; color: var(--accent); }
 
   .sustain-chart { display: flex; flex-direction: column; gap: 10px; }
@@ -344,11 +449,11 @@
   .sustain-track { flex: 1; position: relative; height: 26px; background: var(--surface-2); border-radius: 6px; }
   .sustain-zero { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); }
   .sustain-fill { position: absolute; top: 3px; bottom: 3px; border-radius: 4px; min-width: 3px; }
-  .sustain-fill.pos { background: var(--s-positive); }
-  .sustain-fill.neg { background: var(--s-negative); }
+  .sustain-fill.pos { background: var(--status-positive); }
+  .sustain-fill.neg { background: var(--status-negative); }
   .sustain-value { width: 62px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
-  .sustain-value.pos { color: var(--s-positive); }
-  .sustain-value.neg { color: var(--s-negative); }
+  .sustain-value.pos { color: var(--status-positive); }
+  .sustain-value.neg { color: var(--status-negative); }
   .sustain-axis-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
   .sustain-axis { flex: 1; position: relative; height: 16px; }
   .sustain-axis span { position: absolute; transform: translateX(-50%); font-size: 10px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
@@ -414,10 +519,8 @@
   .app-shell { display: flex; align-items: stretch; min-height: 100vh; }
 
   .app-sidebar {
-    width: 248px; flex-shrink: 0; color: #a6a7b8;
-    background:
-      radial-gradient(120% 140% at 0% 0%, rgba(124,92,255,0.16), transparent 55%),
-      linear-gradient(180deg, #16161f 0%, #101017 100%);
+    width: 240px; flex-shrink: 0; color: #a6a7b8;
+    background: var(--sidebar-bg);
     padding: 20px 12px 16px; position: sticky; top: 0; align-self: flex-start;
     height: 100vh; overflow-y: auto; display: flex; flex-direction: column;
     border-right: 1px solid rgba(255,255,255,0.06);
@@ -444,10 +547,14 @@
   .source-switcher button span { white-space: nowrap; }
   .source-switcher button:hover { color: #d5d6e2; }
   .source-switcher button.active {
-    background: linear-gradient(180deg, rgba(124,92,255,0.22), rgba(124,92,255,0.08));
-    color: #fff; box-shadow: inset 0 0 0 1px rgba(124,92,255,0.35);
+    background: rgba(124,58,237,0.16);
+    color: #fff; box-shadow: inset 0 0 0 1px rgba(124,58,237,0.4);
   }
   .source-switcher button.active svg { color: var(--accent-2); }
+  .source-switcher button.active::after {
+    content: ""; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--accent-2);
+  }
   .source-switcher button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .source-switcher .soon-badge {
     position: absolute; top: -6px; right: -2px; font-size: 8px; font-weight: 800;
@@ -461,16 +568,17 @@
     display: flex; flex-direction: column; gap: 2px; z-index: auto; overflow: visible;
   }
   .app-sidebar .jumpnav a {
-    display: flex; align-items: center; gap: 11px; padding: 10px 12px; margin: 0;
-    border-radius: 10px; border-bottom: none; color: #9294a8; font-size: 13.5px; font-weight: 600;
+    display: flex; align-items: center; gap: 11px; padding: 10px 12px; margin: 0; min-height: 40px;
+    border-radius: 10px; border-bottom: none; border-left: 3px solid transparent; color: #9294a8;
+    font-size: 13.5px; font-weight: 600;
     transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.15s var(--ease); flex-shrink: 1; position: relative;
   }
   .app-sidebar .jumpnav a svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; transition: opacity 0.15s; }
   .app-sidebar .jumpnav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
   .app-sidebar .jumpnav a:hover svg { opacity: 1; }
   .app-sidebar .jumpnav a.active {
-    background: var(--accent-grad); color: #fff; border-bottom: none;
-    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent-2) 70%, transparent);
+    background: var(--accent-grad); color: #fff; border-left-color: #fff; font-weight: 700;
+    box-shadow: var(--shadow-sm);
   }
   .app-sidebar .jumpnav a.active svg { opacity: 1; }
   .app-sidebar .jumpnav a:active { transform: scale(0.97); }
@@ -492,13 +600,30 @@
 
   .app-topbar {
     position: sticky; top: 0; z-index: 15;
-    background: color-mix(in srgb, var(--surface) 78%, transparent);
-    -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid var(--border); padding: 16px 32px;
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
   }
+  .topbar-info { min-width: 0; }
   .app-topbar .eyebrow { margin: 0; }
   .topbar-date { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .topbar-btn {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700;
+    font-family: inherit; color: var(--text-secondary); background: var(--surface);
+    border: 1px solid var(--border); padding: 9px 14px; min-height: 36px; border-radius: var(--radius-sm);
+    cursor: pointer; white-space: nowrap; box-shadow: var(--shadow-sm);
+    transition: border-color 0.18s var(--ease), color 0.18s var(--ease), background 0.18s var(--ease);
+  }
+  .topbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .topbar-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .topbar-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .topbar-btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, black); color: #fff; }
+  .topbar-btn[data-state="loading"] .icon-refresh { animation: spin 0.7s linear infinite; }
+  .topbar-btn[disabled] { opacity: 0.7; cursor: default; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .topbar-btn[data-state="loading"] .icon-refresh { animation: none; } }
 
   .app-content { flex: 1; padding: 28px 32px 50px; max-width: 1180px; width: 100%; margin: 0 auto; }
   .main-only { display: none; }
@@ -508,19 +633,45 @@
   .content-header .meta-line { margin: 0; }
 
   .app-content .wide { max-width: none; }
-  .app-content section { padding: 36px 0 0; border-bottom: none; }
+  .app-content section { padding: 36px 0 0; border-bottom: none; scroll-margin-top: 84px; }
 
   .app-footer {
     padding: 18px 32px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted);
     display: flex; flex-wrap: wrap; gap: 6px 20px;
   }
 
-  @media (max-width: 860px) {
+  /* ---------- mobile top app bar + drawer ---------- */
+  .mobile-topbar {
+    display: none; align-items: center; gap: 14px; height: 64px; padding: 0 16px;
+    background: var(--sidebar-bg); color: #fff; position: sticky; top: 0; z-index: 40;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-menu-btn {
+    display: flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+    background: none; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-sm);
+    color: #fff; cursor: pointer; flex-shrink: 0;
+  }
+  .mobile-menu-btn svg { width: 20px; height: 20px; }
+  .mobile-topbar-brand { font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em; }
+  .drawer-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 45; background: rgba(11,16,32,0.55);
+  }
+  .drawer-backdrop.open { display: block; }
+
+  @media (max-width: 900px) {
     .app-shell { flex-direction: column; }
-    .app-sidebar { width: 100%; height: auto; position: static; padding-bottom: 8px; }
-    .app-sidebar .jumpnav.sidebar-nav { flex-direction: row; overflow-x: auto; }
-    .app-sidebar .jumpnav a { flex-shrink: 0; white-space: nowrap; }
+    .mobile-topbar { display: flex; }
+    .app-sidebar {
+      position: fixed; top: 0; left: 0; z-index: 50; width: min(300px, 84vw); height: 100vh;
+      transform: translateX(-100%); transition: transform 0.22s var(--ease); box-shadow: var(--shadow-lg);
+    }
+    .app-sidebar.drawer-open { transform: translateX(0); }
+    .app-sidebar .jumpnav.sidebar-nav { flex-direction: column; overflow-x: visible; }
+    .app-sidebar .jumpnav a { flex-shrink: 1; white-space: normal; min-height: 44px; }
     .app-topbar, .app-content { padding-left: 18px; padding-right: 18px; }
+    .topbar-btn-label { display: none; }
+    .topbar-btn { min-width: 44px; min-height: 44px; justify-content: center; padding: 9px; }
+    .events-download-btn, .events-refresh-btn { min-height: 44px; }
   }
   .section-head { margin-bottom: 28px; }
   .section-num { display: none; }
@@ -791,8 +942,17 @@
   footer { padding: 32px 0 60px; }
   footer .wrap { font-size: 12px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 6px 20px; }
 
+  @media (max-width: 767px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .insight-panel { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 479px) {
+    .stat-grid { grid-template-columns: 1fr !important; }
+    .timeline-item { flex-direction: column; gap: 8px; }
+    .timeline-rail { display: none; }
+    .event-stat-row { flex-direction: column; }
+  }
   @media (max-width: 640px) {
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .sent-label { width: 92px; font-size: 12px; }
     .masthead { padding: 44px 0 28px; }
   }
@@ -807,7 +967,14 @@
 </style>
 
 <div class="app-shell">
-<aside class="app-sidebar">
+<header class="mobile-topbar">
+  <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="appSidebar" aria-label="메뉴 열기">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+  </button>
+  <span class="mobile-topbar-brand">🎮 PlayStation 팬덤</span>
+</header>
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="app-sidebar" id="appSidebar">
   <div class="sidebar-brand">🎮 <span>PlayStation 팬덤</span></div>
   <div class="source-switcher" role="tablist" aria-label="데이터 소스 선택">
     <button type="button" data-source="youtube" class="active" aria-pressed="true">
@@ -863,8 +1030,21 @@
 
 <div class="app-main">
   <header class="app-topbar">
-    <p class="eyebrow" id="topbarEyebrow">YouTube 채널 분석 리포트 · LLM 재분류 반영</p>
-    <span class="topbar-date">기준일 · 2026-08-21</span>
+    <div class="topbar-info">
+      <p class="eyebrow" id="topbarEyebrow">YouTube 채널 분석 리포트 · LLM 재분류 반영</p>
+      <span class="topbar-date">기준일 · 2026-08-21</span>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="topbar-btn" id="topbarRefreshBtn" aria-label="리포트 새로고침">
+        <svg class="icon-refresh" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 10-1.6 3.9M13.5 8V4.5M13.5 8H10"/></svg>
+        <span class="topbar-btn-label">새로고침</span>
+      </button>
+      <button type="button" class="topbar-btn primary" id="topbarDownloadBtn" aria-label="리포트 다운로드">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M2.5 12v1.5A1.5 1.5 0 004 15h8a1.5 1.5 0 001.5-1.5V12"/></svg>
+        <span class="topbar-btn-label">다운로드</span>
+      </button>
+    </div>
+    <div class="sr-only" id="topbarStatus" role="status" aria-live="polite"></div>
   </header>
 
   <main class="app-content">
@@ -2694,216 +2874,248 @@
   </section>
 
   <section id="trends-events" class="report-section" data-source="trends">
-    <div class="section-head events-head-row">
-      <div>
-        <h2>이벤트 전후 반응</h2>
-        <p class="section-desc">PlayStation 대표 이벤트 3건의 이벤트 전 평균(D-7~D-1) → 이벤트 당일 → 이벤트 후 평균(D+1~D+7) 검색 관심도 흐름입니다. 오래된 순으로 정렬했습니다.</p>
-      </div>
-      <div class="events-toolbar">
-        <span class="events-period-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>2025-08-22 ~ 2026-08-22</span>
-        <button type="button" class="events-refresh-btn" onclick="location.reload()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 8a5.5 5.5 0 10-1.6 3.9M13.5 8V4.5M13.5 8H10"/></svg>새로고침</button>
-      </div>
+    <p class="events-eyebrow">Google Trends / Event Analysis</p>
+    <h1 class="events-h1">이벤트가 만든 관심은 얼마나 오래갔을까?</h1>
+    <p class="events-summary">
+      PlayStation 이벤트 3건 중 <b>Saros / Wolverine 한 건만 이벤트 후에도 관심도가 계속 늘었고</b>,
+      나머지 두 건(God of War Laufey, Ghost of Yotei)은 이벤트 이전 수준으로 돌아가거나 그 아래로 떨어졌습니다.
+    </p>
+    <div class="events-meta-row">
+      <span class="events-meta-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg><b>분석 기간</b>&nbsp;2025-08-22 ~ 2026-08-22</span>
+      <span class="events-meta-item">표본&nbsp;<b>3개 이벤트</b></span>
+      <button type="button" class="topbar-btn" id="eventsRefreshBtn" aria-label="이벤트 데이터 새로고침">
+        <svg class="icon-refresh" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 10-1.6 3.9M13.5 8V4.5M13.5 8H10"/></svg><span class="topbar-btn-label">새로고침</span>
+      </button>
     </div>
 
-    <div class="stat-grid" style="grid-template-columns:repeat(5,1fr); margin-bottom:20px;">
+    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr); margin-bottom:28px;">
       <div class="stat-tile">
-        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg></div>
+        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg></div>
         <div class="stat-value num">3<span style="font-size:15px;color:var(--text-muted);font-weight:700;">개</span></div>
         <div class="stat-label">분석 이벤트 수</div>
         <div class="stat-sub">PlayStation 대표 이벤트</div>
       </div>
       <div class="stat-tile">
-        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1.2L3.2 9h4l-1 5.8L12.8 7h-4z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="stat-value num">+4.6%</div>
+        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.2L3.2 9h4l-1 5.8L12.8 7h-4z" fill="currentColor" stroke="none"/></svg></div>
+        <div class="stat-value num"><span class="kpi-delta pos">+4.6%</span></div>
         <div class="stat-label">평균 당일 반응도</div>
         <div class="stat-sub">전 평균 대비, 3건 평균</div>
+        <div class="stat-microbar"><div class="stat-microbar-fill" style="width:46%; background:var(--status-positive);"></div></div>
       </div>
       <div class="stat-tile">
-        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg></div>
-        <div class="stat-value num" style="color:var(--s-positive);">+4.6%</div>
+        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg></div>
+        <div class="stat-value num"><span class="kpi-delta pos">+4.6%</span></div>
         <div class="stat-label">평균 지속 반응도</div>
         <div class="stat-sub">전 평균 대비, 3건 평균</div>
+        <div class="stat-microbar"><div class="stat-microbar-fill" style="width:46%; background:var(--status-positive);"></div></div>
       </div>
       <div class="stat-tile">
-        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5l1.8 3.8 4.2.5-3 3 .7 4.2L8 11.8l-3.7 2.2.7-4.2-3-3 4.2-.5z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="stat-value" style="font-size:18px;">Saros / Wolverine</div>
+        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5l1.8 3.8 4.2.5-3 3 .7 4.2L8 11.8l-3.7 2.2.7-4.2-3-3 4.2-.5z" fill="currentColor" stroke="none"/></svg></div>
+        <div class="stat-value" style="font-size:17px;">Saros / Wolverine</div>
         <div class="stat-label">최고 지속 반응 이벤트</div>
         <div class="stat-sub">지속 반응도 +19.7%</div>
       </div>
-      <div class="stat-tile">
-        <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5h2.8l1.6-5 2.4 9 1.6-4h2.6"/></svg></div>
-        <div class="stat-value num">85.1<span style="font-size:14px;color:var(--text-muted);font-weight:700;"> / 100</span></div>
-        <div class="stat-label">이벤트 후 평균 관심도</div>
-        <div class="stat-sub">3건 이벤트 후 평균, 검색어 방식</div>
+    </div>
+
+    <div class="panel">
+      <div class="insight-panel">
+        <div class="insight-chart-col">
+          <h3>이벤트 후 관심도 변화 (지속 반응도)</h3>
+          <p class="panel-note" style="margin:0 0 16px;">기준: 이벤트 전 평균 대비 이벤트 후 평균 변화율. 0%보다 오른쪽(양수)일수록 이벤트가 끝난 뒤에도 관심이 남아있었다는 뜻입니다.</p>
+          <span class="sr-only">막대 그래프 요약: Saros/Wolverine 플러스 19.7퍼센트로 가장 높음, God of War Laufey 마이너스 0.5퍼센트, Ghost of Yotei 마이너스 5.5퍼센트로 가장 낮음.</span>
+          <div class="sustain-chart" aria-hidden="true">
+            <div class="sustain-row">
+              <span class="sustain-label">Saros / Wolverine</span>
+              <div class="sustain-track">
+                <div class="sustain-zero" style="left:31.25%"></div>
+                <div class="sustain-fill pos" style="left:31.25%; width:61.56%;"></div>
+              </div>
+              <span class="sustain-value pos">+19.7%</span>
+            </div>
+            <div class="sustain-row">
+              <span class="sustain-label">God of War Laufey</span>
+              <div class="sustain-track">
+                <div class="sustain-zero" style="left:31.25%"></div>
+                <div class="sustain-fill neg" style="left:29.69%; width:1.56%;"></div>
+              </div>
+              <span class="sustain-value neg">-0.5%</span>
+            </div>
+            <div class="sustain-row">
+              <span class="sustain-label">Ghost of Yotei</span>
+              <div class="sustain-track">
+                <div class="sustain-zero" style="left:31.25%"></div>
+                <div class="sustain-fill neg" style="left:14.06%; width:17.19%;"></div>
+              </div>
+              <span class="sustain-value neg">-5.5%</span>
+            </div>
+            <div class="sustain-axis-row">
+              <span class="sustain-label"></span>
+              <div class="sustain-axis">
+                <span style="left:0%;">-10%</span>
+                <span style="left:15.625%;">-5%</span>
+                <span style="left:31.25%;">0%</span>
+                <span style="left:46.875%;">+5%</span>
+                <span style="left:62.5%;">+10%</span>
+                <span style="left:78.125%;">+15%</span>
+                <span style="left:93.75%;">+20%</span>
+              </div>
+              <span class="sustain-value"></span>
+            </div>
+          </div>
+        </div>
+        <div class="insight-takeaway">
+          <h4>핵심 해석</h4>
+          <ul>
+            <li>Saros / Wolverine은 이벤트 후 <b>+19.7%</b> — 3건 중 유일하게 이벤트 전보다 관심도가 더 높게 유지됐습니다.</li>
+            <li>God of War Laufey는 당일 <b>+7.9%</b>로 가장 크게 튀었지만, 이벤트 후에는 <b>-0.5%</b>로 거의 원래 수준으로 돌아왔습니다.</li>
+            <li>Ghost of Yotei는 당일 반응(<b>+0.5%</b>)부터 작았고, 이벤트 후에는 <b>-5.5%</b>까지 떨어졌습니다 — 출시 전 기대감이 이미 검색량에 반영돼 있었을 가능성입니다.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="event-grid">
-        <div class="event-card">
-        <p class="event-title">State of Play (Saros / Wolverine)</p>
-        <p class="event-date">2025-09-24</p>
-        <p class="event-desc">신작 "Saros"와 "Marvel's Wolverine"의 최신 영상을 공개한 PlayStation 라이브 쇼케이스.</p>
-        <div class="event-chart-wrap">
-          <svg viewBox="-16 0 332 145" overflow="visible">
-            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
-            <polyline points="40,36.9 150,33.0 260,22.4" fill="none" stroke="var(--s-positive)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="40" cy="36.9" r="4" fill="var(--s-positive)"/>
-            <circle cx="150" cy="33.0" r="4" fill="var(--s-positive)"/>
-            <circle cx="260" cy="22.4" r="5" fill="var(--surface)" stroke="var(--s-positive)" stroke-width="2.5"/>
-            <text x="40" y="16" text-anchor="middle" class="event-point-value">73.1</text>
-            <text x="150" y="16" text-anchor="middle" class="event-point-value">77.0</text>
-            <text x="260" y="12" text-anchor="middle" class="event-point-value">87.6</text>
-            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
-            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
-            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
-          </svg>
-        </div>
-        <span class="reaction-tag sustained">지속 상승형</span>
-        <p class="reaction-type-desc">이벤트 이후에도 관심도가 계속 증가</p>
-        <div class="event-stat-row">
-          <div class="event-stat-box">
-            <div class="event-stat-value pos">+5.3%</div>
-            <div class="event-stat-label">당일 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+    <div class="section-head" style="margin-top:32px;">
+      <h2>이벤트별 상세 반응</h2>
+      <p class="section-desc">이벤트 전 평균(D-7~D-1) → 이벤트 당일 → 이벤트 후 평균(D+1~D+7) 순으로, 오래된 이벤트부터 표시합니다.</p>
+    </div>
+
+    <div class="event-timeline">
+      <div class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-positive);"></span></div>
+        <div class="event-card best">
+          <span class="best-badge">BEST SUSTAINED</span>
+          <p class="event-title">State of Play (Saros / Wolverine)</p>
+          <p class="event-date">2025-09-24</p>
+          <p class="event-desc">신작 "Saros"와 "Marvel's Wolverine"의 최신 영상을 공개한 PlayStation 라이브 쇼케이스.</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="-16 0 332 145" overflow="visible" role="img" aria-label="검색 관심도 추이: 이벤트 전 평균 73.1, 이벤트 당일 77.0, 이벤트 후 평균 87.6">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,36.9 150,33.0 260,22.4" fill="none" stroke="var(--status-positive)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="36.9" r="4" fill="var(--status-positive)"/>
+              <circle cx="150" cy="33.0" r="4" fill="var(--status-positive)"/>
+              <circle cx="260" cy="22.4" r="5" fill="var(--surface)" stroke="var(--status-positive)" stroke-width="2.5"/>
+              <text x="40" y="16" text-anchor="middle" class="event-point-value">73.1</text>
+              <text x="150" y="16" text-anchor="middle" class="event-point-value">77.0</text>
+              <text x="260" y="12" text-anchor="middle" class="event-point-value">87.6</text>
+              <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+              <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+              <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+            </svg>
           </div>
-          <div class="event-stat-box">
-            <div class="event-stat-value pos">+19.7%</div>
-            <div class="event-stat-label">지속 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+          <span class="reaction-tag sustained">지속 상승형</span>
+          <p class="reaction-type-desc">이벤트 이후에도 관심도가 계속 증가</p>
+          <div class="event-stat-row">
+            <div class="event-stat-box">
+              <div class="event-stat-value pos">+5.3%</div>
+              <div class="event-stat-label">당일 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
+            <div class="event-stat-box">
+              <div class="event-stat-value pos">+19.7%</div>
+              <div class="event-stat-label">지속 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
           </div>
         </div>
       </div>
 
+      <div class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--status-negative);"></span></div>
         <div class="event-card">
-        <p class="event-title">Ghost of Yotei 정식 출시</p>
-        <p class="event-date">2025-10-02</p>
-        <p class="event-desc">Sucker Punch의 오픈월드 사무라이 액션 신작 "Ghost of Yotei"의 PS5 정식 출시.</p>
-        <div class="event-chart-wrap">
-          <svg viewBox="-16 0 332 145" overflow="visible">
-            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
-            <polyline points="40,22.4 150,22.0 260,27.3" fill="none" stroke="var(--s-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="40" cy="22.4" r="4" fill="var(--s-negative)"/>
-            <circle cx="150" cy="22.0" r="4" fill="var(--s-negative)"/>
-            <circle cx="260" cy="27.3" r="5" fill="var(--surface)" stroke="var(--s-negative)" stroke-width="2.5"/>
-            <text x="40" y="14" text-anchor="middle" class="event-point-value">87.6</text>
-            <text x="150" y="14" text-anchor="middle" class="event-point-value">88.0</text>
-            <text x="260" y="19" text-anchor="middle" class="event-point-value">82.7</text>
-            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
-            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
-            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
-          </svg>
-        </div>
-        <span class="reaction-tag flat">무반응형</span>
-        <p class="reaction-type-desc">출시 전 기대감이 이미 반영되어 추가 상승이 제한적</p>
-        <div class="event-stat-row">
-          <div class="event-stat-box">
-            <div class="event-stat-value pos">+0.5%</div>
-            <div class="event-stat-label">당일 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+          <p class="event-title">Ghost of Yotei 정식 출시</p>
+          <p class="event-date">2025-10-02</p>
+          <p class="event-desc">Sucker Punch의 오픈월드 사무라이 액션 신작 "Ghost of Yotei"의 PS5 정식 출시.</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="-16 0 332 145" overflow="visible" role="img" aria-label="검색 관심도 추이: 이벤트 전 평균 87.6, 이벤트 당일 88.0, 이벤트 후 평균 82.7">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,22.4 150,22.0 260,27.3" fill="none" stroke="var(--status-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="22.4" r="4" fill="var(--status-negative)"/>
+              <circle cx="150" cy="22.0" r="4" fill="var(--status-negative)"/>
+              <circle cx="260" cy="27.3" r="5" fill="var(--surface)" stroke="var(--status-negative)" stroke-width="2.5"/>
+              <text x="40" y="14" text-anchor="middle" class="event-point-value">87.6</text>
+              <text x="150" y="14" text-anchor="middle" class="event-point-value">88.0</text>
+              <text x="260" y="19" text-anchor="middle" class="event-point-value">82.7</text>
+              <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+              <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+              <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+            </svg>
           </div>
-          <div class="event-stat-box">
-            <div class="event-stat-value neg">-5.5%</div>
-            <div class="event-stat-label">지속 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+          <span class="reaction-tag flat">무반응형</span>
+          <p class="reaction-type-desc">출시 전 기대감이 이미 반영되어 추가 상승이 제한적</p>
+          <div class="event-stat-row">
+            <div class="event-stat-box">
+              <div class="event-stat-value pos">+0.5%</div>
+              <div class="event-stat-label">당일 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
+            <div class="event-stat-box">
+              <div class="event-stat-value neg">-5.5%</div>
+              <div class="event-stat-label">지속 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
           </div>
         </div>
       </div>
 
+      <div class="timeline-item">
+        <div class="timeline-rail"><span class="timeline-dot" style="background:var(--accent);"></span></div>
         <div class="event-card">
-        <p class="event-title">State of Play (God of War Laufey)</p>
-        <p class="event-date">2026-06-02</p>
-        <p class="event-desc">God of War: Ragnarok 세계관의 신작 "Laufey"를 처음 공개한 PlayStation 라이브 쇼케이스.</p>
-        <div class="event-chart-wrap">
-          <svg viewBox="-16 0 332 145" overflow="visible">
-            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
-            <polyline points="40,24.7 150,18.0 260,25.1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="40" cy="24.7" r="4" fill="var(--accent)"/>
-            <circle cx="150" cy="18.0" r="4" fill="var(--accent)"/>
-            <circle cx="260" cy="25.1" r="5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
-            <text x="40" y="16" text-anchor="middle" class="event-point-value">85.3</text>
-            <text x="150" y="10" text-anchor="middle" class="event-point-value">92.0</text>
-            <text x="260" y="16" text-anchor="middle" class="event-point-value">84.9</text>
-            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
-            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
-            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
-          </svg>
-        </div>
-        <span class="reaction-tag transient">일시적 반응형</span>
-        <p class="reaction-type-desc">이벤트 당일 관심도 상승 후 기존 수준으로 복귀</p>
-        <div class="event-stat-row">
-          <div class="event-stat-box">
-            <div class="event-stat-value pos">+7.9%</div>
-            <div class="event-stat-label">당일 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+          <p class="event-title">State of Play (God of War Laufey)</p>
+          <p class="event-date">2026-06-02</p>
+          <p class="event-desc">God of War: Ragnarok 세계관의 신작 "Laufey"를 처음 공개한 PlayStation 라이브 쇼케이스.</p>
+          <div class="event-chart-wrap">
+            <svg viewBox="-16 0 332 145" overflow="visible" role="img" aria-label="검색 관심도 추이: 이벤트 전 평균 85.3, 이벤트 당일 92.0, 이벤트 후 평균 84.9">
+              <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+              <polyline points="40,24.7 150,18.0 260,25.1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="40" cy="24.7" r="4" fill="var(--accent)"/>
+              <circle cx="150" cy="18.0" r="4" fill="var(--accent)"/>
+              <circle cx="260" cy="25.1" r="5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+              <text x="40" y="16" text-anchor="middle" class="event-point-value">85.3</text>
+              <text x="150" y="10" text-anchor="middle" class="event-point-value">92.0</text>
+              <text x="260" y="16" text-anchor="middle" class="event-point-value">84.9</text>
+              <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+              <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+              <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+            </svg>
           </div>
-          <div class="event-stat-box">
-            <div class="event-stat-value neg">-0.5%</div>
-            <div class="event-stat-label">지속 반응도</div>
-            <div class="event-stat-sub">전 평균 대비</div>
+          <span class="reaction-tag transient">일시적 반응형</span>
+          <p class="reaction-type-desc">이벤트 당일 관심도 상승 후 기존 수준으로 복귀</p>
+          <div class="event-stat-row">
+            <div class="event-stat-box">
+              <div class="event-stat-value pos">+7.9%</div>
+              <div class="event-stat-label">당일 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
+            <div class="event-stat-box">
+              <div class="event-stat-value neg">-0.5%</div>
+              <div class="event-stat-label">지속 반응도</div>
+              <div class="event-stat-sub">전 평균 대비</div>
+            </div>
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
-    <div class="panel">
-      <h3>이벤트 효과 비교</h3>
-      <p class="panel-note" style="margin:0 0 14px;">기준: 이벤트 전 평균 대비 변화율. <b style="color:var(--text-primary);">Event Impact Score = 당일 반응도 × 0.4 + 지속 반응도 × 0.6</b> — 이벤트 당일의 일시적 화제성보다, 이벤트가 끝난 뒤에도 남아있는 관심(팬덤 영향)에 더 큰 비중(60%)을 둔 지표입니다.</p>
+    <div class="panel" style="margin-top:28px;">
+      <h3>이벤트 효과 비교표</h3>
+      <div class="table-legend">
+        <span><span class="dot" style="background:var(--accent);"></span>Impact Score = 당일 반응도 × 0.4 + 지속 반응도 × 0.6</span>
+        <span><span class="dot" style="background:var(--status-positive);"></span>양의 변화</span>
+        <span><span class="dot" style="background:var(--status-negative);"></span>음의 변화</span>
+      </div>
       <div class="event-cmp-wrap">
-        <table class="event-cmp">
+        <table class="event-cmp" aria-label="이벤트별 검색 관심도 반응 비교표">
           <thead>
-            <tr><th>이벤트</th><th>전 평균</th><th>당일</th><th>후 평균</th><th>당일 반응도</th><th>지속 반응도</th><th>Impact Score</th></tr>
+            <tr><th scope="col">이벤트</th><th scope="col">전 평균</th><th scope="col">당일</th><th scope="col">후 평균</th><th scope="col">당일 반응도</th><th scope="col">지속 반응도</th><th scope="col">Impact Score</th></tr>
           </thead>
           <tbody>
-            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--s-positive);margin-right:8px;vertical-align:1px;"></span>Saros / Wolverine</td><td>73.1</td><td>77.0</td><td>87.6</td><td class="pos">+5.3%</td><td class="pos">+19.7%</td><td class="score">+13.9</td></tr>
-            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--s-negative);margin-right:8px;vertical-align:1px;"></span>Ghost of Yotei</td><td>87.6</td><td>88.0</td><td>82.7</td><td class="pos">+0.5%</td><td class="neg">-5.5%</td><td class="score">-3.1</td></tr>
+            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-positive);margin-right:8px;vertical-align:1px;"></span>Saros / Wolverine</td><td>73.1</td><td>77.0</td><td>87.6</td><td class="pos">+5.3%</td><td class="pos">+19.7%</td><td class="score">+13.9</td></tr>
+            <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-negative);margin-right:8px;vertical-align:1px;"></span>Ghost of Yotei</td><td>87.6</td><td>88.0</td><td>82.7</td><td class="pos">+0.5%</td><td class="neg">-5.5%</td><td class="score">-3.1</td></tr>
             <tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;"></span>God of War Laufey</td><td>85.3</td><td>92.0</td><td>84.9</td><td class="pos">+7.9%</td><td class="neg">-0.5%</td><td class="score">+2.9</td></tr>
           </tbody>
         </table>
       </div>
-    </div>
-
-    <div class="panel">
-      <h3>지속 반응 비교</h3>
-      <p class="panel-note" style="margin:0 0 16px;">기준: 이벤트 전 평균 대비 이벤트 후 평균 변화율(지속 반응도). 값이 클수록 이벤트가 끝난 뒤에도 관심이 오래 남았다는 뜻입니다.</p>
-      <div class="sustain-chart">
-        <div class="sustain-row">
-          <span class="sustain-label">Saros / Wolverine</span>
-          <div class="sustain-track">
-            <div class="sustain-zero" style="left:31.25%"></div>
-            <div class="sustain-fill pos" style="left:31.25%; width:61.56%;"></div>
-          </div>
-          <span class="sustain-value pos">+19.7%</span>
-        </div>
-        <div class="sustain-row">
-          <span class="sustain-label">God of War Laufey</span>
-          <div class="sustain-track">
-            <div class="sustain-zero" style="left:31.25%"></div>
-            <div class="sustain-fill neg" style="left:29.69%; width:1.56%;"></div>
-          </div>
-          <span class="sustain-value neg">-0.5%</span>
-        </div>
-        <div class="sustain-row">
-          <span class="sustain-label">Ghost of Yotei</span>
-          <div class="sustain-track">
-            <div class="sustain-zero" style="left:31.25%"></div>
-            <div class="sustain-fill neg" style="left:14.06%; width:17.19%;"></div>
-          </div>
-          <span class="sustain-value neg">-5.5%</span>
-        </div>
-        <div class="sustain-axis-row">
-          <span class="sustain-label"></span>
-          <div class="sustain-axis">
-            <span style="left:0%;">-10%</span>
-            <span style="left:15.625%;">-5%</span>
-            <span style="left:31.25%;">0%</span>
-            <span style="left:46.875%;">+5%</span>
-            <span style="left:62.5%;">+10%</span>
-            <span style="left:78.125%;">+15%</span>
-            <span style="left:93.75%;">+20%</span>
-          </div>
-          <span class="sustain-value"></span>
-        </div>
-      </div>
+      <p class="table-scroll-hint">← 좌우로 스크롤해 전체 표를 볼 수 있습니다</p>
     </div>
 
     <div class="highlight-box" style="margin-top:20px;">
@@ -2911,8 +3123,12 @@
       <p>Nintendo Direct·Xbox Games Showcase는 당일 최고치(100)까지 급등한 뒤 일주일 만에 거의 원상복구되는 "반짝 스파이크형" 패턴이 뚜렷합니다. PlayStation의 3개 이벤트는 당일 반응 크기는 작지만, 그중 하나(State of Play 9/24)는 오히려 <b>이벤트 후 관심도가 더 높게 유지</b>됐습니다 — <b>3사 중 유일하게 관찰된 지속형 반응</b>입니다.</p>
     </div>
 
+    <div class="method-callout" style="margin-top:20px;">
+      <b style="color:var(--text-primary);">Impact Score 산출 방식</b> — <code>당일 반응도 × 0.4 + 지속 반응도 × 0.6</code>. 이벤트 당일의 일시적 화제성보다, 이벤트가 끝난 뒤에도 남아있는 관심(팬덤 영향)에 더 큰 비중(60%)을 둔 지표입니다. 데이터 출처와 수집 방식은 방법론·한계 탭에서 확인할 수 있습니다.
+    </div>
+
     <div class="events-download-row">
-      <button type="button" class="events-download-btn" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M2.5 12v1.5A1.5 1.5 0 004 15h8a1.5 1.5 0 001.5-1.5V12"/></svg>리포트 다운로드</button>
+      <button type="button" class="events-download-btn" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3"/><path d="M2.5 12v1.5A1.5 1.5 0 004 15h8a1.5 1.5 0 001.5-1.5V12"/></svg>리포트 다운로드</button>
     </div>
   </section>
 
@@ -3016,6 +3232,71 @@
 
 <script>
 (function () {
+  // Mobile drawer: below 900px the sidebar becomes an off-canvas drawer,
+  // opened from the top app bar's menu button. Handles Escape-to-close,
+  // backdrop click, and returning focus to the trigger button.
+  var sidebar = document.getElementById('appSidebar');
+  var menuBtn = document.getElementById('mobileMenuBtn');
+  var backdrop = document.getElementById('drawerBackdrop');
+  if (!sidebar || !menuBtn || !backdrop) return;
+
+  function openDrawer() {
+    sidebar.classList.add('drawer-open');
+    backdrop.hidden = false;
+    requestAnimationFrame(function () { backdrop.classList.add('open'); });
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    var firstLink = sidebar.querySelector('a, button');
+    if (firstLink) firstLink.focus();
+  }
+  function closeDrawer() {
+    if (!sidebar.classList.contains('drawer-open')) return;
+    sidebar.classList.remove('drawer-open');
+    backdrop.classList.remove('open');
+    setTimeout(function () { backdrop.hidden = true; }, 220);
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    menuBtn.focus();
+  }
+  window.closeDrawer = closeDrawer;
+
+  menuBtn.addEventListener('click', function () {
+    if (sidebar.classList.contains('drawer-open')) closeDrawer(); else openDrawer();
+  });
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sidebar.classList.contains('drawer-open')) closeDrawer();
+  });
+})();
+
+(function () {
+  // Topbar + events-page refresh/download actions. There's no live backend
+  // to re-fetch from (static report), so "refresh" honestly re-renders the
+  // current static view; we still show a real loading state so the control
+  // doesn't feel inert, then reload.
+  function wireRefresh(btn) {
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (btn.getAttribute('data-state') === 'loading') return;
+      btn.setAttribute('data-state', 'loading');
+      btn.disabled = true;
+      var status = document.getElementById('topbarStatus');
+      if (status) status.textContent = '리포트를 새로고침하는 중입니다…';
+      setTimeout(function () { location.reload(); }, 450);
+    });
+  }
+  wireRefresh(document.getElementById('topbarRefreshBtn'));
+  wireRefresh(document.getElementById('eventsRefreshBtn'));
+
+  var downloadBtn = document.getElementById('topbarDownloadBtn');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function () { window.print(); });
+  }
+})();
+
+</script>
+<script>
+(function () {
   // Tab mode: jumpnav links switch the visible .report-section instead of
   // scrolling to it. Falls back gracefully to plain anchor behavior if the
   // sections/links aren't found.
@@ -3029,7 +3310,11 @@
 
   function activate(id, push) {
     sections.forEach(function (s) { s.classList.toggle('active', s.id === id); });
-    links.forEach(function (l) { l.classList.toggle('active', l.dataset.tab === id); });
+    links.forEach(function (l) {
+      var isActive = l.dataset.tab === id;
+      l.classList.toggle('active', isActive);
+      if (isActive) { l.setAttribute('aria-current', 'location'); } else { l.removeAttribute('aria-current'); }
+    });
     if (mainOnlyEl) {
       mainOnlyEl.classList.toggle('active', id === MAIN_TAB_ID);
     }
@@ -3045,6 +3330,7 @@
     if (trTip) trTip.classList.remove('visible');
     var trCrosshair = document.getElementById('trCrosshairGroup');
     if (trCrosshair) trCrosshair.style.display = 'none';
+    if (window.closeDrawer) window.closeDrawer();
   }
 
   links.forEach(function (link) {
