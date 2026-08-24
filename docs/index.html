@@ -459,6 +459,11 @@
   .sustain-axis { flex: 1; position: relative; height: 16px; }
   .sustain-axis span { position: absolute; transform: translateX(-50%); font-size: 10px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
 
+  /* ---------- combined event trajectory chart ---------- */
+  .combo-chart-wrap svg { width: 100%; height: auto; display: block; max-width: 640px; margin: 0 auto; }
+  .combo-axis-label { font-size: 12px; fill: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+  .combo-end-label { font-size: 14px; font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+
 
 
   a { color: var(--accent); }
@@ -2979,6 +2984,57 @@
             <li>Ghost of Yotei는 당일 반응(<b>+0.5%</b>)부터 작았고, 이벤트 후에는 <b>-5.5%</b>까지 떨어졌습니다 — 출시 전 기대감이 이미 검색량에 반영돼 있었을 가능성입니다.</li>
           </ul>
         </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:28px;">
+      <h3>이벤트 3건, 한 그래프로 비교</h3>
+      <p class="panel-note" style="margin:0 0 16px;">이벤트 전 평균 → 이벤트 당일 → 이벤트 후 평균 흐름을 하나의 선그래프로 겹쳐 그렸습니다. Saros / Wolverine(초록)만 이벤트 후에도 계속 올라가는 것을 한눈에 볼 수 있습니다.</p>
+      <span class="sr-only">선그래프 요약: Saros/Wolverine은 73.1에서 77.0을 거쳐 87.6까지 꾸준히 상승. Ghost of Yotei는 87.6에서 88.0으로 거의 변화 없다가 82.7로 하락. God of War Laufey는 85.3에서 92.0으로 급등했다가 84.9로 하락.</span>
+      <div class="combo-chart-wrap" aria-hidden="true">
+        <svg viewBox="0 0 640 250">
+          <line x1="70" y1="210" x2="610" y2="210" stroke="var(--border)" stroke-width="1"/>
+          <line x1="70" y1="24" x2="70" y2="210" stroke="var(--border)" stroke-width="1"/>
+          <g class="combo-grid">
+            <line x1="70" y1="210" x2="610" y2="210" stroke="var(--border)" stroke-dasharray="2 4"/>
+            <line x1="70" y1="148" x2="610" y2="148" stroke="var(--border)" stroke-dasharray="2 4"/>
+            <line x1="70" y1="86" x2="610" y2="86" stroke="var(--border)" stroke-dasharray="2 4"/>
+            <line x1="70" y1="24" x2="610" y2="24" stroke="var(--border)" stroke-dasharray="2 4"/>
+          </g>
+          <text x="62" y="213" text-anchor="end" class="combo-axis-label">65</text>
+          <text x="62" y="151" text-anchor="end" class="combo-axis-label">75</text>
+          <text x="62" y="89" text-anchor="end" class="combo-axis-label">85</text>
+          <text x="62" y="27" text-anchor="end" class="combo-axis-label">95</text>
+
+          <polyline points="110,84.1 340,42.6 570,86.6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="110,69.9 340,67.4 570,100.3" fill="none" stroke="var(--status-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="110,159.8 340,135.6 570,69.9" fill="none" stroke="var(--status-positive)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <g class="combo-pts">
+            <circle cx="110" cy="84.1" r="4" fill="var(--accent)"/>
+            <circle cx="340" cy="42.6" r="4" fill="var(--accent)"/>
+            <circle cx="570" cy="86.6" r="4.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+            <circle cx="110" cy="69.9" r="4" fill="var(--status-negative)"/>
+            <circle cx="340" cy="67.4" r="4" fill="var(--status-negative)"/>
+            <circle cx="570" cy="100.3" r="4.5" fill="var(--surface)" stroke="var(--status-negative)" stroke-width="2.5"/>
+            <circle cx="110" cy="159.8" r="4" fill="var(--status-positive)"/>
+            <circle cx="340" cy="135.6" r="4" fill="var(--status-positive)"/>
+            <circle cx="570" cy="69.9" r="5" fill="var(--surface)" stroke="var(--status-positive)" stroke-width="3"/>
+          </g>
+
+          <text x="596" y="82.6" text-anchor="end" class="combo-end-label" fill="var(--accent)">85</text>
+          <text x="596" y="112.3" text-anchor="end" class="combo-end-label" fill="var(--status-negative)">83</text>
+          <text x="596" y="63.9" text-anchor="end" class="combo-end-label" fill="var(--status-positive)">88</text>
+
+          <text x="110" y="234" text-anchor="middle" class="combo-axis-label">이벤트 전 평균</text>
+          <text x="340" y="234" text-anchor="middle" class="combo-axis-label">이벤트 당일</text>
+          <text x="570" y="234" text-anchor="middle" class="combo-axis-label">이벤트 후 평균</text>
+        </svg>
+      </div>
+      <div class="line-legend-row">
+        <span><span class="swatch-line" style="background:var(--status-positive);"></span>Saros / Wolverine</span>
+        <span><span class="swatch-line" style="background:var(--status-negative);"></span>Ghost of Yotei</span>
+        <span><span class="swatch-line" style="background:var(--accent);"></span>God of War Laufey</span>
       </div>
     </div>
 
