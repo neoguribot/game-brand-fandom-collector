@@ -704,6 +704,13 @@
   .stat-value { font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 600; line-height: 1; margin-bottom: 8px; }
   .stat-label { font-size: 12.5px; color: var(--text-secondary); }
   .stat-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+  .stat-grid-compact .stat-tile { padding: 16px 16px; }
+  .stat-grid-compact .stat-icon { width: 24px; height: 24px; border-radius: 8px; margin-bottom: 8px; }
+  .stat-grid-compact .stat-icon svg { width: 13px; height: 13px; }
+  .stat-grid-compact .stat-value { font-size: 20px; margin-bottom: 5px; }
+  .stat-grid-compact .stat-label { font-size: 11.5px; }
+  .stat-grid-compact .stat-sub { font-size: 10.5px; }
+  .stat-grid-compact .kpi-delta { font-size: 20px; }
 
   /* ---------- channel reference shot ---------- */
   .channel-shot-card {
@@ -2888,10 +2895,10 @@
       </button>
     </div>
 
-    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr); margin-bottom:28px;">
+    <div class="stat-grid stat-grid-compact" style="grid-template-columns:repeat(4,1fr); margin-bottom:28px;">
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg></div>
-        <div class="stat-value num">3<span style="font-size:15px;color:var(--text-muted);font-weight:700;">개</span></div>
+        <div class="stat-value num">3<span style="font-size:12px;color:var(--text-muted);font-weight:700;">개</span></div>
         <div class="stat-label">분석 이벤트 수</div>
         <div class="stat-sub">PlayStation 대표 이벤트</div>
       </div>
@@ -2911,7 +2918,7 @@
       </div>
       <div class="stat-tile">
         <div class="stat-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5l1.8 3.8 4.2.5-3 3 .7 4.2L8 11.8l-3.7 2.2.7-4.2-3-3 4.2-.5z" fill="currentColor" stroke="none"/></svg></div>
-        <div class="stat-value" style="font-size:17px;">Saros / Wolverine</div>
+        <div class="stat-value" style="font-size:15px;">Saros / Wolverine</div>
         <div class="stat-label">최고 지속 반응 이벤트</div>
         <div class="stat-sub">지속 반응도 +19.7%</div>
       </div>
