@@ -137,8 +137,100 @@
     font-family: "Noto Sans KR", "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    word-break: keep-all; overflow-wrap: break-word;
   }
   .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  /* ---------- trends tab: new components ---------- */
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px 26px; margin-bottom: 20px;
+  }
+  .panel h3 { margin: 0 0 12px; font-size: 15.5px; }
+  .panel-note { font-size: 12.5px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+
+  .bar-row { display: flex; align-items: center; gap: 14px; padding: 7px 0; }
+  .bar-row .bar-label { width: 128px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .bar-row .bar-label small { display: block; font-weight: 500; color: var(--text-muted); font-size: 11px; margin-top: 1px; }
+  .bar-track { flex: 1; height: 15px; background: var(--surface-2); border-radius: 8px; overflow: hidden; position: relative; }
+  .bar-fill { height: 100%; border-radius: 8px; background: var(--accent); }
+  .bar-value { width: 52px; text-align: right; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+
+  .locale-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .locale-card { background: var(--surface-2); border-radius: 12px; padding: 16px 18px; }
+  .locale-card .locale-region { font-size: 12.5px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; }
+  .locale-arrow { display: flex; align-items: center; gap: 10px; }
+  .locale-arrow .from { font-size: 15px; color: var(--text-muted); font-weight: 700; }
+  .locale-arrow svg { width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0; }
+  .locale-arrow .to { font-size: 20px; font-weight: 800; color: var(--accent); }
+  .locale-card .locale-note { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; }
+
+  .resolved-tag, .open-q-tag {
+    display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em;
+    padding: 2px 8px; border-radius: 20px; margin-right: 8px; vertical-align: 1px;
+  }
+  .resolved-tag { color: var(--s-positive); background: color-mix(in srgb, var(--s-positive) 15%, transparent); }
+  .open-q-tag { color: var(--s-negative); background: color-mix(in srgb, var(--s-negative) 15%, transparent); }
+
+  .highlight-box {
+    background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+    border-radius: 14px; padding: 18px 20px;
+  }
+  .highlight-box p { font-size: 13.5px; line-height: 1.65; color: var(--text-primary); margin: 0; }
+  .highlight-box b { color: var(--accent); }
+
+  .chip-list { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 20px; padding: 7px 13px 7px 10px; font-size: 13px;
+  }
+  .chip .rank { background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 800; width: 17px; height: 17px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chip .vol { color: var(--text-muted); font-family: "IBM Plex Mono", monospace; font-size: 11.5px; }
+
+  .tr-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table.tr-qtable { width: 100%; border-collapse: collapse; }
+  table.tr-qtable th, table.tr-qtable td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  table.tr-qtable th { color: var(--text-muted); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  table.tr-qtable td.cat { font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+  table.tr-qtable tbody tr:last-child td { border-bottom: none; }
+
+  .line-chart-wrap { position: relative; }
+  .line-chart-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .line-axis-label { font-size: 10px; fill: var(--text-muted); font-family: "IBM Plex Mono", monospace; text-anchor: middle; }
+  .line-mark-num { font-size: 9.5px; font-weight: 800; fill: #fff; text-anchor: middle; pointer-events: none; }
+  .line-legend-row { display: flex; flex-wrap: wrap; gap: 16px 22px; margin: 14px 0 4px; font-size: 12.5px; color: var(--text-secondary); }
+  .line-legend-row .swatch-line { display: inline-block; width: 16px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: 2px; }
+  .marks-legend { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+  .marks-legend .mark-row { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  .marks-legend .mark-badge {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; color: #fff; font-size: 10.5px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .marks-legend .mark-date { color: var(--text-muted); font-family: "IBM Plex Mono", monospace; font-size: 11.5px; margin-left: auto; flex-shrink: 0; }
+
+  #trLineTooltip {
+    position: fixed; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.1s;
+    background: var(--text-primary); color: var(--bg); font-size: 12px; font-family: "IBM Plex Mono", monospace;
+    padding: 7px 11px; border-radius: 8px; white-space: nowrap; box-shadow: 0 8px 20px -8px rgba(0,0,0,0.4);
+  }
+  #trLineTooltip.visible { opacity: 1; }
+
+  .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px 18px; }
+  .event-card .event-title { font-size: 14.5px; font-weight: 800; margin-bottom: 2px; }
+  .event-card .event-date { font-size: 11.5px; color: var(--text-muted); font-family: "IBM Plex Mono", monospace; margin-bottom: 8px; }
+  .event-card .event-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px; }
+  .event-chart-wrap { position: relative; }
+  .event-chart-wrap svg { width: 100%; height: auto; display: block; }
+  .event-point-label { font-size: 10.5px; fill: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+  .event-point-value { font-size: 12px; font-weight: 700; fill: var(--text-primary); font-family: "IBM Plex Mono", monospace; }
+  .event-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .event-badge { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; font-family: "IBM Plex Mono", monospace; }
+  .event-badge.pos { background: color-mix(in srgb, var(--s-positive) 15%, transparent); color: var(--s-positive); }
+  .event-badge.neg { background: color-mix(in srgb, var(--s-negative) 15%, transparent); color: var(--s-negative); }
+  .event-note { font-size: 12px; color: var(--text-secondary); margin-top: 12px; line-height: 1.55; }
+
 
   a { color: var(--accent); }
 
@@ -585,7 +677,6 @@
     <button type="button" data-source="trends" aria-pressed="false">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg>
       <span>트렌드</span>
-      <em class="soon-badge">예정</em>
     </button>
   </div>
   <p class="sidebar-group-label">리포트 섹션</p>
@@ -610,7 +701,12 @@
       <a href="#reddit-methodology" data-tab="reddit-methodology"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>방법론·한계</a>
     </div>
     <div class="nav-source-group" data-source="trends" hidden>
-      <a href="#trends-soon" data-tab="trends-soon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg>검색 관심도 추이</a>
+      <a href="#trends-overview" data-tab="trends-overview"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 5.2l1.1 2.3 2.5.3-1.8 1.7.4 2.5L8 10.8l-2.2 1.2.4-2.5-1.8-1.7 2.5-.3z" fill="currentColor" stroke="none"/></svg>개요</a>
+      <a href="#trends-global" data-tab="trends-global"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12M8 2c2 2 2 10 0 12M8 2c-2 2-2 10 0 12"/></svg>전 세계 관심도</a>
+      <a href="#trends-region" data-tab="trends-region"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14.2s5-4.6 5-8.2a5 5 0 10-10 0c0 3.6 5 8.2 5 8.2z"/><circle cx="8" cy="6" r="1.8" fill="currentColor" stroke="none"/></svg>지역별 관심도</a>
+      <a href="#trends-events" data-tab="trends-events"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>이벤트 반응</a>
+      <a href="#trends-queries" data-tab="trends-queries"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.8" cy="6.8" r="4.3"/><path d="M10 10l3.5 3.5"/></svg>관련 검색어</a>
+      <a href="#trends-methodology" data-tab="trends-methodology"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/></svg>방법론·한계</a>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -2181,17 +2277,440 @@
     </div>
   </section>
 
-  <section id="trends-soon" class="report-section" data-source="trends">
-    <div class="section-head">
-      <h2>구글 트렌드 · 검색 관심도</h2>
-      <p class="section-desc">PlayStation 관련 검색어의 시간대별 관심도 추이 데이터가 연동되면, 디스크 드라이브 논쟁 등 주요 이슈와 검색량 변화를 함께 볼 수 있습니다.</p>
+  <section id="trends-overview" class="report-section" data-source="trends">
+    <div class="content-header">
+      <h1 class="title">PlayStation 검색 관심도,<br><em>Google Trends 12개월</em>로 본 패턴</h1>
+      <div class="meta-line">
+        <span><b>비교 기준</b> · PlayStation / Xbox / Nintendo (Web Search)</span>
+        <span><b>수집 도구</b> · pytrends (비공식 Google Trends API)</span>
+        <span><b>지역</b> · 전 세계 + 미국·일본·한국·영국</span>
+      </div>
     </div>
-    <div class="placeholder-panel">
-      <div class="placeholder-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12.5l4-4.5 3 3 5.5-6.5"/><path d="M10.5 3.5h3.5V7"/></svg></div>
-      <p class="placeholder-title">구글 트렌드 데이터 연동 예정</p>
-      <p class="placeholder-desc">데이터가 연결되면 이 탭이 자동으로 채워집니다.</p>
+    <div class="verdict-box">
+      <p class="verdict-label">이번 데이터가 말해주는 PlayStation 검색 관심도 패턴</p>
+      <p class="verdict-text">PlayStation은 검색 관심도 <b>수치 자체는 3사 중 가장 낮지만</b>, 이벤트 이후에도 관심이 꺼지지 않고 <b>이어지는 유일한 "지속형" 브랜드</b>다 — 화제성이 아니라 콘텐츠에 대한 지속적 관심이 검색 패턴에도 그대로 나타난다.</p>
+      <ul class="verdict-evidence">
+        <li>전 세계 평균 검색 관심도 36.4로 Xbox(74.0)·Nintendo(45.8)보다 낮음 — 실제 콘솔 판매량 1위 브랜드임에도 검색 관심도는 최저인 특이 사례</li>
+        <li>State of Play(2025-09-24) 이후 일주일 평균 관심도가 이벤트 이전보다 오히려 <b>+19.7%</b> 더 높게 유지됨 — Nintendo Direct·Xbox Showcase는 당일 급등 후 일주일 뒤 거의 원상복구</li>
+        <li>자국 시장(일본)에서도 3사 중 최저(현지어 포함 30.8) — 검색 관심도가 실제 시장 지배력과 비례하지 않음을 보여주는 근거</li>
+      </ul>
+    </div>
+
+    <div class="section-head" style="margin-top:28px;">
+      <h2>핵심 지표 한눈에 보기</h2>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="stat-value num">36.4</div>
+        <div class="stat-label">전 세계 평균 검색 관심도</div>
+        <div class="stat-sub">3사 중 최저 (Xbox 74.0 · Nintendo 45.8)</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-positive);">+19.7%</div>
+        <div class="stat-label">이벤트 후 관심도 지속 상승</div>
+        <div class="stat-sub">State of Play(9/24) 이후 1주 평균, 3사 중 유일한 지속형 반응</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--accent);">3 / 3</div>
+        <div class="stat-label">자국 시장(일본) 순위</div>
+        <div class="stat-sub">현지어 포함 30.8점, Nintendo(57.4)에 못 미침</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value" style="font-size:16px;">"playstation news today"</div>
+        <div class="stat-label">최상위 Rising Query</div>
+        <div class="stat-sub">검색량 지수 2,600 — PS5 신규 하드웨어·신작 소식 수요 반영</div>
+      </div>
     </div>
   </section>
+
+  <section id="trends-global" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>전 세계 검색 관심도</h2>
+      <p class="section-desc">지난 12개월 전 세계 Web Search 기준, PlayStation 검색 관심도 추이입니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>PlayStation 검색 관심도 — 최댓값 · 평균값 · 최솟값</h3>
+      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr); margin-bottom:20px;">
+        <div class="stat-tile">
+          <div class="stat-value num">59</div>
+          <div class="stat-label">최댓값</div>
+          <div class="stat-sub">2025-12-21 주</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-value num" style="color:var(--accent);">37.1</div>
+          <div class="stat-label">평균값</div>
+          <div class="stat-sub">최근 12개월 주간 평균</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-value num">27</div>
+          <div class="stat-label">최솟값</div>
+          <div class="stat-sub">2025-09-14 주</div>
+        </div>
+      </div>
+
+      <div class="line-chart-wrap">
+        <svg viewBox="0 0 920 300" id="trGlobalLineChart">
+          <line x1="6.0" y1="20" x2="6.0" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="6.0" y="286" class="line-axis-label">8월</text>
+      <line x1="40.9" y1="20" x2="40.9" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="40.9" y="286" class="line-axis-label">9월</text>
+      <line x1="110.8" y1="20" x2="110.8" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="110.8" y="286" class="line-axis-label">10월</text>
+      <line x1="180.6" y1="20" x2="180.6" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="180.6" y="286" class="line-axis-label">11월</text>
+      <line x1="267.9" y1="20" x2="267.9" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="267.9" y="286" class="line-axis-label">12월</text>
+      <line x1="337.8" y1="20" x2="337.8" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="337.8" y="286" class="line-axis-label">1월</text>
+      <line x1="407.6" y1="20" x2="407.6" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="407.6" y="286" class="line-axis-label">2월</text>
+      <line x1="477.5" y1="20" x2="477.5" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="477.5" y="286" class="line-axis-label">3월</text>
+      <line x1="564.8" y1="20" x2="564.8" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="564.8" y="286" class="line-axis-label">4월</text>
+      <line x1="634.6" y1="20" x2="634.6" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="634.6" y="286" class="line-axis-label">5월</text>
+      <line x1="721.9" y1="20" x2="721.9" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="721.9" y="286" class="line-axis-label">6월</text>
+      <line x1="791.8" y1="20" x2="791.8" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="791.8" y="286" class="line-axis-label">7월</text>
+      <line x1="861.6" y1="20" x2="861.6" y2="266" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="861.6" y="286" class="line-axis-label">8월</text>
+          <polyline points="6.0,170.1 23.5,167.6 40.9,160.2 58.4,175.0 75.8,175.0 93.3,175.0 110.8,162.7 128.2,167.6 145.7,165.1 163.2,170.1 180.6,165.1 198.1,150.4 215.5,140.5 233.0,108.6 250.5,135.6 267.9,138.1 285.4,128.2 302.8,59.4 320.3,111.0 337.8,150.4 355.2,162.7 372.7,160.2 390.2,157.8 407.6,162.7 425.1,167.6 442.5,160.2 460.0,155.3 477.5,155.3 494.9,152.8 512.4,160.2 529.8,150.4 547.3,135.6 564.8,143.0 582.2,138.1 599.7,138.1 617.2,143.0 634.6,135.6 652.1,138.1 669.5,152.8 687.0,145.5 704.5,143.0 721.9,130.7 739.4,157.8 756.8,157.8 774.3,157.8 791.8,157.8 809.2,170.1 826.7,162.7 844.2,167.6 861.6,165.1 879.1,165.1 896.5,162.7 914.0,155.3" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+          <polyline points="6.0,101.2 23.5,101.2 40.9,115.9 58.4,113.5 75.8,103.6 93.3,76.6 110.8,96.3 128.2,88.9 145.7,111.0 163.2,106.1 180.6,111.0 198.1,81.5 215.5,76.6 233.0,61.8 250.5,79.0 267.9,84.0 285.4,69.2 302.8,27.4 320.3,44.6 337.8,88.9 355.2,103.6 372.7,98.7 390.2,101.2 407.6,108.6 425.1,120.9 442.5,98.7 460.0,113.5 477.5,108.6 494.9,106.1 512.4,111.0 529.8,84.0 547.3,56.9 564.8,59.4 582.2,71.7 599.7,84.0 617.2,76.6 634.6,69.2 652.1,66.7 669.5,59.4 687.0,49.5 704.5,44.6 721.9,20.0 739.4,64.3 756.8,37.2 774.3,54.4 791.8,59.4 809.2,79.0 826.7,74.1 844.2,49.5 861.6,79.0 879.1,71.7 896.5,86.4 914.0,69.2" fill="none" stroke="#b7b9cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+          <polyline points="6.0,189.7 23.5,184.8 40.9,197.1 58.4,199.6 75.8,194.7 93.3,179.9 110.8,184.8 128.2,189.7 145.7,187.3 163.2,189.7 180.6,184.8 198.1,175.0 215.5,160.2 233.0,143.0 250.5,152.8 267.9,155.3 285.4,157.8 302.8,120.9 320.3,150.4 337.8,179.9 355.2,187.3 372.7,184.8 390.2,187.3 407.6,192.2 425.1,187.3 442.5,182.4 460.0,189.7 477.5,189.7 494.9,192.2 512.4,182.4 529.8,175.0 547.3,162.7 564.8,165.1 582.2,167.6 599.7,172.5 617.2,170.1 634.6,170.1 652.1,172.5 669.5,175.0 687.0,170.1 704.5,165.1 721.9,175.0 739.4,179.9 756.8,152.8 774.3,147.9 791.8,160.2 809.2,175.0 826.7,157.8 844.2,179.9 861.6,184.8 879.1,184.8 896.5,182.4 914.0,167.6" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="75.8" y1="20" x2="75.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="75.8" cy="18" r="8" fill="var(--accent)"/><text x="75.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">1</text>
+      <line x1="110.8" y1="20" x2="110.8" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="110.8" cy="18" r="8" fill="var(--accent)"/><text x="110.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">2</text>
+      <line x1="233.0" y1="20" x2="233.0" y2="266" stroke="var(--text-muted)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="233.0" cy="18" r="8" fill="var(--text-muted)"/><text x="233.0" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">3</text>
+      <line x1="302.8" y1="20" x2="302.8" y2="266" stroke="var(--text-muted)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="302.8" cy="18" r="8" fill="var(--text-muted)"/><text x="302.8" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">4</text>
+      <line x1="704.5" y1="20" x2="704.5" y2="266" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="3 3" opacity="0.55"/><circle cx="704.5" cy="18" r="8" fill="var(--accent)"/><text x="704.5" y="18" text-anchor="middle" dominant-baseline="central" class="line-mark-num">5</text>
+          <circle cx="302.8" cy="120.9" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+          <circle cx="58.4" cy="199.6" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+          <g id="trCrosshairGroup" style="display:none;">
+            <line id="trCrosshairLine" x1="0" y1="20" x2="0" y2="266" stroke="var(--text-muted)" stroke-width="1"/>
+            <circle id="trCrosshairPs" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>
+            <circle id="trCrosshairXbox" r="4" fill="#8b8dab" stroke="var(--surface)" stroke-width="1.5"/>
+            <circle id="trCrosshairNin" r="4" fill="#8b8dab" stroke="var(--surface)" stroke-width="1.5"/>
+          </g>
+          <g id="trHitCols">
+          <rect x="6" y="20" width="8.8" height="246" fill="transparent" data-i="0"/>
+      <rect x="14.8" y="20" width="17.5" height="246" fill="transparent" data-i="1"/>
+      <rect x="32.2" y="20" width="17.4" height="246" fill="transparent" data-i="2"/>
+      <rect x="49.6" y="20" width="17.4" height="246" fill="transparent" data-i="3"/>
+      <rect x="67.1" y="20" width="17.5" height="246" fill="transparent" data-i="4"/>
+      <rect x="84.5" y="20" width="17.5" height="246" fill="transparent" data-i="5"/>
+      <rect x="102.0" y="20" width="17.5" height="246" fill="transparent" data-i="6"/>
+      <rect x="119.5" y="20" width="17.4" height="246" fill="transparent" data-i="7"/>
+      <rect x="136.9" y="20" width="17.5" height="246" fill="transparent" data-i="8"/>
+      <rect x="154.4" y="20" width="17.4" height="246" fill="transparent" data-i="9"/>
+      <rect x="171.9" y="20" width="17.5" height="246" fill="transparent" data-i="10"/>
+      <rect x="189.3" y="20" width="17.5" height="246" fill="transparent" data-i="11"/>
+      <rect x="206.8" y="20" width="17.4" height="246" fill="transparent" data-i="12"/>
+      <rect x="224.2" y="20" width="17.5" height="246" fill="transparent" data-i="13"/>
+      <rect x="241.8" y="20" width="17.4" height="246" fill="transparent" data-i="14"/>
+      <rect x="259.2" y="20" width="17.4" height="246" fill="transparent" data-i="15"/>
+      <rect x="276.6" y="20" width="17.5" height="246" fill="transparent" data-i="16"/>
+      <rect x="294.1" y="20" width="17.4" height="246" fill="transparent" data-i="17"/>
+      <rect x="311.6" y="20" width="17.5" height="246" fill="transparent" data-i="18"/>
+      <rect x="329.1" y="20" width="17.4" height="246" fill="transparent" data-i="19"/>
+      <rect x="346.5" y="20" width="17.4" height="246" fill="transparent" data-i="20"/>
+      <rect x="363.9" y="20" width="17.5" height="246" fill="transparent" data-i="21"/>
+      <rect x="381.4" y="20" width="17.4" height="246" fill="transparent" data-i="22"/>
+      <rect x="398.9" y="20" width="17.5" height="246" fill="transparent" data-i="23"/>
+      <rect x="416.4" y="20" width="17.4" height="246" fill="transparent" data-i="24"/>
+      <rect x="433.8" y="20" width="17.4" height="246" fill="transparent" data-i="25"/>
+      <rect x="451.2" y="20" width="17.5" height="246" fill="transparent" data-i="26"/>
+      <rect x="468.8" y="20" width="17.4" height="246" fill="transparent" data-i="27"/>
+      <rect x="486.2" y="20" width="17.4" height="246" fill="transparent" data-i="28"/>
+      <rect x="503.6" y="20" width="17.4" height="246" fill="transparent" data-i="29"/>
+      <rect x="521.1" y="20" width="17.5" height="246" fill="transparent" data-i="30"/>
+      <rect x="538.5" y="20" width="17.5" height="246" fill="transparent" data-i="31"/>
+      <rect x="556.0" y="20" width="17.5" height="246" fill="transparent" data-i="32"/>
+      <rect x="573.5" y="20" width="17.5" height="246" fill="transparent" data-i="33"/>
+      <rect x="591.0" y="20" width="17.5" height="246" fill="transparent" data-i="34"/>
+      <rect x="608.5" y="20" width="17.5" height="246" fill="transparent" data-i="35"/>
+      <rect x="625.9" y="20" width="17.4" height="246" fill="transparent" data-i="36"/>
+      <rect x="643.4" y="20" width="17.4" height="246" fill="transparent" data-i="37"/>
+      <rect x="660.8" y="20" width="17.5" height="246" fill="transparent" data-i="38"/>
+      <rect x="678.2" y="20" width="17.5" height="246" fill="transparent" data-i="39"/>
+      <rect x="695.8" y="20" width="17.5" height="246" fill="transparent" data-i="40"/>
+      <rect x="713.2" y="20" width="17.4" height="246" fill="transparent" data-i="41"/>
+      <rect x="730.6" y="20" width="17.4" height="246" fill="transparent" data-i="42"/>
+      <rect x="748.1" y="20" width="17.5" height="246" fill="transparent" data-i="43"/>
+      <rect x="765.5" y="20" width="17.5" height="246" fill="transparent" data-i="44"/>
+      <rect x="783.0" y="20" width="17.5" height="246" fill="transparent" data-i="45"/>
+      <rect x="800.5" y="20" width="17.5" height="246" fill="transparent" data-i="46"/>
+      <rect x="818.0" y="20" width="17.5" height="246" fill="transparent" data-i="47"/>
+      <rect x="835.5" y="20" width="17.5" height="246" fill="transparent" data-i="48"/>
+      <rect x="852.9" y="20" width="17.4" height="246" fill="transparent" data-i="49"/>
+      <rect x="870.4" y="20" width="17.4" height="246" fill="transparent" data-i="50"/>
+      <rect x="887.8" y="20" width="17.5" height="246" fill="transparent" data-i="51"/>
+      <rect x="905.2" y="20" width="8.8" height="246" fill="transparent" data-i="52"/>
+          </g>
+        </svg>
+      </div>
+      <div class="line-legend-row">
+        <span><span class="swatch-line" style="background:var(--accent);"></span>PlayStation</span>
+        <span><span class="swatch-line" style="background:#b7b9cc;"></span>Xbox <small style="color:var(--text-muted);">(참고)</small></span>
+        <span><span class="swatch-line" style="background:#b7b9cc;border-top:2px dashed #8b8dab;height:0;"></span>Nintendo <small style="color:var(--text-muted);">(참고, 점선)</small></span>
+      </div>
+      <div class="marks-legend">
+        <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">1</span><span>이벤트 · State of Play (Saros/Wolverine)</span><span class="mark-date num">2025-09-24</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">2</span><span>이벤트 · Ghost of Yotei 출시</span><span class="mark-date num">2025-10-02</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--text-muted);">3</span><span>급등 · 블랙프라이데이 급등</span><span class="mark-date num">2025-11-23</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--text-muted);">4</span><span>급등 · 크리스마스 급등</span><span class="mark-date num">2025-12-21</span></div>
+          <div class="mark-row"><span class="mark-badge" style="background:var(--accent);">5</span><span>이벤트 · State of Play (God of War Laufey)</span><span class="mark-date num">2026-06-02</span></div>
+      </div>
+      <p class="panel-note" style="margin-top:14px;">Google Trends 지수는 0~100 범위이며, 100은 조사 기간 내 해당 검색어의 최고 관심도 시점을 나타냅니다. 그래프 위에 마우스를 올리면 해당 주의 정확한 날짜와 3사 수치를 확인할 수 있습니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>연중 최대 급등 시점</h3>
+      <p class="section-desc" style="margin-bottom:14px;">PlayStation을 포함한 3사 공통으로 검색 관심도가 가장 크게 튀는 구간입니다(그래프의 급등 마크 참고).</p>
+      <div class="chip-list">
+        <span class="chip"><span class="rank">1</span>2025-12-21 주 — 크리스마스 시즌</span>
+        <span class="chip"><span class="rank">2</span>2025-11-23 주 — 블랙프라이데이 시즌</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>측정 방식에 따른 PlayStation 수치 차이 — Topic 왜곡, 재검증으로 원인 특정</h3>
+      <div class="locale-compare">
+        <div class="locale-card">
+          <p class="locale-region">기존 Topic mid(/m/05zxk) 3사 조합 비교 시</p>
+          <div class="locale-arrow"><span class="from num">4.8</span></div>
+          <p class="locale-note">PlayStation 단독으로는 정상 범위(86.5)지만, Xbox·Nintendo 중 <b style="color:var(--text-primary);">어느 한쪽과만 묶어도</b> 동일하게 눌림(Xbox 조합 시 4.8, Nintendo 조합 시 8.1) — 3사 비교 특유의 문제가 아니라 이 mid 자체의 문제로 재확인됨</p>
+        </div>
+        <div class="locale-card">
+          <p class="locale-region">Topic mid를 "Sony PlayStation"(/m/03c3vj4)으로 교체 시</p>
+          <div class="locale-arrow"><span class="to num">54.2</span></div>
+          <p class="locale-note">동일한 Xbox·Nintendo와 조합해도 왜곡 없이 정상 범위로 나옴(Xbox 72.5 · Nintendo 36.6) — mid 교체만으로 왜곡이 해소됨을 pytrends 재검증으로 확인</p>
+        </div>
+      </div>
+      <p class="panel-note">2026-08-22 재검증(pytrends): "PlayStation"(Console, 세대 통합) mid는 다른 어떤 브랜드 Topic과 묶여도 무너지는 반면, "Sony PlayStation"(Product line) · "PlayStation 4" · "PlayStation 5" 등 대체 mid는 모두 정상 범위로 나옴 — 특정 mid 하나의 정규화 이상으로 좁혀졌습니다. 다만 대체 mid는 측정 대상이 "브랜드 전체"에서 "특정 제품/세대"로 좁아지므로, 이 대시보드는 여전히 검색어(키워드) 방식을 기본으로 유지합니다. (참고용 — 본문 지표에는 영향 없음)</p>
+    </div>
+  </section>
+
+  <section id="trends-region" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>지역별 검색 관심도</h2>
+      <p class="section-desc">미국·영국은 영어 검색어 기준, 일본·한국은 현지어를 포함해 재수집한 값(권장 기준)입니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>PlayStation 지역별 평균 관심도</h3>
+      <div class="bar-row">
+        <span class="bar-label">한국<small>영어 및 현지어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" style="width:33.4%" title="한국 33.4"></div></div>
+        <span class="bar-value num">33.4</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">일본<small>영어 및 현지어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" style="width:30.8%" title="일본 30.8"></div></div>
+        <span class="bar-value num">30.8</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">미국<small>영어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" style="width:24.6%" title="미국 24.6"></div></div>
+        <span class="bar-value num">24.6</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">영국<small>영어 검색</small></span>
+        <div class="bar-track"><div class="bar-fill" style="width:22.1%" title="영국 22.1"></div></div>
+        <span class="bar-value num">22.1</span>
+      </div>
+      <p class="panel-note">Google Trends는 국가 내 상대 정규화 방식이라, 절대 수치를 국가 간에 직접 비교할 수는 없습니다 — 국가 내 다른 검색어 대비 이 브랜드의 상대 비중을 나타냅니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>현지어 보정 효과 — 영어 전용 대비 변화</h3>
+      <p class="section-desc" style="margin-bottom:14px;">최초 수집은 영어 검색어만 사용해 일본·한국 수치가 과소평가됐을 가능성이 있어, 현지어 표기를 포함해 재수집했습니다.</p>
+      <div class="locale-compare">
+        <div class="locale-card">
+          <p class="locale-region">일본 · PlayStation</p>
+          <div class="locale-arrow">
+            <span class="from num">16.1</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+            <span class="to num">30.8</span>
+          </div>
+          <p class="locale-note">현지어(プレイステーション/プレステ) 포함 시 거의 2배로 상승 — 그래도 일본 1위 Nintendo(57.4)에는 못 미침</p>
+        </div>
+        <div class="locale-card">
+          <p class="locale-region">한국 · PlayStation</p>
+          <div class="locale-arrow">
+            <span class="from num">13.5</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+            <span class="to num">33.4</span>
+          </div>
+          <p class="locale-note"><span class="resolved-tag">재검증 완료</span>정식 표기("플레이스테이션") 추가만으로는 변화 없었지만(13.5), 준말 <b style="color:var(--text-primary);">"플스"를 포함하자 33.4로 2.5배 상승</b> — Xbox(26.8)를 제치고 한국 2위로 순위가 바뀜. "플스"의 연관 검색어를 확인한 결과 플스 게임·플스 프로·플스 가격 등 100% PlayStation 관련어로, 우려했던 동음이의어 오염은 실제 검색어 방식에서는 확인되지 않음.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trends-events" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>이벤트 전후 반응</h2>
+      <p class="section-desc">PlayStation 대표 이벤트 3건의 이벤트 전 평균(D-7~D-1) → 이벤트 당일 → 이벤트 후 평균(D+1~D+7) 검색 관심도 흐름입니다. 최신 순으로 정렬했습니다.</p>
+    </div>
+
+    <div class="event-grid">
+      <div class="event-card">
+        <p class="event-title">State of Play (God of War Laufey)</p>
+        <p class="event-date">2026-06-02</p>
+        <p class="event-desc">God of War: Ragnarok 세계관의 신작 "Laufey"를 처음 공개한 PlayStation 라이브 쇼케이스.</p>
+        <div class="event-chart-wrap">
+          <svg viewBox="-16 0 332 145" overflow="visible">
+            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+            <polyline points="40,24.7 150,18.0 260,25.1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="24.7" r="4" fill="var(--accent)"/>
+            <circle cx="150" cy="18.0" r="4" fill="var(--accent)"/>
+            <circle cx="260" cy="25.1" r="5" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+            <text x="40" y="16" text-anchor="middle" class="event-point-value">85.3</text>
+            <text x="150" y="10" text-anchor="middle" class="event-point-value">92.0</text>
+            <text x="260" y="16" text-anchor="middle" class="event-point-value">84.9</text>
+            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+          </svg>
+        </div>
+        <div class="event-badges">
+          <span class="event-badge pos">당일 +7.9%</span>
+          <span class="event-badge neg">이벤트 후 -0.5%</span>
+        </div>
+        <p class="event-note">당일 반응 후 거의 이벤트 이전 수준으로 안정적으로 복귀 — 급락도 급등도 아닌 완만한 흐름.</p>
+      </div>
+
+      <div class="event-card">
+        <p class="event-title">Ghost of Yotei 정식 출시</p>
+        <p class="event-date">2025-10-02</p>
+        <p class="event-desc">Sucker Punch의 오픈월드 사무라이 액션 신작 "Ghost of Yotei"의 PS5 정식 출시.</p>
+        <div class="event-chart-wrap">
+          <svg viewBox="-16 0 332 145" overflow="visible">
+            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+            <polyline points="40,22.4 150,22.0 260,27.3" fill="none" stroke="var(--s-negative)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="22.4" r="4" fill="var(--s-negative)"/>
+            <circle cx="150" cy="22.0" r="4" fill="var(--s-negative)"/>
+            <circle cx="260" cy="27.3" r="5" fill="var(--surface)" stroke="var(--s-negative)" stroke-width="2.5"/>
+            <text x="40" y="14" text-anchor="middle" class="event-point-value">87.6</text>
+            <text x="150" y="14" text-anchor="middle" class="event-point-value">88.0</text>
+            <text x="260" y="19" text-anchor="middle" class="event-point-value">82.7</text>
+            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+          </svg>
+        </div>
+        <div class="event-badges">
+          <span class="event-badge pos">당일 +0.5%</span>
+          <span class="event-badge neg">이벤트 후 -5.5%</span>
+        </div>
+        <p class="event-note">출시 당일 스파이크가 거의 없음 — 사전 기대감이 이미 검색량에 선반영돼 있었을 가능성.</p>
+      </div>
+
+      <div class="event-card">
+        <p class="event-title">State of Play (Saros / Wolverine)</p>
+        <p class="event-date">2025-09-24</p>
+        <p class="event-desc">신작 "Saros"와 "Marvel's Wolverine"의 최신 영상을 공개한 PlayStation 라이브 쇼케이스.</p>
+        <div class="event-chart-wrap">
+          <svg viewBox="-16 0 332 145" overflow="visible">
+            <line x1="40" y1="120" x2="260" y2="120" stroke="var(--border)" stroke-width="1"/>
+            <polyline points="40,36.9 150,33.0 260,22.4" fill="none" stroke="var(--s-positive)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="36.9" r="4" fill="var(--s-positive)"/>
+            <circle cx="150" cy="33.0" r="4" fill="var(--s-positive)"/>
+            <circle cx="260" cy="22.4" r="5" fill="var(--surface)" stroke="var(--s-positive)" stroke-width="2.5"/>
+            <text x="40" y="16" text-anchor="middle" class="event-point-value">73.1</text>
+            <text x="150" y="16" text-anchor="middle" class="event-point-value">77.0</text>
+            <text x="260" y="12" text-anchor="middle" class="event-point-value">87.6</text>
+            <text x="40" y="136" text-anchor="middle" class="event-point-label">이벤트 전 평균</text>
+            <text x="150" y="136" text-anchor="middle" class="event-point-label">이벤트 당일</text>
+            <text x="260" y="136" text-anchor="middle" class="event-point-label">이벤트 후 평균</text>
+          </svg>
+        </div>
+        <div class="event-badges">
+          <span class="event-badge pos">당일 +5.3%</span>
+          <span class="event-badge pos">이벤트 후 +19.7%</span>
+        </div>
+        <p class="event-note">당일 반응은 작지만 이후 한 주간 관심도가 오히려 더 높게 유지됨 — 3건 중 유일한 지속형 반응.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:20px;">
+      <p class="verdict-label">PlayStation 이벤트 반응의 특징 — "터짐"보다 "지속"</p>
+      <p>Nintendo Direct·Xbox Games Showcase는 당일 최고치(100)까지 급등한 뒤 일주일 만에 거의 원상복구되는 "반짝 스파이크형" 패턴이 뚜렷합니다. PlayStation의 3개 이벤트는 당일 반응 크기는 작지만, 그중 하나(State of Play 9/24)는 오히려 <b>이벤트 후 관심도가 더 높게 유지</b>됐습니다 — <b>3사 중 유일하게 관찰된 지속형 반응</b>입니다.</p>
+    </div>
+  </section>
+
+  <section id="trends-queries" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>관련 검색어 · 급상승 검색어</h2>
+      <p class="section-desc">지난 12개월간 PlayStation과 함께 검색된 상위 연관어와 급상승(Rising) 검색어입니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>급상승 검색어 (Rising Queries)</h3>
+      <div class="chip-list">
+        <span class="chip"><span class="rank">1</span>playstation news today <span class="vol">idx 2,600</span></span>
+        <span class="chip"><span class="rank">2</span>sony playstation 5 console <span class="vol">신규 하드웨어</span></span>
+        <span class="chip"><span class="rank">3</span>sony playstation 5 slim console <span class="vol">신규 하드웨어</span></span>
+        <span class="chip"><span class="rank">4</span>ghost of yotei <span class="vol">신작 게임</span></span>
+      </div>
+      <p class="panel-note">PS5 신규 하드웨어 리비전과 대작 게임(Ghost of Yotei) 출시가 검색 관심도 상승의 주요 요인으로 추정됩니다.</p>
+    </div>
+
+    <div class="panel">
+      <h3>연관 검색어 (Related Queries) — 카테고리별</h3>
+      <div class="tr-table-wrap">
+        <table class="tr-qtable">
+          <thead><tr><th>카테고리</th><th>연관 검색어</th></tr></thead>
+          <tbody>
+            <tr><td class="cat">콘솔 · 하드웨어</td><td>ps5, playstation pro, ps4, playstation controller</td></tr>
+            <tr><td class="cat">구독 · 서비스</td><td>playstation plus, playstation store</td></tr>
+            <tr><td class="cat">자사 · 기업명</td><td>sony, sony playstation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="trends-methodology" class="report-section" data-source="trends">
+    <div class="section-head">
+      <h2>방법론 · 한계</h2>
+      <p class="section-desc">이 대시보드의 수집 방식과, 분석 시 반드시 고려해야 할 한계·미해결 의문입니다.</p>
+    </div>
+
+    <div class="method-list">
+      <div class="method-item">
+        <span class="method-num num">01</span>
+        <div class="method-body"><b>수집 도구</b> — pytrends(Python, 비공식 Google Trends API)로 수집. 브라우저 스크린샷 대신 모든 수치를 CSV로 남겨 검증이 쉬움. 조사 기간 2025-08-22~2026-08-22(최근 12개월), 지역은 전 세계 + 미국·일본·한국·영국.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">02</span>
+        <div class="method-body"><b>Topic 대신 검색어(키워드) 방식 채택</b> — Topic(mid) 조합 비교 시 PlayStation 값만 비정상적으로 눌리는 정규화 왜곡이 확인되어(단독 조회 시 86.5, 3사 조합 비교 시 4~5), 이 대시보드의 모든 수치는 검색어 방식만 사용했습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">03</span>
+        <div class="method-body"><b>일본·한국 현지어 보정</b> — 최초 수집은 영어 검색어만 사용해 과소평가 가능성이 있어, Google 자동완성으로 검증한 현지어 표기를 포함해 재수집했습니다. 한국어 준말 "플스"는 최초 수집 시 Topic 자동완성에서 무관한 항목(동음이의어)과 충돌해 제외했으나, 아래 04번 재검증 결과 검색어(키워드) 방식에서는 이 문제가 나타나지 않아 최종 수치에는 포함했습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">04</span>
+        <div class="method-body"><span class="resolved-tag">재검증 완료</span><b>한국 PlayStation 수치 불변 — "플스" 누락이 원인</b> — 2026-08-22 pytrends로 재검증. 정식 표기("플레이스테이션")만 추가했을 때는 13.5로 변화가 없었지만, 준말 "플스"를 포함하자 33.4로 2.5배 상승해 Xbox(26.8)를 제치고 한국 2위가 됐습니다. "플스" 단독 연관 검색어(플스 게임·플스 프로·플스 가격·플스 컨트롤러 등)를 확인한 결과 100% PlayStation 관련어로, 최초 조사에서 우려했던 동음이의어 오염은 실제 키워드 검색에서는 확인되지 않았습니다 — 즉 한국에서는 "플스"가 "플레이스테이션"보다 압도적으로 많이 쓰이는 실제 검색어이며, 이를 빼고 측정한 것이 수치가 낮게 고정된 원인이었습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">05</span>
+        <div class="method-body"><span class="resolved-tag">재검증 완료</span><b>Topic 왜곡의 원인 — 특정 mid 문제로 확인</b> — 2026-08-22 pytrends로 재검증. 기존 PlayStation mid(<code>/m/05zxk</code>, "Console" 유형)는 Xbox·Nintendo 중 어느 한쪽과만 묶어도 동일하게 무너짐(단독 86.5 → Xbox 조합 시 4.8, Nintendo 조합 시 8.1) — 3사 조합 특유의 문제가 아니라 이 mid 하나의 정규화 이상이었습니다. <code>/m/03c3vj4</code>("Sony PlayStation", Product line), <code>/m/0r4_kmc</code>(PlayStation 4), <code>/g/11h10_t1nf</code>(PlayStation 5) 등 대체 mid는 모두 왜곡 없이 정상 범위로 나왔습니다. 다만 대체 mid는 측정 범위가 브랜드 전체에서 특정 제품·세대로 좁아지는 트레이드오프가 있어, 이 대시보드는 검색어(키워드) 방식을 기본값으로 유지합니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">06</span>
+        <div class="method-body"><b>국가별 데이터는 절대 비교가 불가능</b> — Google Trends는 국가 내 상대 정규화 방식이므로, 한 국가의 낮은 수치가 "관심이 낮다"가 아니라 "국가 내 다른 검색어 대비 상대 비중이 낮다"는 의미로 해석해야 합니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">07</span>
+        <div class="method-body"><b>교차 검증 필요</b> — "PlayStation = 지속형 관심"이라는 이번 패턴이 Reddit(Attachment)·YouTube(Engagement) 데이터에서도 동일하게 나타나는지 확인이 필요합니다. 일치할 경우 Brand Fandom Index의 팬덤 유형 분석에 직접 활용할 수 있습니다.</div>
+      </div>
+    </div>
+  </section>
+
   </main>
 
   <footer class="app-footer" id="appFooter">
@@ -2218,6 +2737,7 @@
 </style>
 
 <div id="chartTooltip"></div>
+<div id="trLineTooltip"></div>
 
 <script>
 (function () {
@@ -2246,6 +2766,10 @@
     if (contentEl) {
       contentEl.scrollIntoView({ block: 'start' });
     }
+    var trTip = document.getElementById('trLineTooltip');
+    if (trTip) trTip.classList.remove('visible');
+    var trCrosshair = document.getElementById('trCrosshairGroup');
+    if (trCrosshair) trCrosshair.style.display = 'none';
   }
 
   links.forEach(function (link) {
@@ -2265,7 +2789,7 @@
   var SOURCE_EYEBROW = {
     youtube: 'YouTube 채널 분석 리포트 · LLM 재분류 반영',
     reddit: 'Reddit 커뮤니티 분석 리포트 · 규칙 기반(Mock) 분류 반영',
-    trends: 'Google 트렌드 분석 리포트 · 데이터 연동 예정'
+    trends: 'Google Trends 분석 리포트 · PlayStation 전용'
   };
   var SOURCE_FOOTER = {
     youtube: [
@@ -2277,6 +2801,11 @@
       '데이터 출처: Apify(spry_wholemeal/reddit-scraper) · r/playstation, r/PS5',
       '댓글 분류: game-brand-fandom-monitor 백엔드, 규칙 기반(Mock) 분류기, 2026-08-22',
       '표본: 게시물 35개, 댓글 196개'
+    ],
+    trends: [
+      '데이터 출처: Google Trends (pytrends, 비공식 API)',
+      '조사기간: 2025-08-22 ~ 2026-08-22',
+      '조사자: 20202170@gm.hannam.ac.kr'
     ]
   };
 
@@ -2407,3 +2936,45 @@
   });
 })();
 </script>
+<script>
+(function () {
+  var svg = document.getElementById('trGlobalLineChart');
+  if (!svg) return;
+  var data = [{"x":6.0,"yPs":189.7,"yXbox":101.2,"yNin":170.1,"tip":"2025-08-24\uff5cPlayStation 31 \u00b7 Xbox 67 \u00b7 Nintendo 39"},{"x":23.5,"yPs":184.8,"yXbox":101.2,"yNin":167.6,"tip":"2025-08-31\uff5cPlayStation 33 \u00b7 Xbox 67 \u00b7 Nintendo 40"},{"x":40.9,"yPs":197.1,"yXbox":115.9,"yNin":160.2,"tip":"2025-09-07\uff5cPlayStation 28 \u00b7 Xbox 61 \u00b7 Nintendo 43"},{"x":58.4,"yPs":199.6,"yXbox":113.5,"yNin":175.0,"tip":"2025-09-14\uff5cPlayStation 27 \u00b7 Xbox 62 \u00b7 Nintendo 37"},{"x":75.8,"yPs":194.7,"yXbox":103.6,"yNin":175.0,"tip":"2025-09-21\uff5cPlayStation 29 \u00b7 Xbox 66 \u00b7 Nintendo 37"},{"x":93.3,"yPs":179.9,"yXbox":76.6,"yNin":175.0,"tip":"2025-09-28\uff5cPlayStation 35 \u00b7 Xbox 77 \u00b7 Nintendo 37"},{"x":110.8,"yPs":184.8,"yXbox":96.3,"yNin":162.7,"tip":"2025-10-05\uff5cPlayStation 33 \u00b7 Xbox 69 \u00b7 Nintendo 42"},{"x":128.2,"yPs":189.7,"yXbox":88.9,"yNin":167.6,"tip":"2025-10-12\uff5cPlayStation 31 \u00b7 Xbox 72 \u00b7 Nintendo 40"},{"x":145.7,"yPs":187.3,"yXbox":111.0,"yNin":165.1,"tip":"2025-10-19\uff5cPlayStation 32 \u00b7 Xbox 63 \u00b7 Nintendo 41"},{"x":163.2,"yPs":189.7,"yXbox":106.1,"yNin":170.1,"tip":"2025-10-26\uff5cPlayStation 31 \u00b7 Xbox 65 \u00b7 Nintendo 39"},{"x":180.6,"yPs":184.8,"yXbox":111.0,"yNin":165.1,"tip":"2025-11-02\uff5cPlayStation 33 \u00b7 Xbox 63 \u00b7 Nintendo 41"},{"x":198.1,"yPs":175.0,"yXbox":81.5,"yNin":150.4,"tip":"2025-11-09\uff5cPlayStation 37 \u00b7 Xbox 75 \u00b7 Nintendo 47"},{"x":215.5,"yPs":160.2,"yXbox":76.6,"yNin":140.5,"tip":"2025-11-16\uff5cPlayStation 43 \u00b7 Xbox 77 \u00b7 Nintendo 51"},{"x":233.0,"yPs":143.0,"yXbox":61.8,"yNin":108.6,"tip":"2025-11-23\uff5cPlayStation 50 \u00b7 Xbox 83 \u00b7 Nintendo 64"},{"x":250.5,"yPs":152.8,"yXbox":79.0,"yNin":135.6,"tip":"2025-11-30\uff5cPlayStation 46 \u00b7 Xbox 76 \u00b7 Nintendo 53"},{"x":267.9,"yPs":155.3,"yXbox":84.0,"yNin":138.1,"tip":"2025-12-07\uff5cPlayStation 45 \u00b7 Xbox 74 \u00b7 Nintendo 52"},{"x":285.4,"yPs":157.8,"yXbox":69.2,"yNin":128.2,"tip":"2025-12-14\uff5cPlayStation 44 \u00b7 Xbox 80 \u00b7 Nintendo 56"},{"x":302.8,"yPs":120.9,"yXbox":27.4,"yNin":59.4,"tip":"2025-12-21\uff5cPlayStation 59 \u00b7 Xbox 97 \u00b7 Nintendo 84"},{"x":320.3,"yPs":150.4,"yXbox":44.6,"yNin":111.0,"tip":"2025-12-28\uff5cPlayStation 47 \u00b7 Xbox 90 \u00b7 Nintendo 63"},{"x":337.8,"yPs":179.9,"yXbox":88.9,"yNin":150.4,"tip":"2026-01-04\uff5cPlayStation 35 \u00b7 Xbox 72 \u00b7 Nintendo 47"},{"x":355.2,"yPs":187.3,"yXbox":103.6,"yNin":162.7,"tip":"2026-01-11\uff5cPlayStation 32 \u00b7 Xbox 66 \u00b7 Nintendo 42"},{"x":372.7,"yPs":184.8,"yXbox":98.7,"yNin":160.2,"tip":"2026-01-18\uff5cPlayStation 33 \u00b7 Xbox 68 \u00b7 Nintendo 43"},{"x":390.2,"yPs":187.3,"yXbox":101.2,"yNin":157.8,"tip":"2026-01-25\uff5cPlayStation 32 \u00b7 Xbox 67 \u00b7 Nintendo 44"},{"x":407.6,"yPs":192.2,"yXbox":108.6,"yNin":162.7,"tip":"2026-02-01\uff5cPlayStation 30 \u00b7 Xbox 64 \u00b7 Nintendo 42"},{"x":425.1,"yPs":187.3,"yXbox":120.9,"yNin":167.6,"tip":"2026-02-08\uff5cPlayStation 32 \u00b7 Xbox 59 \u00b7 Nintendo 40"},{"x":442.5,"yPs":182.4,"yXbox":98.7,"yNin":160.2,"tip":"2026-02-15\uff5cPlayStation 34 \u00b7 Xbox 68 \u00b7 Nintendo 43"},{"x":460.0,"yPs":189.7,"yXbox":113.5,"yNin":155.3,"tip":"2026-02-22\uff5cPlayStation 31 \u00b7 Xbox 62 \u00b7 Nintendo 45"},{"x":477.5,"yPs":189.7,"yXbox":108.6,"yNin":155.3,"tip":"2026-03-01\uff5cPlayStation 31 \u00b7 Xbox 64 \u00b7 Nintendo 45"},{"x":494.9,"yPs":192.2,"yXbox":106.1,"yNin":152.8,"tip":"2026-03-08\uff5cPlayStation 30 \u00b7 Xbox 65 \u00b7 Nintendo 46"},{"x":512.4,"yPs":182.4,"yXbox":111.0,"yNin":160.2,"tip":"2026-03-15\uff5cPlayStation 34 \u00b7 Xbox 63 \u00b7 Nintendo 43"},{"x":529.8,"yPs":175.0,"yXbox":84.0,"yNin":150.4,"tip":"2026-03-22\uff5cPlayStation 37 \u00b7 Xbox 74 \u00b7 Nintendo 47"},{"x":547.3,"yPs":162.7,"yXbox":56.9,"yNin":135.6,"tip":"2026-03-29\uff5cPlayStation 42 \u00b7 Xbox 85 \u00b7 Nintendo 53"},{"x":564.8,"yPs":165.1,"yXbox":59.4,"yNin":143.0,"tip":"2026-04-05\uff5cPlayStation 41 \u00b7 Xbox 84 \u00b7 Nintendo 50"},{"x":582.2,"yPs":167.6,"yXbox":71.7,"yNin":138.1,"tip":"2026-04-12\uff5cPlayStation 40 \u00b7 Xbox 79 \u00b7 Nintendo 52"},{"x":599.7,"yPs":172.5,"yXbox":84.0,"yNin":138.1,"tip":"2026-04-19\uff5cPlayStation 38 \u00b7 Xbox 74 \u00b7 Nintendo 52"},{"x":617.2,"yPs":170.1,"yXbox":76.6,"yNin":143.0,"tip":"2026-04-26\uff5cPlayStation 39 \u00b7 Xbox 77 \u00b7 Nintendo 50"},{"x":634.6,"yPs":170.1,"yXbox":69.2,"yNin":135.6,"tip":"2026-05-03\uff5cPlayStation 39 \u00b7 Xbox 80 \u00b7 Nintendo 53"},{"x":652.1,"yPs":172.5,"yXbox":66.7,"yNin":138.1,"tip":"2026-05-10\uff5cPlayStation 38 \u00b7 Xbox 81 \u00b7 Nintendo 52"},{"x":669.5,"yPs":175.0,"yXbox":59.4,"yNin":152.8,"tip":"2026-05-17\uff5cPlayStation 37 \u00b7 Xbox 84 \u00b7 Nintendo 46"},{"x":687.0,"yPs":170.1,"yXbox":49.5,"yNin":145.5,"tip":"2026-05-24\uff5cPlayStation 39 \u00b7 Xbox 88 \u00b7 Nintendo 49"},{"x":704.5,"yPs":165.1,"yXbox":44.6,"yNin":143.0,"tip":"2026-05-31\uff5cPlayStation 41 \u00b7 Xbox 90 \u00b7 Nintendo 50"},{"x":721.9,"yPs":175.0,"yXbox":20.0,"yNin":130.7,"tip":"2026-06-07\uff5cPlayStation 37 \u00b7 Xbox 100 \u00b7 Nintendo 55"},{"x":739.4,"yPs":179.9,"yXbox":64.3,"yNin":157.8,"tip":"2026-06-14\uff5cPlayStation 35 \u00b7 Xbox 82 \u00b7 Nintendo 44"},{"x":756.8,"yPs":152.8,"yXbox":37.2,"yNin":157.8,"tip":"2026-06-21\uff5cPlayStation 46 \u00b7 Xbox 93 \u00b7 Nintendo 44"},{"x":774.3,"yPs":147.9,"yXbox":54.4,"yNin":157.8,"tip":"2026-06-28\uff5cPlayStation 48 \u00b7 Xbox 86 \u00b7 Nintendo 44"},{"x":791.8,"yPs":160.2,"yXbox":59.4,"yNin":157.8,"tip":"2026-07-05\uff5cPlayStation 43 \u00b7 Xbox 84 \u00b7 Nintendo 44"},{"x":809.2,"yPs":175.0,"yXbox":79.0,"yNin":170.1,"tip":"2026-07-12\uff5cPlayStation 37 \u00b7 Xbox 76 \u00b7 Nintendo 39"},{"x":826.7,"yPs":157.8,"yXbox":74.1,"yNin":162.7,"tip":"2026-07-19\uff5cPlayStation 44 \u00b7 Xbox 78 \u00b7 Nintendo 42"},{"x":844.2,"yPs":179.9,"yXbox":49.5,"yNin":167.6,"tip":"2026-07-26\uff5cPlayStation 35 \u00b7 Xbox 88 \u00b7 Nintendo 40"},{"x":861.6,"yPs":184.8,"yXbox":79.0,"yNin":165.1,"tip":"2026-08-02\uff5cPlayStation 33 \u00b7 Xbox 76 \u00b7 Nintendo 41"},{"x":879.1,"yPs":184.8,"yXbox":71.7,"yNin":165.1,"tip":"2026-08-09\uff5cPlayStation 33 \u00b7 Xbox 79 \u00b7 Nintendo 41"},{"x":896.5,"yPs":182.4,"yXbox":86.4,"yNin":162.7,"tip":"2026-08-16\uff5cPlayStation 34 \u00b7 Xbox 73 \u00b7 Nintendo 42"},{"x":914.0,"yPs":167.6,"yXbox":69.2,"yNin":155.3,"tip":"2026-08-23\uff5cPlayStation 40 \u00b7 Xbox 80 \u00b7 Nintendo 45"}];
+  var group = document.getElementById('trCrosshairGroup');
+  var line = document.getElementById('trCrosshairLine');
+  var dotPs = document.getElementById('trCrosshairPs');
+  var dotXbox = document.getElementById('trCrosshairXbox');
+  var dotNin = document.getElementById('trCrosshairNin');
+  var tip = document.getElementById('trLineTooltip');
+  var hitCols = Array.prototype.slice.call(document.querySelectorAll('#trHitCols rect[data-i]'));
+
+  function show(i) {
+    var d = data[i];
+    if (!d) return;
+    group.style.display = '';
+    line.setAttribute('x1', d.x); line.setAttribute('x2', d.x);
+    dotPs.setAttribute('cx', d.x); dotPs.setAttribute('cy', d.yPs);
+    dotXbox.setAttribute('cx', d.x); dotXbox.setAttribute('cy', d.yXbox);
+    dotNin.setAttribute('cx', d.x); dotNin.setAttribute('cy', d.yNin);
+    tip.textContent = d.tip;
+    tip.classList.add('visible');
+  }
+  function hide() {
+    group.style.display = 'none';
+    tip.classList.remove('visible');
+  }
+  function moveTip(e) {
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top = (e.clientY - 14) + 'px';
+  }
+
+  hitCols.forEach(function (rect) {
+    var i = parseInt(rect.getAttribute('data-i'), 10);
+    rect.addEventListener('mousemove', function (e) { show(i); moveTip(e); });
+    rect.addEventListener('mouseenter', function (e) { show(i); moveTip(e); });
+  });
+  svg.addEventListener('mouseleave', hide);
+})();
+</script>
+
