@@ -566,9 +566,11 @@
     display: flex; gap: 4px; padding: 4px; margin: 0 12px 6px; background: #1a1c24; border-radius: 10px;
   }
   .brand-switcher button {
-    flex: 1; padding: 8px 4px; border: none; background: none; color: #8a8c9e; font: inherit;
-    font-size: 12px; font-weight: 700; border-radius: 7px; cursor: pointer; transition: background 0.15s, color 0.15s;
+    flex: 1; display: flex; align-items: center; justify-content: center; padding: 9px 4px;
+    border: none; background: none; color: #8a8c9e; font: inherit;
+    border-radius: 7px; cursor: pointer; transition: background 0.15s, color 0.15s;
   }
+  .brand-switcher button svg { width: 19px; height: 19px; }
   .brand-switcher button:hover { color: #d5d6e2; }
   .brand-switcher button.active[data-brand="playstation"] { background: var(--accent); color: #fff; }
   .brand-switcher button.active[data-brand="xbox"] { background: #1e8a3c; color: #fff; }
@@ -1039,9 +1041,25 @@
 <aside class="app-sidebar" id="appSidebar">
   <div class="sidebar-brand">🎮 <span>브랜드별 팬덤지수</span></div>
   <div class="brand-switcher" role="tablist" aria-label="브랜드 선택">
-    <button type="button" data-brand="playstation" class="active" aria-pressed="true">PlayStation</button>
-    <button type="button" data-brand="xbox" aria-pressed="false">Xbox</button>
-    <button type="button" data-brand="nintendo" aria-pressed="false">Nintendo</button>
+    <button type="button" data-brand="playstation" class="active" aria-pressed="true" aria-label="PlayStation" title="PlayStation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2.5l2.5 4.5h-5z"/>
+        <circle cx="19" cy="12" r="2.3"/>
+        <path d="M9.7 16.7l4.6 4.6M14.3 16.7l-4.6 4.6"/>
+        <rect x="3" y="10" width="4" height="4"/>
+      </svg>
+    </button>
+    <button type="button" data-brand="xbox" aria-pressed="false" aria-label="Xbox" title="Xbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.5"/>
+      </svg>
+    </button>
+    <button type="button" data-brand="nintendo" aria-pressed="false" aria-label="Nintendo" title="Nintendo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <path d="M8.3 16.2V7.8L15.7 16.2V7.8"/>
+      </svg>
+    </button>
   </div>
   <p id="brandDataNote" class="brand-data-note" hidden>Xbox·Nintendo는 구글 트렌드 비교 데이터만 있어요. 유튜브·레딧 분석은 PlayStation 채널만 진행했습니다.</p>
   <div class="source-switcher" role="tablist" aria-label="데이터 소스 선택">
@@ -3361,6 +3379,7 @@
   </section>
 
   <section id="reddit-overview" class="report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="content-header">
       <h1 class="title">PlayStation 관련 서브레딧,<br><em>게시물 35개</em>와 댓글 196개로 본 커뮤니티 반응</h1>
       <div class="meta-line">
@@ -3419,9 +3438,72 @@
         </tbody>
       </table>
     </div>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="content-header">
+      <h1 class="title">Nintendo 관련 서브레딧,<br><em>게시물 35개</em>와 댓글 219개로 본 커뮤니티 반응</h1>
+      <div class="meta-line">
+        <span><b>서브레딧</b> · r/NintendoSwitch</span>
+        <span><b>수집 방식</b> · Apify 스크래퍼(spry_wholemeal/reddit-scraper), hot 정렬</span>
+        <span><b>댓글 표본</b> · 게시물당 상위 댓글 최대 15개</span>
+      </div>
+    </div>
+    <div class="verdict-box">
+      <p class="verdict-label">이번 리포트가 말해주는 레딧 속 Nintendo 반응</p>
+      <p class="verdict-text">레딧에서도 실용적 일상 대화가 지배적이다(중립 78.1%) — 이 수치는 PlayStation 레딧(중립 81.1%)과 거의 같다. 유튜브에서는 정반대였던 두 브랜드(PlayStation 부정 70.9% vs Nintendo 긍정 49.4%)가, <b>레딧에서는 오히려 비슷한 그림</b>을 보인다 — 유튜브의 극단적 감정은 브랜드 자체보다 그 순간 댓글창을 지배한 특정 이슈에 더 좌우된다는 뜻일 수 있다.</p>
+      <ul class="verdict-evidence">
+        <li>경쟁 브랜드(PlayStation·Xbox) 언급 7건 중 다수가 자발적 논쟁이 아니라 특정 판매량 뉴스 게시물 하나에서 파생됨 — PlayStation 레딧에서도 동일한 패턴이 확인된 것과 같은 결 (05번 섹션)</li>
+        <li>규칙 기반 분류기가 "bad"가 "badass"에 포함된 것만으로 긍정적인 회상 댓글("It was badass")을 부정으로 오분류함 — PlayStation 리포트의 "both the good and bad" 사례와 동일한 유형의 버그 (04번 섹션)</li>
+        <li>"I own this already, but you can bet your ass I will be buying this again on the switch"처럼 명백한 재구매 의도도 구매의도 정규식과 일치하지 않아 중립층으로 분류됨 — 애착·구매의도 신호를 놓치는 경향은 두 브랜드 리포트에 공통적으로 나타남</li>
+      </ul>
+    </div>
+
+    <div class="section-head">
+      <p class="section-num">01 — 팬덤 유형 분포</p>
+      <h2>댓글 219개, 어떤 유형으로 분류됐나</h2>
+      <p class="section-desc">감성·애착·충성·옹호·구매의도 신호를 종합해 하나의 대표 유형(fandom_category)으로 태깅한 결과입니다. 우선순위: 전환의도 &gt; 비판적 팬 &gt; 옹호 &gt; 충성 &gt; 애착 &gt; 구매임박 &gt; 일반호감 &gt; 중립.</p>
+    </div>
+
+    <div class="dist-bar">
+      <div class="dist-seg" style="width:77.2%; background:var(--s-neutral);" data-tooltip="중립층 169건 (77.2%)"></div>
+      <div class="dist-seg" style="width:16.9%; background:var(--s-positive);" data-tooltip="일반 호감층 37건 (16.9%)"></div>
+      <div class="dist-seg" style="width:3.7%; background:var(--s-negative);" data-tooltip="비판적 팬 8건 (3.7%)"></div>
+      <div class="dist-seg" style="width:0.9%; background:var(--s-advocacy);" data-tooltip="브랜드 옹호자 2건 (0.9%)"></div>
+      <div class="dist-seg" style="width:0.9%; background:var(--s-purchase);" data-tooltip="구매 임박층 2건 (0.9%)"></div>
+      <div class="dist-seg" style="width:0.5%; background:var(--s-attach);" data-tooltip="감성적 팬 1건 (0.5%)"></div>
+    </div>
+    <div class="dist-legend">
+      <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립층 <b>169</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>일반 호감층 <b>37</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>비판적 팬 <b>8</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-advocacy);"></span>브랜드 옹호자 <b>2</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-purchase);"></span>구매 임박층 <b>2</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-attach);"></span>감성적 팬 <b>1</b></span>
+      <span class="legend-item"><span class="swatch" style="background:var(--s-loyalty);"></span>충성 팬 <b>0</b></span>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
+      <table class="cmp">
+        <thead>
+          <tr><th>팬덤 유형</th><th>건수</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--s-neutral);">중립층 <small>neutral_user</small></td><td class="num">169</td><td class="num">77.2%</td></tr>
+          <tr><td style="color:var(--s-positive);">일반 호감층 <small>casual_positive</small></td><td class="num">37</td><td class="num">16.9%</td></tr>
+          <tr><td style="color:var(--s-negative);">비판적 팬 <small>critical_fan</small></td><td class="num">8</td><td class="num">3.7%</td></tr>
+          <tr><td style="color:var(--s-advocacy);">브랜드 옹호자 <small>brand_advocate</small></td><td class="num">2</td><td class="num">0.9%</td></tr>
+          <tr><td style="color:var(--s-purchase);">구매 임박층 <small>purchase_ready</small></td><td class="num">2</td><td class="num">0.9%</td></tr>
+          <tr><td style="color:var(--s-attach);">감성적 팬 <small>emotional_fan</small></td><td class="num">1</td><td class="num">0.5%</td></tr>
+          <tr><td style="color:var(--s-loyalty);">충성 팬 <small>loyal_fan</small></td><td class="num">0</td><td class="num">0.0%</td></tr>
+          <tr style="font-weight:700;"><td>합계</td><td class="num">219</td><td class="num">100.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
   </section>
 
   <section id="reddit-sentiment" class="report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">02 — 댓글 감정 · 팬덤 행동 신호</p>
       <h2>196개 댓글, 감정과 팬덤 신호는 따로 본다</h2>
@@ -3512,9 +3594,103 @@
     <div class="callout">
       <b>왜 애착·충성이 0건인가</b> — 규칙 기반 분류기는 "part of my life since the PS1" 같은 정형화된 표현만 잡아냅니다. 실제로 "lifelong PlayStation lover"(04번 섹션 참고) 같은 명백한 애착 표현이 표본에 있었지만, 정규식 패턴과 정확히 일치하지 않아 brand_history(긍정 요인)로만 분류되고 애착 신호로는 잡히지 않았습니다. 유튜브 리포트가 겪은 "키워드 매칭의 구조적 한계"와 같은 종류의 문제입니다(유튜브 탭 03번 "댓글 감정 전체" 섹션 참고).
     </div>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">02 — 댓글 감정 · 팬덤 행동 신호</p>
+      <h2>219개 댓글, 감정과 팬덤 신호는 따로 본다</h2>
+      <p class="section-desc">감성(긍정/중립/부정)은 댓글당 하나씩 상호배타적으로 분류됩니다. 애착·충성·옹호·구매의도는 감성과 별도로 원문에서 정규식·키워드로 감지하는 독립 신호라 — 같은 댓글에 여러 개가 동시에 붙거나 하나도 안 붙을 수 있습니다. 그래서 두 그룹을 하나의 100% 막대로 합치지 않고 나눠서 보여줍니다.</p>
+    </div>
+
+    <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px; font-weight:600;">감성 분포 (상호배타)</p>
+    <div style="display:flex; justify-content:center; margin-bottom:8px;">
+      <div class="donut-card" style="width:min(320px, 100%);">
+        <div class="donut-wrap">
+          <svg viewBox="0 0 224 224" width="240" height="240">
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--surface-2)" stroke-width="38"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-negative)" stroke-width="38" stroke-dasharray="20.66 544.83" stroke-dashoffset="-0.00" transform="rotate(-90 112 112)" data-tooltip="부정 8건 (3.7%)"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-neutral)" stroke-width="38" stroke-dasharray="441.54 123.94" stroke-dashoffset="-20.66" transform="rotate(-90 112 112)" data-tooltip="중립 171건 (78.1%)"></circle>
+            <circle cx="112" cy="112" r="90" fill="none" stroke="var(--s-positive)" stroke-width="38" stroke-dasharray="103.29 462.20" stroke-dashoffset="-462.20" transform="rotate(-90 112 112)" data-tooltip="긍정 40건 (18.3%)"></circle>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-center-value num" style="color:var(--text-secondary);">78.1%</div>
+            <div class="donut-center-label">중립</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <span class="legend-item"><span class="swatch" style="background:var(--s-positive);"></span>긍정 <b>18.3%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-neutral);"></span>중립 <b>78.1%</b></span>
+          <span class="legend-item"><span class="swatch" style="background:var(--s-negative);"></span>부정 <b>3.7%</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
+      <table class="cmp">
+        <thead>
+          <tr><th>감성</th><th>건수</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--s-positive);">긍정</td><td class="num">40</td><td class="num">18.3%</td></tr>
+          <tr><td style="color:var(--text-muted);">중립</td><td class="num">171</td><td class="num">78.1%</td></tr>
+          <tr><td style="color:var(--s-negative);">부정</td><td class="num">8</td><td class="num">3.7%</td></tr>
+          <tr style="font-weight:700;"><td>합계</td><td class="num">219</td><td class="num">100.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:12px; color:var(--text-muted); margin:24px 0 8px; font-weight:600;">팬덤 행동 신호 (감성과 독립, 중복 가능)</p>
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-attach);">0.5%</div>
+        <div class="stat-label">애착 (Attachment)</div>
+        <div class="stat-sub">1 / 219건 감지</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-loyalty);">0.0%</div>
+        <div class="stat-label">충성 (Loyalty)</div>
+        <div class="stat-sub">0 / 219건 감지</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-advocacy);">0.9%</div>
+        <div class="stat-label">옹호 (Advocacy)</div>
+        <div class="stat-sub">2 / 219건 감지</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-purchase);">0.9%</div>
+        <div class="stat-label">구매의도 · 긍정</div>
+        <div class="stat-sub">2 / 219건 감지</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num" style="color:var(--s-negative);">0.0%</div>
+        <div class="stat-label">이탈 위험 (전환 의도)</div>
+        <div class="stat-sub">0 / 219건 감지</div>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
+      <table class="cmp">
+        <thead>
+          <tr><th>팬덤 행동 신호</th><th>건수</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--s-attach);">애착 <small>Attachment</small></td><td class="num">1</td><td class="num">0.5%</td></tr>
+          <tr><td style="color:var(--s-loyalty);">충성 <small>Loyalty</small></td><td class="num">0</td><td class="num">0.0%</td></tr>
+          <tr><td style="color:var(--s-advocacy);">옹호 <small>Advocacy</small></td><td class="num">2</td><td class="num">0.9%</td></tr>
+          <tr><td style="color:var(--s-purchase);">구매의도 · 긍정 <small>Purchase Intention</small></td><td class="num">2</td><td class="num">0.9%</td></tr>
+          <tr><td style="color:var(--s-negative);">이탈 위험 · 전환 의도 <small>Switching Intent</small></td><td class="num">0</td><td class="num">0.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>애착 1건, 충성 0건 — PlayStation보다도 낮음</b> — 유일하게 잡힌 애착 사례는 "since the n64 days"(포장 방식이 예전부터 그랬다는 언급)로, 브랜드 자체에 대한 애착이라기보다 관습에 대한 언급에 가깝습니다. 반면 04번 섹션에서 보듯 "Omg yooo. My childhood. This one of the most influential games..."처럼 명백한 향수·애착 표현이 실제로는 더 있었지만 정규식 패턴과 맞지 않아 놓쳤습니다 — PlayStation 리포트와 동일한 유형의 구조적 한계입니다.
+    </div>
+    </div>
   </section>
 
   <section id="reddit-drivers" class="wide report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">03 — 긍정 요인 · 불만 카테고리</p>
       <h2>왜 좋아하고, 무엇이 불만인가</h2>
@@ -3608,9 +3784,100 @@
     <div class="callout">
       <b>표본이 작다는 것도 결과다</b> — 불만 7건 중 6건이 "기타"로 분류된 건, 우리 카테고리 사전(가격·하드웨어·성능·구독·고객서비스 등)이 게임 트레일러나 브랜드 캠페인 댓글에 맞춰 설계됐기 때문입니다. 레딧 게시물 대부분(기술지원 메가스레드, 뉴스 공유, 컬렉션 추천)은 애초에 "브랜드에 대한 불만"이라는 틀 자체와 잘 안 맞습니다.
     </div>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">03 — 긍정 요인 · 불만 카테고리</p>
+      <h2>왜 좋아하고, 무엇이 불만인가</h2>
+      <p class="section-desc">긍정 댓글 40건, 부정 댓글 8건 각각에서 원문 키워드로 카테고리를 추정한 결과입니다. PlayStation과 마찬가지로 "기타" 비중이 매우 높습니다 — 게임 추천·잡담 위주인 레딧 표본에는 사전에 정의한 카테고리 키워드가 잘 들어맞지 않는다는 신호입니다.</p>
+    </div>
+
+    <p style="font-size:12px; color:var(--text-muted); margin:0 0 10px; font-weight:600;">긍정 요인 분포 (긍정 댓글 40건 중)</p>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">기타</span>
+      <div class="sent-track" data-tooltip="기타 35건 (87.5%)"><div class="sent-fill" style="width:87.5%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">87.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">독점작 (exclusive_ip)</span>
+      <div class="sent-track" data-tooltip="독점작 2건 (5.0%)"><div class="sent-fill" style="width:5.0%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">5.0%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">혁신 (innovation)</span>
+      <div class="sent-track" data-tooltip="혁신 1건 (2.5%)"><div class="sent-fill" style="width:2.5%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">2.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">디자인 (design)</span>
+      <div class="sent-track" data-tooltip="디자인 1건 (2.5%)"><div class="sent-fill" style="width:2.5%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">2.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">가성비 (value)</span>
+      <div class="sent-track" data-tooltip="가성비 1건 (2.5%)"><div class="sent-fill" style="width:2.5%; background:var(--s-positive);"></div></div>
+      <span class="sent-pct num">2.5%</span>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
+      <table class="cmp">
+        <thead>
+          <tr><th>긍정 요인</th><th>건수</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>기타</td><td class="num">35</td><td class="num">87.5%</td></tr>
+          <tr><td>독점작 (exclusive_ip)</td><td class="num">2</td><td class="num">5.0%</td></tr>
+          <tr><td>혁신 (innovation)</td><td class="num">1</td><td class="num">2.5%</td></tr>
+          <tr><td>디자인 (design)</td><td class="num">1</td><td class="num">2.5%</td></tr>
+          <tr><td>가성비 (value)</td><td class="num">1</td><td class="num">2.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:12px; color:var(--text-muted); margin:28px 0 10px; font-weight:600;">불만 카테고리 분포 (부정 댓글 8건 중, 복수 라벨 가능)</p>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">기타</span>
+      <div class="sent-track" data-tooltip="기타 4건 (50.0%)"><div class="sent-fill" style="width:50.0%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">50.0%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">성능 (performance)</span>
+      <div class="sent-track" data-tooltip="성능 3건 (37.5%)"><div class="sent-fill" style="width:37.5%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">37.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">하드웨어 (hardware)</span>
+      <div class="sent-track" data-tooltip="하드웨어 1건 (12.5%)"><div class="sent-fill" style="width:12.5%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">12.5%</span>
+    </div>
+    <div class="sent-row">
+      <span class="sent-label" style="width:200px; text-align:right;">고객서비스 (customer_service)</span>
+      <div class="sent-track" data-tooltip="고객서비스 1건 (12.5%)"><div class="sent-fill" style="width:12.5%; background:var(--s-negative);"></div></div>
+      <span class="sent-pct num">12.5%</span>
+    </div>
+
+    <div class="cmp-table-wrap" style="margin-top:16px;">
+      <table class="cmp">
+        <thead>
+          <tr><th>불만 카테고리</th><th>건수</th><th>비중</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>기타</td><td class="num">4</td><td class="num">50.0%</td></tr>
+          <tr><td>성능 (performance)</td><td class="num">3</td><td class="num">37.5%</td></tr>
+          <tr><td>하드웨어 (hardware)</td><td class="num">1</td><td class="num">12.5%</td></tr>
+          <tr><td>고객서비스 (customer_service)</td><td class="num">1</td><td class="num">12.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <b>성능 불만이 PlayStation보다 두드러짐</b> — Nintendo는 부정 8건 중 3건(37.5%)이 성능 관련입니다(Switch 2 이식 게임의 프레임 저하·렉 등), PlayStation(부정 7건 중 성능 1건, 14.3%)보다 비중이 큽니다. 다만 표본이 8건뿐이라 통계적으로 일반화하긴 어렵고, 이번 조사 시점에 마침 최적화가 덜 된 이식작 트레일러(Another Crab's Treasure 등)가 여러 건 올라온 영향일 수 있습니다.
+    </div>
+    </div>
   </section>
 
   <section id="reddit-pattern" class="report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">04 — 주목할 패턴</p>
       <h2>규칙 기반 분류기가 놓치거나 잘못 잡은 것들</h2>
@@ -3668,9 +3935,70 @@
       </div>
     </div>
     <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">참고로 이번 표본에서는 레딧 스크래퍼가 댓글·게시물 점수(score)를 전부 0으로 반환해, 유튜브 리포트처럼 "좋아요 순"으로 대표 댓글을 뽑을 수 없었습니다 — 07번 섹션에 기록된 알려진 한계입니다.</p>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">04 — 주목할 패턴</p>
+      <h2>규칙 기반 분류기가 놓치거나 잘못 잡은 것들</h2>
+      <p class="section-desc">PlayStation 리포트와 같은 종류의 문제가 Nintendo 표본에서도 그대로 나타납니다 — 애착·옹호 같은 명백한 신호를 놓치거나(false negative), 부정 키워드가 우연히 다른 단어 안에 포함된 것만으로 오분류하는(false positive) 사례입니다. 아래는 원문 그대로의 실제 사례입니다.</p>
+    </div>
+
+    <div class="quote-grid">
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--ct-other);">놓친 애착</span>
+        </div>
+        <div class="quote-text">"Omg yooo. My childhood. This one of the most influential games that I played when I was a wee boy."</div>
+        <div class="quote-translation"><b>왜 놓쳤나</b> "my childhood", "most influential" 모두 명백한 향수·애착 표현이지만, attachment 정규식 패턴과 정확히 일치하지 않아 중립층으로 분류됨</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vxc2xo/terranigma_rebirth_2027_switchswitch_2_release/" target="_blank" rel="noopener">Terranigma Rebirth - 2027 Switch/Switch 2 release</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">오분류(부정)</span>
+        </div>
+        <div class="quote-text">"The only FF game I've ever played was the one with Van and the Voe, Fran on the PS2. It was badass. I haven't touched a FF game since. I wonder if I'll like this one"</div>
+        <div class="quote-translation"><b>왜 틀렸나</b> "badass"는 긍정적인 감탄사인데, 부정 키워드 "bad"가 단어 안에 포함된 것만으로 부정+비판적 팬으로 분류됨 — PlayStation 리포트의 "both the good and bad" 사례와 정확히 같은 유형의 버그</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vx27ew/final_fantasy_resonance_details_zoldaad_empire/" target="_blank" rel="noopener">Final Fantasy Resonance details Zoldaad Empire...</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">오분류(부정)</span>
+        </div>
+        <div class="quote-text">"I hate to say it but, Stardew Valley."</div>
+        <div class="quote-translation"><b>왜 틀렸나</b> 코지 게임 추천 글에 올라온 진짜 추천 답글인데(작성자 스스로도 뻔한 추천이라 "말하기 민망하지만"이라는 뜻으로 붙인 표현), "hate"라는 단어 하나 때문에 부정+비판적 팬으로 분류됨</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vvl2yc/looking_for_cozy_managementbuilding_games_on/" target="_blank" rel="noopener">Looking for cozy management/building games</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-advocacy);">옹호</span>
+        </div>
+        <div class="quote-text">"It's not exactly the same, but Littlewood is incredibly cozy... I'd also highly recommend Spirit..."</div>
+        <div class="quote-translation"><b>정확히 잡은 사례</b> "highly recommend"가 정확히 매칭된 진짜 옹호 표현</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vvl2yc/looking_for_cozy_managementbuilding_games_on/" target="_blank" rel="noopener">Looking for cozy management/building games</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--s-negative);">부정</span>
+        </div>
+        <div class="quote-text">"Its bad. Got the Switch 2 version, and theres insane lag at times and theres barely any visible graphical improvement."</div>
+        <div class="quote-translation"><b>정확히 잡은 사례</b> 실제 성능 불만이 정확히 부정+비판적 팬으로 분류됨</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vvruhc/another_crabs_treasure_nintendo_switch_2_edition/" target="_blank" rel="noopener">Another Crab's Treasure - Nintendo Switch 2 Edition</a></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-top">
+          <span class="quote-badge" style="background:var(--ct-other);">놓친 구매의도</span>
+        </div>
+        <div class="quote-text">"I own this already, but you can bet your ass I will be buying this again on the switch and playing it over again"</div>
+        <div class="quote-translation"><b>왜 놓쳤나</b> "will be buying this again"은 명백한 재구매 의도지만 purchase_intention 정규식 패턴과 일치하지 않아 중립층으로 분류됨</div>
+        <div class="quote-src">r/NintendoSwitch · <a href="https://www.reddit.com/r/NintendoSwitch/comments/1vxh29s/stellar_blade_complete_edition_action_trailer/" target="_blank" rel="noopener">Stellar Blade Complete Edition – Action Trailer</a></div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">PlayStation 표본과 마찬가지로 레딧 스크래퍼가 댓글·게시물 점수(score)를 전부 0으로 반환해 "좋아요 순" 정렬은 사용할 수 없었습니다 — 07번 섹션 참고.</p>
+    </div>
   </section>
 
   <section id="reddit-competitor" class="wide report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">05 — 경쟁 브랜드 언급</p>
       <h2>Xbox·Nintendo는 얼마나 언급됐나</h2>
@@ -3728,9 +4056,71 @@
     <div class="callout">
       <b>4건 전부가 게시물 하나에서 나왔다</b> — 확인된 Xbox 언급 4건 모두 "PS5, 2026년 7월 전 세계 판매량 1위" 뉴스 게시물의 댓글창에서 나왔습니다. 즉 레딧 이용자들은 자발적으로 "PS vs Xbox" 논쟁을 벌이지 않고, <b>판매 수치 같은 구체적인 비교 소재가 제시될 때만</b> 경쟁 브랜드를 언급하는 경향을 보입니다. 유튜브 리포트의 발견(경쟁사 이탈 언급 0.24%, 유튜브 탭 07번 섹션)과 같은 결의 결과 — 표본이 4~5건으로 매우 작아 통계적으로 일반화하기는 어렵습니다.
     </div>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">05 — 경쟁 브랜드 언급</p>
+      <h2>PlayStation·Xbox는 얼마나 언급됐나</h2>
+      <p class="section-desc">219개 댓글에서 PlayStation·Xbox 언급을 정규식으로 찾았습니다. PC·Steam 언급(5건)은 이번 3사 비교 틀에서 벗어난 별도 카테고리라 표에서 제외했습니다.</p>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-tile">
+        <div class="stat-value num">7</div>
+        <div class="stat-label">경쟁 브랜드 언급 탐지</div>
+        <div class="stat-sub">219개 중 3.2%</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value num">4 / 4</div>
+        <div class="stat-label">Xbox / PlayStation 언급 건수</div>
+        <div class="stat-sub">1건은 둘 다 언급</div>
+      </div>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp">
+        <thead>
+          <tr><th>댓글</th><th>브랜드</th><th>유형</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"It's crazy that Xbox finished in fourth place in a race with only three participants lol."<br><span style="color:var(--text-secondary); font-size:12px;">→ "3파전인데 4등을 한 게 말이 되나, Xbox 웃기네"</span></td>
+            <td>Xbox</td>
+            <td>조롱 (판매량 뉴스 반응)</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"PlayStation 5 - 784,102... Switch 2 - 707,158... Xbox Series X|S - 115,442... all Switch 2 needs is for Pokemon and Zelda to release and it'll outsell Xbox"<br><span style="color:var(--text-secondary); font-size:12px;">→ "포켓몬·젤다만 나오면 Switch 2가 Xbox를 앞지를 것"</span></td>
+            <td>PlayStation, Xbox</td>
+            <td>비교 (판매량 수치)</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"Honestly impressive they beat the PS4 /s"<br><span style="color:var(--text-secondary); font-size:12px;">→ "PS4를 이겼다니 참 대단하네(비꼬는 뉘앙스 /s)"</span></td>
+            <td>PlayStation</td>
+            <td>조롱 (판매량 뉴스 반응)</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"I also played it on Series X (on Gamepads, on release) and it also had problems, but it's such a unique and special game"<br><span style="color:var(--text-secondary); font-size:12px;">→ "Series X로도 해봤는데 거기도 문제가 있었지만, 워낙 특별한 게임이라"</span></td>
+            <td>Xbox</td>
+            <td>중립 비교 (양쪽 다 문제 있었다는 언급)</td>
+          </tr>
+          <tr>
+            <td style="max-width:340px; white-space:normal;">"I beat it on switch and got the platinum on PlayStation. It was a lot of fun the entire time."<br><span style="color:var(--text-secondary); font-size:12px;">→ "Switch로 깼고 PlayStation으로는 플래티넘까지 땄어요"</span></td>
+            <td>PlayStation</td>
+            <td>중립·팩트 (크로스플랫폼 소유)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-scroll-hint">← 좌우로 스크롤해 전체 표를 볼 수 있습니다</p>
+
+    <div class="callout">
+      <b>여기서도 판매량 뉴스 게시물이 촉발제</b> — 7건 중 3건이 "Switch 2, 2026년 7월 세계 판매량 2위" 뉴스 게시물 하나에서 나왔습니다. PlayStation 레딧의 발견과 정확히 같은 패턴 — 레딧 이용자는 자발적으로 콘솔 전쟁을 벌이기보다, 구체적인 비교 소재(판매 수치)가 주어졌을 때만 반응합니다. 나머지는 유튜브 리포트에서도 나타난 "재구매·크로스플랫폼 소유" 언급(플래티넘 트로피, Series X 버전 비교 등)에 가깝습니다 — 표본이 7건으로 매우 작아 통계적으로 일반화하기는 어렵습니다.
+    </div>
+    </div>
   </section>
 
   <section id="reddit-discussions" class="wide report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">06 — 최근 토론</p>
       <h2>실제로 어떤 댓글이 쌓였나</h2>
@@ -3810,9 +4200,92 @@
       </table>
     </div>
     <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">작성자 이름은 연구 목적상 수집하지 않았습니다 — 원문과 반응 지표만 사용합니다(07번 방법론 섹션 참고). 날짜는 2026년 기준입니다.</p>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">06 — 최근 토론</p>
+      <h2>실제로 어떤 댓글이 쌓였나</h2>
+      <p class="section-desc">앞선 통계·인용 뒤에 있는 원본 댓글을 직접 훑어볼 수 있도록, 최신순으로 다양한 감성·팬덤 유형을 섞어 9건을 뽑았습니다. 전체 219건은 <code>game-brand-fandom-monitor</code> 백엔드의 <code>/api/comments</code>로 조회할 수 있습니다.</p>
+    </div>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp">
+        <thead>
+          <tr><th>서브레딧</th><th>댓글 내용</th><th>감성</th><th>팬덤 유형</th><th>날짜</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"Interested if it's the full game in the cart."<br><span style="color:var(--text-secondary); font-size:12px;">→ "카트리지에 게임 전체가 들어있는지 궁금하네요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vxh29s/stellar_blade_complete_edition_action_trailer/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Stellar Blade Complete Edition – Action Trailer</a></td>
+            <td style="color:var(--text-muted);">중립</td>
+            <td>중립층</td>
+            <td class="num">08-25</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"I have not bought a COD game in a long, long time. I will buy this, day one."<br><span style="color:var(--text-secondary); font-size:12px;">→ "콜 오브 듀티는 정말 오랜만에 사보는데, 이건 출시일에 살 거예요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vun78m/call_of_duty_were_excited_to_be_back_on_nintendo/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Call of Duty: We're excited to be back on Nintendo</a></td>
+            <td style="color:var(--s-positive);">긍정</td>
+            <td>구매 임박층</td>
+            <td class="num">08-22</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"I don't think I need to read any previews. I've already pre-ordered."<br><span style="color:var(--text-secondary); font-size:12px;">→ "미리보기 기사는 읽을 필요도 없을 것 같아요, 이미 예약구매 했거든요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vx27ew/final_fantasy_resonance_details_zoldaad_empire/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Final Fantasy Resonance details Zoldaad Empire...</a></td>
+            <td style="color:var(--text-muted);">중립</td>
+            <td>구매 임박층</td>
+            <td class="num">08-24</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"It comes with a poster and they've been doing this since the n64 days or even longer."<br><span style="color:var(--text-secondary); font-size:12px;">→ "포스터가 같이 오는데, N64 시절부터 쭉 그래왔죠"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vweckj/switch_2_gkcard_re_requiem_amazon_exclusive/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">(Switch 2 - GKCard) RE: Requiem Amazon Exclusive</a></td>
+            <td style="color:var(--text-muted);">중립</td>
+            <td>감성적 팬</td>
+            <td class="num">08-24</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"Illusion of Gaia was my favorite. I really liked Terranigma, once I finally got around to playing it, but the story lost me..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "저는 Illusion of Gaia를 제일 좋아했어요. Terranigma도 나중에서야 플레이했는데 좋았지만 스토리는 좀..."</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vxc2xo/terranigma_rebirth_2027_switchswitch_2_release/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Terranigma Rebirth - 2027 Switch/Switch 2 release</a></td>
+            <td style="color:var(--s-positive);">긍정</td>
+            <td>일반 호감층</td>
+            <td class="num">08-24</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"It's not exactly the same, but Littlewood is incredibly cozy. It's all about rebuilding and decorating a town... I'd also highly recommend Spirit..."<br><span style="color:var(--text-secondary); font-size:12px;">→ "완전히 같지는 않지만 Littlewood도 정말 아늑해요. 마을을 재건하고 꾸미는 게임인데... Spirit도 강력 추천이에요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vvl2yc/looking_for_cozy_managementbuilding_games_on/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Looking for cozy management/building games</a></td>
+            <td style="color:var(--s-positive);">긍정</td>
+            <td>브랜드 옹호자</td>
+            <td class="num">08-22</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"I own this already, but you can bet your ass I will be buying this again on the switch and playing it over again"<br><span style="color:var(--text-secondary); font-size:12px;">→ "이미 갖고 있지만, Switch로 또 사서 다시 플레이할 게 100%예요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vxh29s/stellar_blade_complete_edition_action_trailer/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Stellar Blade Complete Edition – Action Trailer</a></td>
+            <td style="color:var(--text-muted);">중립</td>
+            <td>중립층</td>
+            <td class="num">08-24</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"Its bad. Got the Switch 2 version, and theres insane lag at times and theres barely any visible graphical improvement."<br><span style="color:var(--text-secondary); font-size:12px;">→ "별로예요. Switch 2 버전을 샀는데 렉이 심할 때가 있고 그래픽 개선도 거의 안 느껴져요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vvruhc/another_crabs_treasure_nintendo_switch_2_edition/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Another Crab's Treasure - Nintendo Switch 2 Edition</a></td>
+            <td style="color:var(--s-negative);">부정</td>
+            <td>비판적 팬</td>
+            <td class="num">08-23</td>
+          </tr>
+          <tr>
+            <td>r/NintendoSwitch</td>
+            <td style="max-width:360px; white-space:normal;">"The only FF game I've ever played was the one with Van and the Voe, Fran on the PS2. It was badass. I haven't touched a FF game since. I wonder if I'll like this one"<br><span style="color:var(--text-secondary); font-size:12px;">→ "제가 해본 유일한 FF 게임은 Van과 Voe, Fran 나오는 PS2판이었는데 진짜 멋있었어요. 그 뒤로 FF는 안 했는데 이번 건 어떨지 궁금하네요"</span><br><a href="https://www.reddit.com/r/NintendoSwitch/comments/1vx27ew/final_fantasy_resonance_details_zoldaad_empire/" target="_blank" rel="noopener" style="font-size:11px; color:var(--text-muted);">Final Fantasy Resonance details Zoldaad Empire...</a></td>
+            <td style="color:var(--s-negative);">부정 <small>(오분류 — 04번 섹션)</small></td>
+            <td>비판적 팬</td>
+            <td class="num">08-24</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted); margin-top:14px;">작성자 이름은 연구 목적상 수집하지 않았습니다 — 원문과 반응 지표만 사용합니다(07번 방법론 섹션 참고). 날짜는 2026년 기준입니다.</p>
+    </div>
   </section>
 
   <section id="reddit-methodology" class="report-section" data-source="reddit">
+    <div class="rd-brand-content" data-rd-brand="playstation">
     <div class="section-head">
       <p class="section-num">07 — 방법론 · 한계</p>
       <h2>어떻게 수집·분류했나</h2>
@@ -3842,6 +4315,39 @@
         <span class="method-num num">06</span>
         <div class="method-body"><b>알려진 한계</b> — (1) 댓글·게시물 점수(score)가 전부 0으로 수집됐습니다 — Apify 무료 액터가 투표 수를 제대로 못 가져온 것으로 보이는 스크래퍼 자체의 한계이며, 대표 댓글을 "인기순"으로 뽑을 수 없었습니다. (2) 표본이 35개 게시물·196개 댓글로 작고, hot 정렬 특성상 오래된 고정 게시물(예: 주간 메가스레드)이 섞여 있어 "최근" 여론이라 보기 어렵습니다. (3) 규칙 기반 분류기는 유튜브의 LLM 판독보다 정확도가 낮습니다 — 04번 섹션의 오분류 사례들이 그 증거입니다. (4) 경쟁 브랜드 언급 4~5건은 통계적으로 유의미하다고 보기 어려운 표본입니다. (5) 이 결과는 2026년 8월 하순, 특정 뉴스(GTA6 유출, PS5 판매량 1위 등)가 이슈였던 시점에 강하게 묶여 있어, 시기가 다르면 전혀 다른 그림이 나올 수 있습니다.</div>
       </div>
+    </div>
+    </div>
+    <div class="rd-brand-content" data-rd-brand="nintendo" hidden>
+    <div class="section-head">
+      <p class="section-num">07 — 방법론 · 한계</p>
+      <h2>어떻게 수집·분류했나</h2>
+    </div>
+    <div class="method-list">
+      <div class="method-item">
+        <span class="method-num num">01</span>
+        <div class="method-body"><b>게시물·댓글 수집</b> — PlayStation과 동일하게 Apify 액터 <code>spry_wholemeal/reddit-scraper</code>(무료 티어)를 <code>game-brand-fandom-monitor/backend</code>의 <code>apify_collector_service.py</code>가 호출해, r/NintendoSwitch에서 hot 정렬 상위 게시물과 게시물당 상위 댓글(최대 15개)을 가져왔습니다. r/nintendo는 별도로 시도하지 않았습니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">02</span>
+        <div class="method-body"><b>감정·팬덤 신호 분류</b> — PlayStation과 완전히 동일한 <code>app/analyzers/</code>의 규칙 기반(정규식·키워드) Mock 분류기로 처리했습니다. 브랜드별 규칙을 따로 만들지 않고 동일한 사전을 그대로 적용했기 때문에, 두 브랜드의 결과가 같은 기준으로 비교 가능합니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">03</span>
+        <div class="method-body"><b>팬덤 지수(BFI)는 4개 지표만</b> — PlayStation과 동일하게, 이 프로젝트 설계상 Reddit은 애착·충성·옹호·구매의도 4개 지표만 담당합니다. 종합 점수는 내지 않고 4개 지표를 있는 그대로 보여줍니다(02번 섹션).</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">04</span>
+        <div class="method-body"><b>경쟁 브랜드 언급 탐지</b> — 정규식으로 PlayStation·Xbox 언급을 찾았습니다(PC·Steam 언급은 이번 3사 비교 틀 밖이라 별도 집계하지 않고 표에서 제외). 확인된 7건을 전부 직접 읽고 검증했습니다(05번 섹션).</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">05</span>
+        <div class="method-body"><b>작성자 정보 미수집</b> — 연구 목적상 댓글 작성자 이름은 수집·저장하지 않았습니다. 원문 텍스트와 반응 지표만 사용합니다.</div>
+      </div>
+      <div class="method-item">
+        <span class="method-num num">06</span>
+        <div class="method-body"><b>알려진 한계</b> — (1) 댓글·게시물 점수(score)가 전부 0으로 수집됐습니다 — PlayStation 표본과 동일한 스크래퍼 자체의 한계입니다. (2) 표본이 35개 게시물·219개 댓글로 작고, hot 정렬 특성상 오래된 고정 게시물(예: 일일 질문 스레드)이 섞여 있어 "최근" 여론이라 보기 어렵습니다. (3) 규칙 기반 분류기는 유튜브의 LLM 판독보다 정확도가 낮습니다 — 04번 섹션의 오분류 사례들이 그 증거입니다. (4) 경쟁 브랜드 언급 7건은 통계적으로 유의미하다고 보기 어려운 표본입니다. (5) 이 결과는 2026년 8월 하순, 특정 이슈(Switch 2 판매량 뉴스, 여러 이식작 트레일러)가 몰린 시점에 강하게 묶여 있어, 시기가 다르면 전혀 다른 그림이 나올 수 있습니다.</div>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -4796,6 +5302,11 @@
       '댓글 분류: game-brand-fandom-monitor 백엔드, 규칙 기반(Mock) 분류기, 2026-08-22',
       '표본: 게시물 35개, 댓글 196개'
     ],
+    reddit_nintendo: [
+      '데이터 출처: Apify(spry_wholemeal/reddit-scraper) · r/NintendoSwitch',
+      '댓글 분류: game-brand-fandom-monitor 백엔드, 규칙 기반(Mock) 분류기, 2026-08-25',
+      '표본: 게시물 35개, 댓글 219개'
+    ],
     trends: [
       '데이터 출처: Google Trends (pytrends, 비공식 API)',
       '조사기간: 2025-08-22 ~ 2026-08-22',
@@ -4806,7 +5317,10 @@
   function applyFooter(source) {
     if (!footerEl) return;
     var key = source;
-    if (source === 'youtube' && window.currentBrand === 'nintendo') key = 'youtube_nintendo';
+    if (window.currentBrand === 'nintendo') {
+      if (source === 'youtube') key = 'youtube_nintendo';
+      if (source === 'reddit') key = 'reddit_nintendo';
+    }
     if (!SOURCE_FOOTER[key]) return;
     footerEl.innerHTML = SOURCE_FOOTER[key].map(function (t) { return '<span>' + t + '</span>'; }).join('\n    ');
   }
@@ -5247,7 +5761,7 @@ initDonutCarousel('donutTrackNin', 'donutPrevNin', 'donutNextNin', 'donutDotsNin
   }
 
   var YT_HAS_DATA = { playstation: true, xbox: false, nintendo: true };
-  var REDDIT_HAS_DATA = { playstation: true, xbox: false, nintendo: false };
+  var REDDIT_HAS_DATA = { playstation: true, xbox: false, nintendo: true };
 
   function applySourceOverlay(brand) {
     var overlay = document.querySelector('.app-content');
@@ -5261,11 +5775,14 @@ initDonutCarousel('donutTrackNin', 'donutPrevNin', 'donutNextNin', 'donutDotsNin
     if (titleEl) titleEl.textContent = brandNameKo + ' ' + (SOURCE_LABEL_KO[source] || '') + ' 분석 데이터 없음';
     if (descEl) {
       descEl.textContent = source === 'reddit'
-        ? '레딧 분석은 이번 조사에서 PlayStation 커뮤니티(r/playstation, r/PS5)만 진행했습니다. ' + brandNameKo + '의 레딧 분석은 진행되지 않아 표시할 데이터가 없습니다. 브랜드 간 비교가 가능한 지표는 트렌드 탭을 확인해 주세요.'
+        ? 'Xbox 공식 서브레딧의 레딧 분석은 이번 조사에서 진행되지 않아 표시할 데이터가 없습니다. 브랜드 간 비교가 가능한 지표는 트렌드 탭을 확인해 주세요.'
         : 'Xbox 공식 채널의 유튜브 분석은 이번 조사에서 진행되지 않아 표시할 데이터가 없습니다. 브랜드 간 비교가 가능한 지표는 트렌드 탭을 확인해 주세요.';
     }
     document.querySelectorAll('.yt-brand-content').forEach(function (el) {
       el.hidden = el.getAttribute('data-yt-brand') !== brand;
+    });
+    document.querySelectorAll('.rd-brand-content').forEach(function (el) {
+      el.hidden = el.getAttribute('data-rd-brand') !== brand;
     });
   }
 
@@ -5289,7 +5806,7 @@ initDonutCarousel('donutTrackNin', 'donutPrevNin', 'donutNextNin', 'donutDotsNin
     if (note) {
       note.hidden = brand === 'playstation';
       if (brand === 'nintendo') {
-        note.textContent = 'Nintendo는 유튜브 분석까지 진행했지만, 레딧 분석과 트렌드의 일부 세부 지표(지역 4개국·이벤트 상세)는 PlayStation 채널만 진행했습니다.';
+        note.textContent = 'Nintendo는 유튜브·레딧 분석까지 진행했지만, 트렌드의 일부 세부 지표(지역 4개국·이벤트 상세)는 PlayStation 채널만 진행했습니다.';
       } else if (brand === 'xbox') {
         note.textContent = 'Xbox·Nintendo는 구글 트렌드 비교 데이터만 있어요. 유튜브·레딧 분석은 진행하지 않았습니다.';
       }
